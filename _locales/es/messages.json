@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "Disable Passkeys"
+  },
+  "extDescription": {
+    "message": "Bloquea los avisos de inicio de sesión y creación de passkeys/WebAuthn (según tus interruptores)."
+  }
+}

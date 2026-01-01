@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "Disable Passkeys"
+  },
+  "extDescription": {
+    "message": "Blockiert WebAuthn/Passkey-Prompts für Login und Erstellung (gemäß deinen Schaltern)."
+  }
+}

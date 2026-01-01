@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root {
+        color-scheme: light dark;
+
+        --bg: #fbfcfd;
+        --text: #111;
+        --muted: #666;
+
+        --card: #f7f7f7;
+        --card-hover: #f0f2f5;
+        --card-active: #fff;
+
+        --border: #ddd;
+        --border-strong: #111;
+
+        --shadow-hover: 0 8px 20px rgba(17,17,17,0.09);
+        --shadow-press: 0 2px 8px rgba(17,17,17,0.06);
+        --focus-ring: 0 0 0 4px rgba(17,17,17,0.06);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f1115;
+          --text: #f2f3f5;
+          --muted: #a7adb7;
+
+          --card: #171a21;
+          --card-hover: #1d212b;
+          --card-active: #12151c;
+
+          --border: rgba(242,243,245,0.16);
+          --border-strong: rgba(242,243,245,0.86);
+
+          --shadow-hover: 0 10px 26px rgba(0,0,0,0.50);
+          --shadow-press: 0 4px 12px rgba(0,0,0,0.40);
+          --focus-ring: 0 0 0 4px rgba(242,243,245,0.14);
+        }
+      }
+
+      body { font: 13px/1.35 system-ui, sans-serif; margin: 11px; min-width: 320px; background: var(--bg); color: var(--text); }
+      .title { font-weight: 700; margin-bottom: 11px; font-size: 15px; color: var(--text); }
+
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+
+      .tile {
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 11px;
+        cursor: pointer;
+        user-select: none;
+        background: var(--card);
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(0,0,0,0);
+        transition: background 160ms cubic-bezier(.2,.8,.2,1), transform 100ms ease, box-shadow 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms cubic-bezier(.2,.8,.2,1);
+        will-change: transform, box-shadow;
+      }
+      .tile:hover {
+        background: var(--card-hover);
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+      }
+      .tile:active { transform: translateY(1px); box-shadow: var(--shadow-press);
+      }
+      .tile.pressed {
+        transform: translateY(1px) !important;
+        box-shadow: var(--shadow-press) !important;
+      }
+      .tile.active {
+        border-color: var(--border-strong);
+        background: var(--card-active);
+        box-shadow: var(--shadow-hover);
+        transform: translateY(0);
+      }
+      .tile.active:hover {
+        background: var(--card-hover);
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+      }
+      .tile:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+        border-color: var(--border-strong);
+      }
+
+      .cap { margin-top: 7px; display: grid; gap: 2px; }
+      .cap b { font-size: 13px; }
+      .cap small { color: var(--muted); }
+
+      .bar { margin-top: 12px; display: flex; justify-content: center; }
+      .img {
+        width: 90px;
+        height: 90px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+      }
+      button {
+        padding: 8px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border-strong);
+        background: var(--card-active);
+        color: var(--text);
+        cursor: pointer;
+        min-width: 120px;
+        transition: background 160ms cubic-bezier(.2,.8,.2,1), transform 100ms ease, box-shadow 160ms cubic-bezier(.2,.8,.2,1);
+      }
+      button:hover {
+        background: var(--card-hover);
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+      }
+      button:active {
+        transform: translateY(1px) scale(0.995);
+        box-shadow: var(--shadow-press);
+      }
+      button:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+        border-color: var(--border-strong);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="title" id="t_title_container">
+      <span id="t_title"></span>
+    </div>
+
+    <div class="grid">
+      <div id="tileGet" class="tile" role="button" tabindex="0">
+        <img class="img" id="img_get" src="img/get_off.png" alt="">
+        <div class="cap">
+          <b id="t_get_label"></b>
+          <small id="t_get_desc"></small>
+        </div>
+      </div>
+
+      <div id="tileCreate" class="tile" role="button" tabindex="0">
+        <img class="img" id="img_create" src="img/create_off.png" alt="">
+        <div class="cap">
+          <b id="t_create_label"></b>
+          <small id="t_create_desc"></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="bar">
+      <button id="apply"></button>
+    </div>  
+
+    <script src="strings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
