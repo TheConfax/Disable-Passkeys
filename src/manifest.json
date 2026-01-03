@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "TheConfax",
   "default_locale": "en",
   "icons": {
@@ -13,6 +13,13 @@
   },
   "permissions": ["storage", "scripting", "activeTab"],
   "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["counter.js"],
+      "run_at": "document_start"
+    }
+  ],
   "background": { "service_worker": "sw.js" },
   "action": {
     "default_popup": "popup.html",
