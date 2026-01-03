@@ -18,7 +18,7 @@ Passkeys are increasingly pushed by browsers and websites, but they can:
 ## What does it do?
 This extension rejects WebAuthn requests and can be configured to block login, creation, or both. Passkey entries in autofill will be blocked as well.
 
-![Screenshot](assets/screenshot.png)
+![Screenshot](assets-github/screenshot.png)
 
 ### Technically...
 The `get()` and `create()` instances of `CredentialsContainer` return a promise that resolves when the credential is provided. This extension resolves that promise immediately with:
