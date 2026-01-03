@@ -1,5 +1,8 @@
 (() => {
-  const deny = () => Promise.reject(new DOMException("WebAuthn disabled", "NotAllowedError"));
+  const deny = () => {
+    window.dispatchEvent(new CustomEvent("disable-passkeys-intervention"));
+    return Promise.reject(new DOMException("WebAuthn disabled", "NotAllowedError"));
+  };
 
   try {
     const proto = globalThis.CredentialsContainer && CredentialsContainer.prototype;
