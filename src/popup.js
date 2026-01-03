@@ -205,13 +205,13 @@ if (window.ENV && window.ENV.ENABLE_DEBUG) {
     
     if (e.key === '+' || e.key === 'Add') {
       currentCfg.stats = (currentCfg.stats || 0) + 1;
-      saveCfg();
+      chrome.storage.sync.set({ stats: currentCfg.stats });
       syncText();
     }
     
     if (e.key === '-' || e.key === 'Subtract') {
       currentCfg.stats = Math.max(0, (currentCfg.stats || 0) - 1);
-      saveCfg();
+      chrome.storage.sync.set({ stats: currentCfg.stats });
       syncText();
     }
   });
@@ -389,13 +389,17 @@ async function saveCfg() {
   currentCfg.blockCreate = isActive(tileCreate);
   
   // Save directly to storage (SW listens to onChanged)
-  await chrome.storage.sync.set({ cfg: currentCfg });
+  // Exclude stats from the saved object to prevent overwriting settings with stale stats
+  const { stats, ...cfgToSave } = currentCfg;
+  await chrome.storage.sync.set({ cfg: cfgToSave });
 }
 
 // Load initial cfg
 async function loadInitial() {
   try {
-    const { cfg } = await chrome.storage.sync.get({ cfg: { blockGet: true, blockCreate: true, mode: 'allow', domains: [] } });
+    const data = await chrome.storage.sync.get(["cfg", "stats"]);
+    const cfg = data.cfg || { blockGet: true, blockCreate: true, mode: 'allow', domains: [] };
+    const stats = typeof data.stats === 'number' ? data.stats : (cfg.stats || 0);
     
     // Merge with defaults to be safe
     currentCfg = {
@@ -403,7 +407,7 @@ async function loadInitial() {
       blockCreate: cfg.blockCreate !== false, // default true
       mode: cfg.mode || 'allow',
       domains: Array.isArray(cfg.domains) ? cfg.domains : [],
-      stats: cfg.stats || 0
+      stats: stats
     };
 
     setActive(tileGet, !!currentCfg.blockGet);

@@ -137,10 +137,18 @@ chrome.storage.onChanged.addListener(async (changes, area) => {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
     if (msg?.type === "intervention") {
-      const { cfg } = await chrome.storage.sync.get({ cfg: DEFAULT_CFG });
-      const currentStats = typeof cfg.stats === 'number' ? cfg.stats : 0;
-      const newCfg = { ...cfg, stats: currentStats + 1 };
-      await chrome.storage.sync.set({ cfg: newCfg });
+      // Fetch both new 'stats' key and legacy 'cfg' to migrate if needed
+      const data = await chrome.storage.sync.get(["stats", "cfg"]);
+      
+      let currentStats = 0;
+      if (typeof data.stats === 'number') {
+        currentStats = data.stats;
+      } else if (data.cfg && typeof data.cfg.stats === 'number') {
+        currentStats = data.cfg.stats;
+      }
+
+      const newStats = currentStats + 1;
+      await chrome.storage.sync.set({ stats: newStats });
 
       // Visual Feedback: Flash Green "!" for 750ms
       globalThis.isFlashing = true;
