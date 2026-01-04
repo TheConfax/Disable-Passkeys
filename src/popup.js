@@ -153,6 +153,9 @@ function syncText() {
   if (domainInput) {
     domainInput.placeholder = (window.GLOBAL && window.GLOBAL.domain_placeholder) ? window.GLOBAL.domain_placeholder : "example.com";
   }
+  if (addDomainBtn) {
+    addDomainBtn.title = S().add_domain;
+  }
   
   if (tStats) {
     const count = currentCfg.stats;
