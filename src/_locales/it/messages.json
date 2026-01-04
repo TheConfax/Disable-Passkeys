@@ -3,6 +3,6 @@
     "message": "Disable Passkeys"
   },
   "extDescription": {
-    "message": "Blocca i prompt di login e creazione passkey/WebAuthn (in base ai toggle impostati)."
+    "message": "Blocca i prompt delle passkey (WebAuthn) e il loro autofill."
   }
 }
