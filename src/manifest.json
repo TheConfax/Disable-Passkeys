@@ -18,9 +18,16 @@
       "matches": ["<all_urls>"],
       "js": ["counter.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["theme_watcher.js"],
+      "run_at": "document_idle"
     }
   ],
-  "background": { "service_worker": "sw.js" },
+  "background": {
+    "service_worker": "sw.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__",

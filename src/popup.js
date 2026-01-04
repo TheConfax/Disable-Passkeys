@@ -42,6 +42,18 @@ let currentCfg = {
 // Dark-mode assets
 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
 
+// Another theme change send when you open the popup for blocked pages
+if (prefersDark) {
+  function sendTheme() {
+    chrome.runtime.sendMessage({
+      type: 'THEME_CHANGE',
+      mode: prefersDark.matches ? 'dark' : 'light'
+    });
+  }
+  sendTheme();
+  prefersDark.addEventListener('change', sendTheme);
+}
+
 function setIcon(imgEl, basePath) {
   const isDark = !!prefersDark?.matches;
   const darkPath = basePath.replace(/\.png$/i, '_dark.png');
