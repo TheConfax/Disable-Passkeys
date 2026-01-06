@@ -4,7 +4,7 @@ A small Chrome extension to block passkey (WebAuthn) prompts and their autofill.
 <div align="center">
 
 [![Available in the Chrome Web Store](assets/chrome-webstore.png)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v1.0.0-blue?logo=google-chrome)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 
@@ -41,7 +41,7 @@ This extension **rejects WebAuthn requests** and can be configured to block pass
 <div align="center">
 
 [![Available in the Chrome Web Store](assets/chrome-webstore.png)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v1.0.0-blue?logo=google-chrome)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 
