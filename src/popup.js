@@ -91,7 +91,11 @@ if (prefersDark) {
 
 const setText = (id, text) => {
   const el = document.getElementById(id);
-  if (el && text !== undefined) el.textContent = text;
+  if (el && text !== undefined) {
+    el.textContent = text;
+    // Label for CSS-driven animations
+    try { el.setAttribute('aria-label', text); } catch (_) {}
+  }
 };
 
 // Apply strings
