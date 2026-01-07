@@ -124,39 +124,42 @@
       .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 
       .tile {
-        border: 1px solid var(--border);
+        position: relative;
         border-radius: 13px;
         padding: 11px;
         cursor: pointer;
         user-select: none;
+      }
+      /* Moving visual layer (keeps hitbox stable) */
+      .tile::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
         background: var(--card);
-        transform: translateY(0);
+        border: 1px solid var(--border);
         box-shadow: 0 0 0 rgba(0,0,0,0);
-        transition: background 160ms cubic-bezier(.2,.8,.2,1), transform 100ms ease, box-shadow 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms cubic-bezier(.2,.8,.2,1);
+        transform: translateY(0);
+        transition: background 160ms cubic-bezier(.2,.8,.2,1),
+                    transform 100ms ease,
+                    box-shadow 160ms cubic-bezier(.2,.8,.2,1),
+                    border-color 160ms cubic-bezier(.2,.8,.2,1);
         will-change: transform, box-shadow;
       }
-      .tile:hover {
-        background: var(--card-hover);
-        box-shadow: var(--shadow-hover);
-        transform: translateY(-2px);
-      }
-      .tile:active { transform: translateY(1px); box-shadow: var(--shadow-press);
-      }
-      .tile.pressed {
-        transform: translateY(1px) !important;
-        box-shadow: var(--shadow-press) !important;
-      }
-      .tile.active {
-        border-color: var(--border-strong);
-        background: var(--card-active);
-        box-shadow: var(--shadow-hover);
-        transform: translateY(0);
-      }
-      .tile.active:hover {
-        background: var(--card-hover);
-        box-shadow: var(--shadow-hover);
-        transform: translateY(-2px);
-      }
+      .tile-body { position: relative; z-index: 1; transform: translateY(0); transition: transform 100ms ease; will-change: transform; }
+
+      .tile:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+      .tile:hover .tile-body { transform: translateY(-2px); }
+
+      .tile:active::before { box-shadow: var(--shadow-press); transform: translateY(1px); }
+      .tile:active .tile-body { transform: translateY(1px); }
+
+      .tile.pressed::before { box-shadow: var(--shadow-press) !important; transform: translateY(1px) !important; }
+      .tile.pressed .tile-body { transform: translateY(1px) !important; }
+
+      .tile.active::before { border-color: var(--border-strong); background: var(--card-active); box-shadow: var(--shadow-hover); }
+      .tile.active:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+      .tile.active:hover .tile-body { transform: translateY(-2px); }
       .tile:focus-visible {
         outline: none;
         box-shadow: var(--focus-ring);
@@ -400,18 +403,22 @@
 
       <div class="grid">
         <div id="tileGet" class="tile" role="button" tabindex="0">
-          <img class="img" id="img_get" src="img/get_off.png" alt="">
-          <div class="cap">
-            <b id="t_get_label"></b>
-            <small id="t_get_desc"></small>
+          <div class="tile-body">
+            <img class="img" id="img_get" src="img/get_off.png" alt="">
+            <div class="cap">
+              <b id="t_get_label"></b>
+              <small id="t_get_desc"></small>
+            </div>
           </div>
         </div>
 
         <div id="tileCreate" class="tile" role="button" tabindex="0">
-          <img class="img" id="img_create" src="img/create_off.png" alt="">
-          <div class="cap">
-            <b id="t_create_label"></b>
-            <small id="t_create_desc"></small>
+          <div class="tile-body">
+            <img class="img" id="img_create" src="img/create_off.png" alt="">
+            <div class="cap">
+              <b id="t_create_label"></b>
+              <small id="t_create_desc"></small>
+            </div>
           </div>
         </div>
       </div>
