@@ -91,11 +91,14 @@ if (prefersDark) {
 
 const setText = (id, text) => {
   const el = document.getElementById(id);
-  if (el && text !== undefined) {
+  if (!el || text === undefined) return;
+  const label = el.querySelector && el.querySelector('.btn-label');
+  if (label) {
+    label.textContent = text;
+  } else {
     el.textContent = text;
-    // Label for CSS-driven animations
-    try { el.setAttribute('aria-label', text); } catch (_) {}
   }
+  try { el.setAttribute('aria-label', text); } catch (_) {}
 };
 
 // Apply strings
