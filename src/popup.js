@@ -234,25 +234,41 @@ if (window.ENV && window.ENV.ENABLE_DEBUG) {
 
 function setActive(el, on) { el.classList.toggle("active", !!on); }
 function toggle(el) {
-    if (el.classList.contains("pressed")) return; // avoid re-entrance
-
-    // show press animation first
+  // Ensure press feedback is visible immediately on pointer, or added here for keyboard
+  if (!el.classList.contains("pressed")) {
     el.classList.add("pressed");
+  }
 
-    setTimeout(() => {
-      el.classList.toggle("active");
-      syncText();
-      syncImages();
-      saveCfg(); // Save immediately on toggle
+  // Short delay to show press, then toggle state
+  setTimeout(() => {
+    el.classList.toggle("active");
+    syncText();
+    syncImages();
+    saveCfg(); // Save immediately on toggle
 
-      // short release so the user sees the press+release animation
-      setTimeout(() => el.classList.remove("pressed"), 80);
-    }, 80);
+    // Briefly keep the pressed state so user sees press+release animation
+    setTimeout(() => el.classList.remove("pressed"), 80);
+  }, 80);
 } 
 function isActive(el) { return el.classList.contains("active"); }
 
 function bindTile(el) {
+  // Immediate press feedback on pointer down
+  el.addEventListener("pointerdown", () => {
+    el.classList.add("pressed");
+  });
+  // Cancel press state if pointer leaves/cancels before click
+  el.addEventListener("pointerleave", () => {
+    el.classList.remove("pressed");
+  });
+  el.addEventListener("pointercancel", () => {
+    el.classList.remove("pressed");
+  });
+
+  // Toggle on click (fires on release)
   el.addEventListener("click", () => toggle(el));
+
+  // Keyboard support
   el.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(el); }
   });
