@@ -22,6 +22,10 @@ window.LOCALES = {
     empty_block: "Passkeys are allowed everywhere.",
     add_domain: "Add domain",
     remove_domain: "Remove domain",
+
+    domain_label: "Domain",
+    domain_list_label: "Domain list",
+    mode_label: "Mode",
     
     status_off: "(Off)",
     status_except: "(Except %n%)",
@@ -52,6 +56,10 @@ window.LOCALES = {
     add_domain: "Aggiungi dominio",
     remove_domain: "Rimuovi dominio",
 
+    domain_label: "Dominio",
+    domain_list_label: "Elenco domini",
+    mode_label: "Modalità",
+
     status_off: "(Spento)",
     status_except: "(Eccetto %n%)",
     status_only: "(Solo %n%)"
@@ -80,6 +88,10 @@ window.LOCALES = {
     empty_block: "Passkeys autorisées partout.",
     add_domain: "Ajouter un domaine",
     remove_domain: "Supprimer le domaine",
+
+    domain_label: "Domaine",
+    domain_list_label: "Liste de domaines",
+    mode_label: "Mode",
 
     status_off: "(Désactivé)",
     status_except: "(Sauf %n%)",
@@ -110,6 +122,10 @@ window.LOCALES = {
     add_domain: "Añadir dominio",
     remove_domain: "Eliminar dominio",
 
+    domain_label: "Dominio",
+    domain_list_label: "Lista de dominios",
+    mode_label: "Modo",
+
     status_off: "(Apagado)",
     status_except: "(Excepto %n%)",
     status_only: "(Solo %n%)"
@@ -138,6 +154,10 @@ window.LOCALES = {
     empty_block: "Passkeys überall erlaubt.",
     add_domain: "Domain hinzufügen",
     remove_domain: "Domain entfernen",
+    
+    domain_label: "Domain",
+    domain_list_label: "Domainliste",
+    mode_label: "Modus",
 
     status_off: "(Aus)",
     status_except: "(Außer %n%)",

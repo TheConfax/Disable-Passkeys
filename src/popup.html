@@ -19,7 +19,10 @@
 
         --shadow-hover: 0 8px 20px rgba(17,17,17,0.09);
         --shadow-press: 0 2px 8px rgba(17,17,17,0.06);
-        --focus-ring: 0 0 0 4px rgba(17,17,17,0.06);
+        /* Focus ring */
+        --focus-ring: 0 0 0 2px var(--bg), 0 0 0 5px rgba(17,17,17,0.35);
+        /* Lighter focus ring for text fields */
+        --focus-ring-input: 0 0 0 2px rgba(17,17,17,0.22);
       }
 
       @media (prefers-color-scheme: dark) {
@@ -37,11 +40,25 @@
 
           --shadow-hover: 0 10px 26px rgba(0,0,0,0.50);
           --shadow-press: 0 4px 12px rgba(0,0,0,0.40);
-          --focus-ring: 0 0 0 4px rgba(242,243,245,0.14);
+          /* Dark variant: higher contrast */
+          --focus-ring: 0 0 0 2px var(--bg), 0 0 0 5px rgba(242,243,245,0.55);
+          --focus-ring-input: 0 0 0 2px rgba(242,243,245,0.45);
         }
       }
 
       body { font: 13px/1.35 system-ui, sans-serif; margin: 11px; min-width: 320px; background: var(--bg); color: var(--text); }
+      /* Visually hidden but accessible */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
       
       .header { 
         display: flex; 
@@ -163,9 +180,9 @@
       .tile.active:hover .tile-body { transform: translateY(-2px); }
       .tile:focus-visible {
         outline: none;
-        box-shadow: var(--focus-ring);
-        border-color: var(--border-strong);
+        box-shadow: var(--focus-ring-input);
       }
+      .tile:focus-visible::before { border-color: var(--border-strong); }
 
       .cap { margin-top: 7px; display: grid; gap: 2px; }
       .cap b { font-size: 13px; }
@@ -221,7 +238,23 @@
       button:active .btn-label { transform: translateY(1px); }
       button:focus-visible {
         outline: none;
-        box-shadow: var(--focus-ring);
+        box-shadow: var(--focus-ring-input);
+        border-color: var(--border-strong);
+      }
+      button:focus-visible::before { border-color: var(--border-strong); }
+
+      /* Uniform focus for the switch */
+      .mode-switch:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring-input);
+        border-color: var(--border-strong);
+      }
+
+      /* Fallback for interactive ARIA roles */
+      [role="button"]:focus-visible,
+      [role="switch"]:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring-input);
         border-color: var(--border-strong);
       }
 
@@ -248,7 +281,7 @@
         font-family: inherit;
         font-size: 13px;
       }
-      input[type="text"]:focus { outline: none; border-color: var(--border-strong); box-shadow: var(--focus-ring); }
+      input[type="text"]:focus-visible { outline: none; border-color: var(--border-strong); box-shadow: var(--focus-ring-input); }
 
       .domain-list {
         max-height: 120px;
@@ -313,6 +346,11 @@
         border-color: #d32f2f;
         color: #d32f2f;
       }
+      .domain-remove:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring-input);
+        border-color: var(--border-strong);
+      }
 
       .empty-state {
         padding: 10px 10px;
@@ -359,8 +397,16 @@
         border-radius: 10px;
         padding: 3px;
         position: relative;
-        cursor: pointer;
+        cursor: default;
         user-select: none;
+      }
+      .mode-opt { cursor: pointer; }
+      .mode-opt:focus-visible { outline: none; }
+      /* Show focus ring only on keyboard focus of an inner option */
+      .mode-switch:has(.mode-opt:focus-visible) {
+        outline: none;
+        box-shadow: var(--focus-ring-input);
+        border-color: var(--border-strong);
       }
       .mode-opt {
         flex: 1;
@@ -373,18 +419,18 @@
       }
       .mode-bg {
         position: absolute;
-        top: 3px; left: 3px; bottom: 3px;
-        width: calc(50% - 3px);
+        top: 3px; bottom: 3px;
+        left: 3px; right: 50%;
         background: var(--card-active);
         border-radius: 7px;
         box-shadow: var(--shadow-press);
-        transition: transform 200ms cubic-bezier(.2,.8,.2,1);
+        transition: left 200ms cubic-bezier(.2,.8,.2,1), right 200ms cubic-bezier(.2,.8,.2,1);
         z-index: 1;
         border: 1px solid var(--border-strong);
       }
-      /* State classes for switch will be handled by JS */
-      .mode-switch[data-mode="allow"] .mode-bg { transform: translateX(0); }
-      .mode-switch[data-mode="block"] .mode-bg { transform: translateX(100%); } /* Adjust based on width */
+      /* Toggle classes for switch */
+      .mode-switch[data-mode="allow"] .mode-bg { left: 3px; right: 50%; }
+      .mode-switch[data-mode="block"] .mode-bg { left: 50%; right: 3px; }
 
       .footer {
         margin-top: 16px;
@@ -408,6 +454,7 @@
         opacity: 0.75;
       }
       .footer-link:hover { opacity: 1; }
+      .footer-link:focus-visible { outline: none; box-shadow: var(--focus-ring-input); }
       .footer-link img { width: 14px; height: 14px; display: block; position: relative; top: -2px; }
     </style>
   </head>
@@ -416,17 +463,17 @@
     <!-- Main View -->
     <div id="view-main" class="view active">
       <div class="header">
-        <div class="title" id="t_title_container">
+        <div class="title" role="heading" aria-level="1">
           <span id="t_title"></span>
-          <span id="t_status" class="status-badge"></span>
+          <span id="t_status" class="status-badge" aria-live="polite"></span>
         </div>
         <button id="settings" class="btn-small"><span class="btn-label"></span></button>
       </div>
 
       <div class="grid">
-        <div id="tileGet" class="tile" role="button" tabindex="0">
+        <div id="tileGet" class="tile" role="button" tabindex="0" aria-pressed="false" aria-labelledby="t_get_label" aria-describedby="t_get_desc">
           <div class="tile-body">
-            <img class="img" id="img_get" src="img/get_off.png" alt="">
+            <img class="img" id="img_get" src="img/get_off.png" alt="" aria-hidden="true">
             <div class="cap">
               <b id="t_get_label"></b>
               <small id="t_get_desc"></small>
@@ -434,9 +481,9 @@
           </div>
         </div>
 
-        <div id="tileCreate" class="tile" role="button" tabindex="0">
+        <div id="tileCreate" class="tile" role="button" tabindex="0" aria-pressed="false" aria-labelledby="t_create_label" aria-describedby="t_create_desc">
           <div class="tile-body">
-            <img class="img" id="img_create" src="img/create_off.png" alt="">
+            <img class="img" id="img_create" src="img/create_off.png" alt="" aria-hidden="true">
             <div class="cap">
               <b id="t_create_label"></b>
               <small id="t_create_desc"></small>
@@ -453,36 +500,39 @@
     <!-- Settings View -->
     <div id="view-settings" class="view">
       <div class="header">
-        <div class="title" id="t_settings_title_container">
+        <div class="title" role="heading" aria-level="1">
           <span id="t_settings_title"></span>
         </div>
         <button id="back" class="btn-small"><span class="btn-label"></span></button>
       </div>
 
       <div class="section">
-        <div class="mode-switch" id="modeSwitch" data-mode="allow">
+        <span id="t_mode_group_label" class="sr-only"></span>
+        <div class="mode-switch" id="modeSwitch" data-mode="allow" role="radiogroup" aria-labelledby="t_mode_group_label">
           <div class="mode-bg"></div>
-          <div class="mode-opt" id="t_mode_allow"></div>
-          <div class="mode-opt" id="t_mode_block"></div>
+          <div class="mode-opt" id="t_mode_allow" role="radio" aria-checked="true" tabindex="0"></div>
+          <div class="mode-opt" id="t_mode_block" role="radio" aria-checked="false" tabindex="-1"></div>
         </div>
       </div>
 
       <div class="section">
         <div class="input-group">
-          <input type="text" id="domainInput">
+          <label id="t_domain_label" for="domainInput" class="sr-only"></label>
+          <input type="text" id="domainInput" aria-labelledby="t_domain_label">
           <button id="addDomain" class="btn-small" style="min-width: 32px;"><span class="btn-label">+</span></button>
         </div>
       </div>
 
       <div class="section">
-        <div class="domain-list" id="domainList">
+        <span id="t_domain_list_label" class="sr-only"></span>
+        <div class="domain-list" id="domainList" role="list" aria-labelledby="t_domain_list_label">
           <!-- Items will be injected here -->
         </div>
       </div>
 
       <div class="footer">
         <span id="t_stats"></span>
-        <a class="footer-link" id="githubLink">
+        <a class="footer-link" id="githubLink" href="https://github.com/TheConfax/Disable-Passkeys" target="_blank" rel="noopener noreferrer">
           <span id="t_copyright"></span>
           <img id="img_github" src="img/github_mark.png" alt="GitHub">
         </a>

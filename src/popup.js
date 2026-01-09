@@ -25,6 +25,8 @@ const btnBack = document.getElementById("back");
 
 // Settings elements
 const modeSwitch = document.getElementById("modeSwitch");
+const optAllow = document.getElementById("t_mode_allow");
+const optBlock = document.getElementById("t_mode_block");
 const domainInput = document.getElementById("domainInput");
 const addDomainBtn = document.getElementById("addDomain");
 const domainListEl = document.getElementById("domainList");
@@ -78,6 +80,15 @@ function syncImages() {
   setIcon(imgGithub, "img/github_mark.png");
 }
 
+function updateTilesAria() {
+  if (tileGet) {
+    tileGet.setAttribute('aria-pressed', tileGet.classList.contains('active') ? 'true' : 'false');
+  }
+  if (tileCreate) {
+    tileCreate.setAttribute('aria-pressed', tileCreate.classList.contains('active') ? 'true' : 'false');
+  }
+}
+
 // When the system theme changes, CSS updates automatically; images need an explicit refresh.
 if (prefersDark) {
   const onThemeChange = () => syncImages();
@@ -116,6 +127,9 @@ function syncText() {
   
   setText("apply", S().apply);
   setText("settings", S().settings);
+  if (addDomainBtn) {
+    try { addDomainBtn.setAttribute('aria-label', S().add_domain); } catch (_) {}
+  }
 
   // Status Badge Logic
   const statusEl = document.getElementById("t_status");
@@ -156,9 +170,14 @@ function syncText() {
   setText("back", S().back);
   setText("t_mode_allow", S().mode_allow);
   setText("t_mode_block", S().mode_block);
+  setText("t_mode_group_label", S().mode_label || 'Mode');
+  // Accessibility labels
+  setText("t_domain_label", S().domain_label || "Domain");
+  setText("t_domain_list_label", S().domain_list_label || "Domain list");
   
   if (domainInput) {
     domainInput.placeholder = (window.GLOBAL && window.GLOBAL.domain_placeholder) ? window.GLOBAL.domain_placeholder : "example.com";
+    try { domainInput.setAttribute('aria-label', S().domain_label || 'Domain'); } catch (_) {}
   }
   if (addDomainBtn) {
     addDomainBtn.title = S().add_domain;
@@ -180,6 +199,15 @@ function showView(viewId) {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
   syncText(); // Update text (especially status badge) when switching views
+  // Move focus to a sensible target for keyboard/AT users
+  try {
+    if (viewId === 'view-settings') {
+      const mode = modeSwitch?.getAttribute('data-mode');
+      if (mode === 'block') { optBlock?.focus(); } else { optAllow?.focus(); }
+    } else if (viewId === 'view-main') {
+      btnSettings?.focus();
+    }
+  } catch (_) {}
 }
 
 if (btnSettings) {
@@ -189,23 +217,60 @@ if (btnBack) {
   btnBack.addEventListener('click', () => showView('view-main'));
 }
 
-// Mode Switch Logic
-if (modeSwitch) {
-  modeSwitch.addEventListener('click', () => {
-    const current = modeSwitch.getAttribute('data-mode');
-    const next = current === 'allow' ? 'block' : 'allow';
-    modeSwitch.setAttribute('data-mode', next);
-    
-    currentCfg.mode = next;
-    renderDomains(); // Re-render to update empty state text if needed
-    saveCfg();
-  });
+// Mode selector as radiogroup with two radios
+function updateModeRadioAria() {
+  if (!modeSwitch) return;
+  const mode = modeSwitch.getAttribute('data-mode');
+  const isAllow = mode === 'allow';
+  try { modeSwitch.setAttribute('aria-labelledby', 't_mode_group_label'); } catch (_) {}
+  try { modeSwitch.setAttribute('aria-activedescendant', isAllow ? 't_mode_allow' : 't_mode_block'); } catch (_) {}
+  if (optAllow) {
+    optAllow.setAttribute('role', 'radio');
+    optAllow.setAttribute('aria-checked', isAllow ? 'true' : 'false');
+    optAllow.tabIndex = isAllow ? 0 : -1;
+  }
+  if (optBlock) {
+    optBlock.setAttribute('role', 'radio');
+    optBlock.setAttribute('aria-checked', !isAllow ? 'true' : 'false');
+    optBlock.tabIndex = !isAllow ? 0 : -1;
+  }
 }
 
-document.getElementById("githubLink").addEventListener("click", () => {
-  chrome.tabs.create({ url: "https://github.com/TheConfax/Disable-Passkeys" });
-});
+function setMode(next) {
+  if (!modeSwitch) return;
+  const current = modeSwitch.getAttribute('data-mode');
+  if (current === next) return;
+  modeSwitch.setAttribute('data-mode', next);
+  currentCfg.mode = next;
+  renderDomains();
+  saveCfg();
+  updateModeRadioAria();
+  if (next === 'allow') { optAllow?.focus(); } else { optBlock?.focus(); }
+}
 
+function handleRadioKey(e, which) {
+  const key = e.key;
+  const code = e.code;
+  const isSpace = key === ' ' || key === 'Spacebar' || key === 'Space' || code === 'Space';
+  const isEnter = key === 'Enter';
+  if (key === 'ArrowLeft') {
+    e.preventDefault();
+    setMode('allow');
+  } else if (key === 'ArrowRight') {
+    e.preventDefault();
+    setMode('block');
+  }
+}
+
+// Attach listeners
+if (modeSwitch) {
+  optAllow?.addEventListener('click', () => setMode('allow'));
+  optBlock?.addEventListener('click', () => setMode('block'));
+  optAllow?.addEventListener('keydown', (e) => handleRadioKey(e, 'allow'));
+  optBlock?.addEventListener('keydown', (e) => handleRadioKey(e, 'block'));
+  // No container click toggle; interaction happens on the two options only
+  updateModeRadioAria();
+}
 // Paint initial UI immediately (then loadInitial() will update state)
 syncText();
 syncImages();
@@ -251,6 +316,7 @@ function toggle(el) {
     el.classList.toggle("active");
     syncText();
     syncImages();
+    updateTilesAria();
     saveCfg(); // Save immediately on toggle
 
     // Briefly keep the pressed state so user sees press+release animation
@@ -321,6 +387,7 @@ function renderDomains() {
   currentCfg.domains.forEach(domain => {
     const item = document.createElement('div');
     item.className = 'domain-item';
+    item.setAttribute('role', 'listitem');
     
     const span = document.createElement('span');
     span.textContent = domain;
@@ -329,7 +396,17 @@ function renderDomains() {
     removeBtn.className = 'domain-remove';
     removeBtn.innerHTML = '×';
     removeBtn.title = S().remove_domain;
+    // Keyboard navigation
+    removeBtn.setAttribute('tabindex', '0');
+    removeBtn.setAttribute('role', 'button');
+    try { removeBtn.setAttribute('aria-label', `${S().remove_domain}: ${domain}`); } catch (_) {}
     removeBtn.addEventListener('click', () => removeDomain(domain));
+    removeBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        removeDomain(domain);
+      }
+    });
     
     item.appendChild(span);
     item.appendChild(removeBtn);
@@ -398,9 +475,11 @@ function showError() {
   domainInput.classList.remove('input-error');
   void domainInput.offsetWidth;
   domainInput.classList.add('input-error');
+  try { domainInput.setAttribute('aria-invalid', 'true'); } catch (_) {}
   if (domainInput._errTimer) clearTimeout(domainInput._errTimer);
   domainInput._errTimer = setTimeout(() => {
     domainInput.classList.remove('input-error');
+    try { domainInput.removeAttribute('aria-invalid'); } catch (_) {}
     domainInput._errTimer = null;
   }, 1000);
 }
@@ -450,9 +529,11 @@ async function loadInitial() {
 
     setActive(tileGet, !!currentCfg.blockGet);
     setActive(tileCreate, !!currentCfg.blockCreate);
+    updateTilesAria();
     
     if (modeSwitch) {
       modeSwitch.setAttribute('data-mode', currentCfg.mode);
+      if (typeof updateModeRadioAria === 'function') updateModeRadioAria();
     }
 
     renderDomains();
