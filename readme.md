@@ -34,6 +34,7 @@ This extension **rejects WebAuthn requests** and can be configured to block pass
 - Reactive UI showing interventions and status
 - 5 supported languages (🇬🇧 🇫🇷 🇩🇪 🇮🇹 🇪🇸)
 - Adaptive light/dark mode UI
+- Accessible UI with full keyboard navigation
 - Settings synced cross-device
 
 ## Installation
