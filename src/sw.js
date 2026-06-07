@@ -2,9 +2,9 @@ const CS_ID = "disable-passkeys";
 const DEFAULT_CFG = { blockGet: true, blockCreate: true, mode: 'allow', domains: [] };
 
 function pickPatchFile({ blockGet, blockCreate }) {
-  if (blockGet && blockCreate) return "patch_both.js";
-  if (blockGet)               return "patch_get.js";
-  if (blockCreate)            return "patch_create.js";
+  if (blockGet && blockCreate) return "engine/patch_both.js";
+  if (blockGet)               return "engine/patch_get.js";
+  if (blockCreate)            return "engine/patch_create.js";
   return null; // OFF
 }
 
