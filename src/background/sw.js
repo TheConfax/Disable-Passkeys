@@ -99,7 +99,9 @@ async function loadCfg() {
 // Set action icon according to current global state (isOff + themeSuffix)
 async function refreshActionIcon() {
   const suffix = globalThis.themeSuffix || '';
-  const iconPath = globalThis.isOff ? `img/icon32_off${suffix}.png` : `img/icon32${suffix}.png`;
+  // setIcon resolves the path relative to the SW's folder (background/), so step up
+  // to the extension root where img/ lives.
+  const iconPath = globalThis.isOff ? `../img/icon32_off${suffix}.png` : `../img/icon32${suffix}.png`;
   try {
     await chrome.action.setIcon({ path: iconPath });
   } catch (e) {
