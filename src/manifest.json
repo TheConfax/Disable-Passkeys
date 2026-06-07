@@ -26,7 +26,7 @@
     }
   ],
   "background": {
-    "service_worker": "sw.js"
+    "service_worker": "background/sw.js"
   },
   "action": {
     "default_popup": "popup/popup.html",
