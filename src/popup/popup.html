@@ -3,6 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <style>
+      /* Be Vietnam Pro — self-hosted variable font (SIL OFL 1.1). */
+      @font-face {
+        font-family: "Be Vietnam Pro";
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url("../fonts/be-vietnam-pro.woff2") format("woff2");
+      }
+
       :root {
         color-scheme: light dark;
 
@@ -46,7 +55,7 @@
         }
       }
 
-      body { font: 13px/1.35 system-ui, sans-serif; margin: 11px; min-width: 320px; background: var(--bg); color: var(--text); }
+      body { font: 13px/1.35 "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif; margin: 11px; min-width: 350px; background: var(--bg); color: var(--text); }
       /* Visually hidden but accessible */
       .sr-only {
         position: absolute;
@@ -201,6 +210,7 @@
         border: none; /* border handled by ::before */
         background: transparent; /* visual layer on ::before */
         color: var(--text);
+        font-family: inherit;
         font-size: 13px;
         cursor: pointer;
         min-width: 120px;
