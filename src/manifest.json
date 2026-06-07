@@ -29,7 +29,7 @@
     "service_worker": "sw.js"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_title": "__MSG_extName__",
     "default_icon": "img/icon32.png"
   }

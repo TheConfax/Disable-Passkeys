@@ -73,11 +73,11 @@ function setIcon(imgEl, basePath) {
 }
 
 function syncImages() {
-  const getBase = tileGet.classList.contains("active") ? "img/get_off.png" : "img/get_on.png";
-  const createBase = tileCreate.classList.contains("active") ? "img/create_off.png" : "img/create_on.png";
+  const getBase = tileGet.classList.contains("active") ? "../img/get_off.png" : "../img/get_on.png";
+  const createBase = tileCreate.classList.contains("active") ? "../img/create_off.png" : "../img/create_on.png";
   setIcon(imgGet, getBase);
   setIcon(imgCreate, createBase);
-  setIcon(imgGithub, "img/github_mark.png");
+  setIcon(imgGithub, "../img/github_mark.png");
 }
 
 function updateTilesAria() {
