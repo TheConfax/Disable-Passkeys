@@ -127,6 +127,17 @@
       applyCountCopy(getCount());
       animateCount();
     });
+
+    // Live update if the count changes while the page is open
+    chrome.storage.onChanged.addListener(function (changes, area) {
+      if (area !== "sync" || !changes.stats) return;
+      var el = document.getElementById("passkey-count");
+      if (!el) return;
+      var n = typeof changes.stats.newValue === "number" ? changes.stats.newValue : 0;
+      el.dataset.count = n;
+      el.textContent = localeNum(n);
+      applyCountCopy(n);
+    });
   }
 
   if (document.readyState === "loading") {
