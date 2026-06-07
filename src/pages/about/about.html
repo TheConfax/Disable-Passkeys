@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="about_page_title"></title>
+<link rel="icon" type="image/png" href="../../img/icon32.png" />
+<link rel="icon" type="image/png" href="../../img/icon32_dark.png" media="(prefers-color-scheme: dark)" />
+<style>
+  /* Be Vietnam Pro — self-hosted variable font (SIL OFL 1.1). */
+  @font-face {
+    font-family: "Be Vietnam Pro";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../../fonts/be-vietnam-pro.woff2") format("woff2");
+  }
+
+  :root {
+    color-scheme: light dark;
+
+    --bg: oklch(0.985 0.012 75);
+    --bg-2: oklch(0.97 0.018 70);
+    --card: oklch(1 0 0);
+    --ink: oklch(0.27 0.018 50);
+    --ink-soft: oklch(0.46 0.016 50);
+    --muted: oklch(0.62 0.014 55);
+    --line: oklch(0.92 0.01 60);
+    --line-soft: oklch(0.95 0.008 60);
+    --line-hover: oklch(0.84 0.02 55);
+    --brand: oklch(0.6 0.205 24);
+    --brand-deep: oklch(0.52 0.2 25);
+    --brand-tint: oklch(0.96 0.03 32);
+    --brand-tint-2: oklch(0.93 0.05 32);
+    --stat-ring: oklch(0.6 0.205 24 / 0.4);
+    --shadow: 0 1px 2px oklch(0.4 0.04 50 / 0.04), 0 12px 32px oklch(0.4 0.04 50 / 0.07), 0 40px 80px oklch(0.4 0.04 50 / 0.05);
+    --font: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115;
+      --bg-2: #16191f;
+      --card: #171a21;
+      --ink: #f2f3f5;
+      --ink-soft: #c3c9d2;
+      --muted: #a7adb7;
+      --line: rgba(242, 243, 245, 0.16);
+      --line-soft: rgba(242, 243, 245, 0.08);
+      --line-hover: rgba(242, 243, 245, 0.34);
+      --brand: oklch(0.7 0.19 25);
+      --brand-deep: oklch(0.75 0.19 25);
+      --brand-tint: oklch(0.31 0.06 28);
+      --brand-tint-2: oklch(0.36 0.08 28);
+      --stat-ring: oklch(0.7 0.19 25 / 0.4);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.5), 0 40px 80px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--bg-2), transparent 60%),
+      var(--bg);
+    min-height: 100dvh;
+    display: flex;
+    align-items: safe center;   /* top-align (not clip) when taller than the viewport */
+    justify-content: center;
+    padding: 40px 22px 56px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 540px;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 18px;
+  }
+
+  /* Portrait: .left dissolves so its children + support share one column; order
+     keeps card → support → links → colophon. (Landscape: real flex column below.) */
+  .left { display: contents; }
+  .card     { order: 1; }
+  .support  { order: 2; }
+  .links    { order: 3; }
+  .colophon { order: 4; }
+
+  /* Side-by-side only when two ≥440px cards + the gap fit (≈960px); below that the
+     cards would shrink under 440, so we stack instead. */
+  @media (min-width: 960px) {
+    .page {
+      max-width: 940px;
+      grid-template-columns: minmax(440px, 1fr) minmax(440px, 1fr);
+      column-gap: 22px;
+      align-content: start;
+    }
+    /* Left column flows as one stack, independent of the support's height. */
+    .left {
+      display: flex;
+      flex-direction: column;
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .left .links { margin-top: 50px; }     /* fixed gap between card and footer */
+    .left .colophon { margin-top: 14px; }  /* gap between links and colophon */
+    .support { grid-column: 2; grid-row: 1; align-self: start; }
+  }
+
+  /* ---- Hero card ---- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    padding: 34px 40px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    flex: none;
+    line-height: 0;
+  }
+
+  .logo img {
+    width: 64px;
+    height: 64px;
+    display: block;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 46px;
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+
+  .intro {
+    margin: 20px auto 0;
+    max-width: 40ch;
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 450;
+    text-wrap: pretty;
+  }
+  .intro + .intro {
+    margin-top: 12px;
+  }
+
+  /* ---- Stat ---- */
+  .stat {
+    position: relative;
+    margin-top: 26px;
+    padding: 26px 22px 24px;
+    border-radius: 22px;
+    /* Reaches --card before the edge (flat last stretch) to avoid a mach-band line. */
+    background: linear-gradient(180deg, var(--brand-tint), var(--card) 80%);
+  }
+
+  /* Faded accent ring (masked 1px border, fades top→bottom). */
+  .stat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(180deg, var(--stat-ring), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .stat-num {
+    font-size: clamp(58px, 14vw, 88px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--brand-deep);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  .stat-caption {
+    margin: 14px auto 0;
+    max-width: 34ch;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    text-wrap: pretty;
+  }
+
+  /* ---- Donation (Ko-fi) ---- */
+  .support {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    padding: 28px 30px 30px;
+    text-align: center;
+  }
+
+  .support h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -0.015em;
+  }
+
+  .support p {
+    margin: 10px auto 0;
+    max-width: 38ch;
+    font-size: 15px;
+    line-height: 1.58;
+    color: var(--ink-soft);
+    text-wrap: pretty;
+    white-space: pre-line; /* honor the \n line break in about_support_body */
+  }
+
+  /* In dark, bg must equal Ko-fi's card colour (rgb(25,32,37)) or a mismatched dark
+     shows at the rounded corners. */
+  .kofi-embed {
+    margin: 20px auto 0;
+    max-width: 360px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--card);
+    box-shadow: 0 6px 18px oklch(0.4 0.04 50 / 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    .kofi-embed { background: rgb(25, 32, 37); }
+  }
+
+  .kofi-embed iframe {
+    display: block;
+    width: 100%;
+    height: 0;   /* collapsed until about.js sets the real height (no flash) */
+    border: none;
+  }
+
+  /* ---- Footer links ---- */
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 2px 4px;
+  }
+
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+
+  .link:hover {
+    color: var(--ink);
+    border-color: var(--line-hover);
+    background: var(--bg);
+    transform: translateY(-1px);
+  }
+
+  /* GitHub mark masked over currentColor → follows the link text colour. */
+  .link .gh {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: currentColor;
+    -webkit-mask: url("../../img/GitHub_Invertocat_Black.svg") center / contain no-repeat;
+            mask: url("../../img/GitHub_Invertocat_Black.svg") center / contain no-repeat;
+  }
+  .link .star { font-size: 17px; line-height: 1; }
+
+  .colophon {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 36px 24px 32px; border-radius: 28px; }
+    .support { padding: 24px 22px 26px; }
+  }
+
+  /* No opacity fade-in: a background tab throttles the clock and would strand
+     content at opacity 0. Resting state stays fully visible. */
+</style>
+</head>
+<body>
+  <main class="page">
+    <!-- Left column (card + footer); dissolves in portrait, see .left CSS. -->
+    <div class="left">
+      <section class="card">
+        <div class="hero-head">
+          <picture class="logo">
+            <source srcset="../../img/icon128_dark.png" media="(prefers-color-scheme: dark)" />
+            <img src="../../img/icon128.png" alt="Disable Passkeys" />
+          </picture>
+          <h1 data-i18n="about_heading"></h1>
+        </div>
+
+        <p class="intro" data-i18n="about_intro_opening"></p>
+        <p class="intro" data-i18n="about_intro_body"></p>
+
+        <div class="stat">
+          <!-- Number, label, caption filled by about.js (count read from storage). -->
+          <div class="stat-num" id="passkey-count" data-count="0"></div>
+          <div class="stat-label"></div>
+          <p class="stat-caption"></p>
+        </div>
+      </section>
+
+      <nav class="links" aria-label="More">
+        <a class="link" id="github-link" href="https://github.com/TheConfax/Disable-Passkeys" target="_blank" rel="noopener noreferrer">
+          <span class="gh" aria-hidden="true"></span>
+          <span data-i18n="about_link_github"></span>
+        </a>
+        <a class="link" id="rate-link" href="https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml/reviews" target="_blank" rel="noopener noreferrer">
+          <span class="star" aria-hidden="true">★</span>
+          <span data-i18n="about_link_rate"></span>
+        </a>
+      </nav>
+
+      <p class="colophon" id="colophon"></p>
+    </div>
+
+    <section class="support">
+      <h2 data-i18n="about_support_heading"></h2>
+      <p data-i18n="about_support_body"></p>
+      <div class="kofi-embed">
+        <iframe id="kofiframe" src="https://ko-fi.com/theconfax/?hidefeed=true&widget=true&embed=true&preview=true" title="theconfax on Ko-fi" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../debug.js"></script>
+  <script src="../../i18n/strings.js"></script>
+  <script src="about.js"></script>
+</body>
+</html>

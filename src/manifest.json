@@ -23,6 +23,12 @@
       "matches": ["<all_urls>"],
       "js": ["content/theme_watcher.js"],
       "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://ko-fi.com/*"],
+      "js": ["pages/about/kofi_embed.js"],
+      "all_frames": true,
+      "run_at": "document_start"
     }
   ],
   "background": {

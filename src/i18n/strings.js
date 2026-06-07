@@ -29,7 +29,22 @@ window.LOCALES = {
     
     status_off: "(Off)",
     status_except: "(Except %n%)",
-    status_only: "(Only %n%)"
+    status_only: "(Only %n%)",
+
+    about_page_title: "Thank you!",
+    about_heading: "Thank you!",
+    about_intro_opening: "Disable Passkeys has reached 1,000+ users.",
+    about_intro_body: "It's still quietly working in the background, keeping those passkey prompts out of your way, so you can sign in however you like.",
+    about_stat_label: "passkey prompts avoided",
+    about_stat_label_1: "passkey prompt avoided",
+    about_stat_caption_0: "But the next time a site reaches for a passkey, you won't even notice.",
+    about_stat_caption_1: "Your first interruption has been avoided, and it won't be the last.",
+    about_stat_caption_few: "Your first interruptions have been avoided, and they won't be the last.",
+    about_stat_caption_many: "That's a lot of interruptions you never had to deal with, and counting.",
+    about_support_heading: "Enjoying the quiet?",
+    about_support_body: "Disable Passkeys is free and always will be.\nIf it's spared you a headache, consider donating.",
+    about_link_github: "View source",
+    about_link_rate: "Leave a review"
   },
 
   it: {
@@ -62,7 +77,22 @@ window.LOCALES = {
 
     status_off: "(Spento)",
     status_except: "(Eccetto %n%)",
-    status_only: "(Solo %n%)"
+    status_only: "(Solo %n%)",
+
+    about_page_title: "Grazie!",
+    about_heading: "Grazie!",
+    about_intro_opening: "Disable Passkeys ha raggiunto 1.000+ utenti.",
+    about_intro_body: "Sta lavorando col favore delle tenebre, tenendo lontani i prompt delle passkey, così che tu possa accedere come preferisci.",
+    about_stat_label: "passkey prompt evitati",
+    about_stat_label_1: "passkey prompt evitato",
+    about_stat_caption_0: "Ma quando un sito proverà a usare una passkey, non te ne accorgerai nemmeno.",
+    about_stat_caption_1: "La tua prima interruzione è stata evitata, e non sarà l'ultima.",
+    about_stat_caption_few: "Le tue prime interruzioni sono state evitate, e non saranno le ultime.",
+    about_stat_caption_many: "Sono tante interruzioni che non hai mai dovuto gestire, e il conteggio continua.",
+    about_support_heading: "Felice del silenzio?",
+    about_support_body: "Disable Passkeys è gratuito e lo sarà sempre.\nSe ti ha tolto un fastidio, valuta una donazione.",
+    about_link_github: "Guarda il codice",
+    about_link_rate: "Lascia una recensione"
   },
 
   fr: {
@@ -95,7 +125,22 @@ window.LOCALES = {
 
     status_off: "(Désactivé)",
     status_except: "(Sauf %n%)",
-    status_only: "(Seulement %n%)"
+    status_only: "(Seulement %n%)",
+
+    about_page_title: "Merci !",
+    about_heading: "Merci !",
+    about_intro_opening: "Disable Passkeys a atteint 1 000+ usagers.",
+    about_intro_body: "Il continue de travailler dans l'ombre, en tenant les avis de passkey à l'écart, pour vous connecter comme vous voulez.",
+    about_stat_label: "avis de passkey évités",
+    about_stat_label_1: "avis de passkey évité",
+    about_stat_caption_0: "Mais quand un site demandera une passkey, vous ne le remarquerez même pas.",
+    about_stat_caption_1: "Votre première interruption a été évitée, et ce ne sera pas la dernière.",
+    about_stat_caption_few: "Vos premières interruptions ont été évitées, et ce ne seront pas les dernières.",
+    about_stat_caption_many: "Cela fait beaucoup d'interruptions que vous n'avez jamais eu à gérer, et ce n'est pas fini.",
+    about_support_heading: "Vous appréciez le silence ?",
+    about_support_body: "Disable Passkeys est gratuit et le restera toujours.\nS'il vous a épargné un tracas, pensez à faire un don.",
+    about_link_github: "Voir le code",
+    about_link_rate: "Laisser un avis"
   },
 
   es: {
@@ -128,7 +173,22 @@ window.LOCALES = {
 
     status_off: "(Apagado)",
     status_except: "(Excepto %n%)",
-    status_only: "(Solo %n%)"
+    status_only: "(Solo %n%)",
+
+    about_page_title: "¡Gracias!",
+    about_heading: "¡Gracias!",
+    about_intro_opening: "Disable Passkeys alcanzó 1.000+ usuarios.",
+    about_intro_body: "Sigue trabajando en la sombra, manteniendo lejos los avisos de passkey, para que inicies tu sesión como prefieras.",
+    about_stat_label: "avisos de passkey evitados",
+    about_stat_label_1: "aviso de passkey evitado",
+    about_stat_caption_0: "Pero la próxima vez que un sitio intente usar una passkey, ni te darás cuenta.",
+    about_stat_caption_1: "Tu primera interrupción se ha evitado, y no será la última.",
+    about_stat_caption_few: "Tus primeras interrupciones se han evitado, y no serán las últimas.",
+    about_stat_caption_many: "Son muchas interrupciones que nunca tuviste que afrontar, y sigue contando.",
+    about_support_heading: "¿Disfrutas del silencio?",
+    about_support_body: "Disable Passkeys es gratis y siempre lo será.\nSi te ha quitado una molestia, considera donar.",
+    about_link_github: "Ver el código",
+    about_link_rate: "Deja una reseña"
   },
 
   de: {
@@ -161,7 +221,22 @@ window.LOCALES = {
 
     status_off: "(Aus)",
     status_except: "(Außer %n%)",
-    status_only: "(Nur %n%)"
+    status_only: "(Nur %n%)",
+
+    about_page_title: "Danke!",
+    about_heading: "Danke!",
+    about_intro_opening: "Disable Passkeys hat 1.000+ Nutzer erreicht.",
+    about_intro_body: "Es arbeitet weiter im Verborgenen und hält dir die Passkey-Hinweise vom Hals, damit du dich anmeldest, wie du möchtest.",
+    about_stat_label: "vermiedene Passkey-Hinweise",
+    about_stat_label_1: "vermiedener Passkey-Hinweis",
+    about_stat_caption_0: "Aber wenn die nächste Seite nach einem Passkey greift, merkst du nichts davon.",
+    about_stat_caption_1: "Deine erste Unterbrechung wurde vermieden, weitere folgen.",
+    about_stat_caption_few: "Deine ersten Unterbrechungen wurden vermieden, weitere folgen.",
+    about_stat_caption_many: "So viele Unterbrechungen erspart, Tendenz steigend.",
+    about_support_heading: "Genießt du die Stille?",
+    about_support_body: "Disable Passkeys ist kostenlos und bleibt es auch.\nHat es Ärger erspart? Denk über eine Spende nach.",
+    about_link_github: "Quellcode ansehen",
+    about_link_rate: "Bewertung abgeben"
   }
 };
 
