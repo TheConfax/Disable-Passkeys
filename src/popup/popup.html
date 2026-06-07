@@ -214,7 +214,7 @@
       .cap b { font-size: 13px; }
       .cap small { color: var(--muted); }
 
-      .bar { margin-top: 12px; display: flex; justify-content: center; }
+      .bar { margin-top: 12px; display: flex; justify-content: center; position: relative; }
       .img {
         width: 90px;
         height: 90px;
@@ -483,9 +483,6 @@
         </div>
       </div>
 
-      <div class="bar">
-        <button id="apply"><span class="btn-label"></span></button>
-      </div>
     </div>
 
     <!-- Settings View -->
@@ -520,6 +517,12 @@
           <!-- Items will be injected here -->
         </div>
       </div>
+    </div>
+
+    <!-- Shared action bar (persists across both views) -->
+    <div class="bar">
+      <button id="apply"><span class="btn-label"></span></button>
+      <button id="info" aria-label="About"><span class="btn-label info-ico"></span></button>
     </div>
 
     <script src="../debug.js"></script>
