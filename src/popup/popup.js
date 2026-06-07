@@ -15,7 +15,6 @@ const tileCreate = document.getElementById("tileCreate");
 const apply = document.getElementById("apply");
 const imgGet = document.getElementById("img_get");
 const imgCreate = document.getElementById("img_create");
-const imgGithub = document.getElementById("img_github");
 
 // Navigation elements
 const viewMain = document.getElementById("view-main");
@@ -30,7 +29,6 @@ const optBlock = document.getElementById("t_mode_block");
 const domainInput = document.getElementById("domainInput");
 const addDomainBtn = document.getElementById("addDomain");
 const domainListEl = document.getElementById("domainList");
-const tStats = document.getElementById("t_stats");
 
 // State
 let currentCfg = {
@@ -77,7 +75,6 @@ function syncImages() {
   const createBase = tileCreate.classList.contains("active") ? "../img/create_off.png" : "../img/create_on.png";
   setIcon(imgGet, getBase);
   setIcon(imgCreate, createBase);
-  setIcon(imgGithub, "../img/github_mark.png");
 }
 
 function updateTilesAria() {
@@ -182,16 +179,6 @@ function syncText() {
   if (addDomainBtn) {
     addDomainBtn.title = S().add_domain;
   }
-  
-  if (tStats) {
-    const count = currentCfg.stats;
-    const text = (count === 1 && S().stats_text_1) ? S().stats_text_1 : S().stats_text;
-    tStats.textContent = text.replace('%n%', count);
-  }
-
-  const version = chrome.runtime.getManifest().version;
-  const copyright = (window.GLOBAL && window.GLOBAL.copyright) ? window.GLOBAL.copyright : "";
-  setText("t_copyright", `v${version} ${copyright}`);
 }
 
 // Navigation Logic

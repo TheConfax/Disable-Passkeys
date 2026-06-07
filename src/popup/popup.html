@@ -375,17 +375,6 @@
         }
       }
 
-      .stats-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 8px 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .stats-val { font-size: 14px; font-weight: 700; color: var(--text); }
-
       /* Toggle Switch for Mode */
       .mode-switch {
         display: flex;
@@ -428,31 +417,6 @@
       /* Toggle classes for switch */
       .mode-switch[data-mode="allow"] .mode-bg { left: 3px; right: 50%; }
       .mode-switch[data-mode="block"] .mode-bg { left: 50%; right: 3px; }
-
-      .footer {
-        margin-top: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 11px;
-        color: var(--muted);
-        font-style: italic;
-        padding: 0 4px;
-      }
-      .footer > span { opacity: 0.75; }
-      .footer-link {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        text-decoration: none;
-        color: inherit;
-        cursor: pointer;
-        transition: opacity 150ms;
-        opacity: 0.75;
-      }
-      .footer-link:hover { opacity: 1; }
-      .footer-link:focus-visible { outline: none; box-shadow: var(--focus-ring-input); }
-      .footer-link img { width: 14px; height: 14px; display: block; position: relative; top: -2px; }
     </style>
   </head>
 
@@ -525,14 +489,6 @@
         <div class="domain-list" id="domainList" role="list" aria-labelledby="t_domain_list_label">
           <!-- Items will be injected here -->
         </div>
-      </div>
-
-      <div class="footer">
-        <span id="t_stats"></span>
-        <a class="footer-link" id="githubLink" href="https://github.com/TheConfax/Disable-Passkeys" target="_blank" rel="noopener noreferrer">
-          <span id="t_copyright"></span>
-          <img id="img_github" src="../img/github_mark.png" alt="GitHub">
-        </a>
       </div>
     </div>
 
