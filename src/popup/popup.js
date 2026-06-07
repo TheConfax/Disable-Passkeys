@@ -512,7 +512,7 @@ async function loadInitial() {
   try {
     const data = await chrome.storage.sync.get(["cfg", "stats"]);
     const cfg = data.cfg || { blockGet: true, blockCreate: true, mode: 'allow', domains: [] };
-    const stats = typeof data.stats === 'number' ? data.stats : (cfg.stats || 0);
+    const stats = typeof data.stats === 'number' ? data.stats : 0;
     
     // Merge with defaults to be safe
     currentCfg = {

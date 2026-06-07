@@ -105,12 +105,10 @@
   // Public hook so the extension can re-render after injecting the real count.
   window.DisablePasskeys = { render: render };
 
-  // Real count from storage (`stats`, legacy: cfg.stats); fresh install reads 0.
+  // Real count from storage (`stats`); fresh install reads 0.
   function setRealCount(data, el) {
     if (!el) return;
-    var n = (data && typeof data.stats === "number") ? data.stats
-          : (data && data.cfg && typeof data.cfg.stats === "number") ? data.cfg.stats
-          : 0;
+    var n = (data && typeof data.stats === "number") ? data.stats : 0;
     el.dataset.count = n;
   }
 
@@ -124,7 +122,7 @@
     // Translate immediately (no flash), then animate once the real count is in.
     applyStrings();
     applyColophon();
-    chrome.storage.sync.get(["cfg", "stats"], function (data) {
+    chrome.storage.sync.get("stats", function (data) {
       setRealCount(data, document.getElementById("passkey-count"));
       applyCountCopy(getCount());
       animateCount();

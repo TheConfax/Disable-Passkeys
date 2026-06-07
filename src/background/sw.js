@@ -174,17 +174,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }
 
     if (msg?.type === "intervention") {
-      // Fetch both new 'stats' key and legacy 'cfg' to migrate if needed
-      const data = await chrome.storage.sync.get(["stats", "cfg"]);
-      
-      let currentStats = 0;
-      if (typeof data.stats === 'number') {
-        currentStats = data.stats;
-      } else if (data.cfg && typeof data.cfg.stats === 'number') {
-        currentStats = data.cfg.stats;
-      }
-
-      const newStats = currentStats + 1;
+      const data = await chrome.storage.sync.get("stats");
+      const newStats = (typeof data.stats === 'number' ? data.stats : 0) + 1;
       await chrome.storage.sync.set({ stats: newStats });
 
       // Visual Feedback: Flash Green "!" for 750ms
