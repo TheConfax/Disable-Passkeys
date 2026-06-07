@@ -1,5 +1,4 @@
 /.vscode
-backup-gitignore.ps1
 /src/debug.js
 /media
 /dist
