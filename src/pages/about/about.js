@@ -18,6 +18,11 @@
       if (nodes[i].tagName === "TITLE") document.title = txt;
       else nodes[i].textContent = txt;
     }
+
+    var linksNav = document.querySelector(".links");
+    if (linksNav && S.about_links_label) linksNav.setAttribute("aria-label", S.about_links_label);
+    var stat = document.querySelector(".stat");
+    if (stat && S.about_stat_group) stat.setAttribute("aria-label", S.about_stat_group);
   }
 
   function localeNum(n) {

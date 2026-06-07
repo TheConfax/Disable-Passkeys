@@ -43,7 +43,10 @@ window.LOCALES = {
     about_support_heading: "Enjoying the quiet?",
     about_support_body: "Disable Passkeys is free and always will be.\nIf it's spared you a headache, consider donating.",
     about_link_github: "View source",
-    about_link_rate: "Leave a review"
+    about_link_rate: "Leave a review",
+    about_links_label: "Links",
+    about_new_tab: "opens in a new tab",
+    about_stat_group: "Statistics"
   },
 
   it: {
@@ -90,7 +93,10 @@ window.LOCALES = {
     about_support_heading: "Felice del silenzio?",
     about_support_body: "Disable Passkeys è gratuito e lo sarà sempre.\nSe ti ha tolto un fastidio, valuta una donazione.",
     about_link_github: "Guarda il codice",
-    about_link_rate: "Lascia una recensione"
+    about_link_rate: "Lascia una recensione",
+    about_links_label: "Collegamenti",
+    about_new_tab: "si apre in una nuova scheda",
+    about_stat_group: "Statistiche"
   },
 
   fr: {
@@ -137,7 +143,10 @@ window.LOCALES = {
     about_support_heading: "Vous appréciez le silence ?",
     about_support_body: "Disable Passkeys est gratuit et le restera toujours.\nS'il vous a épargné un tracas, pensez à faire un don.",
     about_link_github: "Voir le code",
-    about_link_rate: "Laisser un avis"
+    about_link_rate: "Laisser un avis",
+    about_links_label: "Liens",
+    about_new_tab: "s'ouvre dans un nouvel onglet",
+    about_stat_group: "Statistiques"
   },
 
   es: {
@@ -184,7 +193,10 @@ window.LOCALES = {
     about_support_heading: "¿Disfrutas del silencio?",
     about_support_body: "Disable Passkeys es gratis y siempre lo será.\nSi te ha quitado una molestia, considera donar.",
     about_link_github: "Ver el código",
-    about_link_rate: "Deja una reseña"
+    about_link_rate: "Deja una reseña",
+    about_links_label: "Enlaces",
+    about_new_tab: "se abre en una pestaña nueva",
+    about_stat_group: "Estadísticas"
   },
 
   de: {
@@ -231,7 +243,10 @@ window.LOCALES = {
     about_support_heading: "Genießt du die Stille?",
     about_support_body: "Disable Passkeys ist kostenlos und bleibt es auch.\nHat es Ärger erspart? Denk über eine Spende nach.",
     about_link_github: "Quellcode ansehen",
-    about_link_rate: "Bewertung abgeben"
+    about_link_rate: "Bewertung abgeben",
+    about_links_label: "Links",
+    about_new_tab: "öffnet in einem neuen Tab",
+    about_stat_group: "Statistik"
   }
 };
 
