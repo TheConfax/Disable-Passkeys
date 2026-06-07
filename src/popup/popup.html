@@ -142,8 +142,28 @@
         animation: pulse-error 1s ease-out;
       }
 
-      #back { min-width: 110px; }
-      #settings { min-width: 92px; }
+      #back, #settings { min-width: 100px; }
+      #addDomain { min-width: 32px; }
+      /* About button, pinned to the right edge so Apply stays centred, and
+         vertically centred on the bar so it lines up with Apply. Vertical padding
+         is tuned so its height matches Apply's (icon 26 + 4*2 ≈ Apply height). */
+      #info {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        min-width: 0;
+        padding: 4px;
+      }
+      /* Masked SVG glyph, recoloured via currentColor for light/dark. */
+      #info .info-ico {
+        display: block;
+        width: 26px;
+        height: 26px;
+        background: currentColor;
+        -webkit-mask: url("../img/info.svg") center / contain no-repeat;
+        mask: url("../img/info.svg") center / contain no-repeat;
+      }
 
       .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 

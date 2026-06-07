@@ -11,7 +11,8 @@ window.LOCALES = {
     create_desc_off: "No more passkey creation prompts.",
 
     apply: "Apply",
-    settings: "Advanced...",
+    settings: "Filters",
+    about: "About",
     
     back: "Back",
     mode_allow: "Allow only",
@@ -57,7 +58,8 @@ window.LOCALES = {
     create_desc_off: "Niente più prompt di creazione passkey.",
 
     apply: "Applica",
-    settings: "Avanzate...",
+    settings: "Filtri",
+    about: "Informazioni",
 
     back: "Indietro",
     mode_allow: "Consenti soltanto",
@@ -103,7 +105,8 @@ window.LOCALES = {
     create_desc_off: "Plus d’avis de création de passkey.",
 
     apply: "Appliquer",
-    settings: "Avancé...",
+    settings: "Filtres",
+    about: "À propos",
 
     back: "Retour",
     mode_allow: "Autoriser uniquement",
@@ -149,7 +152,8 @@ window.LOCALES = {
     create_desc_off: "No más avisos de creación de passkey.",
 
     apply: "Aplicar",
-    settings: "Avanzado...",
+    settings: "Filtros",
+    about: "Acerca de",
 
     back: "Atrás",
     mode_allow: "Permitir solo",
@@ -195,7 +199,8 @@ window.LOCALES = {
     create_desc_off: "Keine Passkey-Erstellungs-Hinweise.",
 
     apply: "Anwenden",
-    settings: "Erweitert...",
+    settings: "Filter",
+    about: "Über",
 
     back: "Zurück",
     mode_allow: "Nur erlauben",

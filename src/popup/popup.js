@@ -13,6 +13,7 @@ function S() { return window.STRINGS || {}; }
 const tileGet = document.getElementById("tileGet");
 const tileCreate = document.getElementById("tileCreate");
 const apply = document.getElementById("apply");
+const btnInfo = document.getElementById("info");
 const imgGet = document.getElementById("img_get");
 const imgCreate = document.getElementById("img_create");
 
@@ -124,6 +125,9 @@ function syncText() {
   
   setText("apply", S().apply);
   setText("settings", S().settings);
+  if (btnInfo && S().about) {
+    try { btnInfo.setAttribute('aria-label', S().about); } catch (_) {}
+  }
   if (addDomainBtn) {
     try { addDomainBtn.setAttribute('aria-label', S().add_domain); } catch (_) {}
   }
@@ -536,6 +540,14 @@ async function loadInitial() {
   await loadInitial();
   // Enable UI interactions here if needed, but for now just load.
 })();
+
+// Open the info page
+if (btnInfo) {
+  btnInfo.addEventListener("click", () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL("pages/about/about.html") });
+    window.close();
+  });
+}
 
 apply.addEventListener("click", async () => {
   // Config is already saved by toggle() and other actions
