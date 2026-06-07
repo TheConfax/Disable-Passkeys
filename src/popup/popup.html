@@ -69,17 +69,17 @@
         border: 0;
       }
       
-      .header { 
-        display: flex; 
-        justify-content: space-between; 
+      .header {
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        margin-bottom: 11px; 
+        margin-bottom: 11px;
       }
-      
-      .title { 
-        font-weight: 700; 
+
+      .title {
+        font-weight: 700;
         font-size: 16px;
-        color: var(--text); 
+        color: var(--text);
         margin: 0;
         line-height: 1;
         display: flex;
@@ -138,7 +138,8 @@
         100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); border-color: var(--border); }
       }
 
-      .btn-small.warning-border {
+      /* On ::before so the glow rides the hover lift (and pulses the real border). */
+      .btn-small.warning-border::before {
         animation: pulse-warning 2s infinite;
       }
       
@@ -186,7 +187,8 @@
         border-radius: inherit;
         background: var(--card);
         border: 1px solid var(--border);
-        box-shadow: 0 0 0 rgba(0,0,0,0);
+        --ring: 0 0 0 0 transparent; /* becomes the focus ring on :focus-visible */
+        box-shadow: var(--ring);
         transform: translateY(0);
         transition: background 160ms cubic-bezier(.2,.8,.2,1),
                     transform 100ms ease,
@@ -196,23 +198,20 @@
       }
       .tile-body { position: relative; z-index: 1; transition: transform 100ms ease; }
 
-      .tile:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+      .tile:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover), var(--ring); transform: translateY(-2px); }
       .tile:hover .tile-body { transform: translateY(-2px); }
 
-      .tile:active::before { box-shadow: var(--shadow-press); transform: translateY(1px); }
+      .tile:active::before { box-shadow: var(--shadow-press), var(--ring); transform: translateY(1px); }
       .tile:active .tile-body { transform: translateY(1px); }
 
-      .tile.pressed::before { box-shadow: var(--shadow-press) !important; transform: translateY(1px) !important; }
+      .tile.pressed::before { box-shadow: var(--shadow-press), var(--ring) !important; transform: translateY(1px) !important; }
       .tile.pressed .tile-body { transform: translateY(1px) !important; }
 
-      .tile.active::before { border-color: var(--border-strong); background: var(--card-active); box-shadow: var(--shadow-hover); }
-      .tile.active:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+      .tile.active::before { border-color: var(--border-strong); background: var(--card-active); box-shadow: var(--shadow-hover), var(--ring); }
+      .tile.active:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover), var(--ring); transform: translateY(-2px); }
       .tile.active:hover .tile-body { transform: translateY(-2px); }
-      .tile:focus-visible {
-        outline: none;
-        box-shadow: var(--focus-ring-input);
-      }
-      .tile:focus-visible::before { border-color: var(--border-strong); }
+      .tile:focus-visible { outline: none; }
+      .tile:focus-visible::before { --ring: var(--focus-ring-input); border-color: var(--border-strong); }
 
       .cap { margin-top: 7px; display: grid; gap: 2px; }
       .cap b { font-size: 13px; }
@@ -250,7 +249,8 @@
         border-radius: inherit;
         background: var(--card-active);
         border: 1px solid var(--border-strong);
-        box-shadow: 0 0 0 rgba(0,0,0,0);
+        --ring: 0 0 0 0 transparent; /* becomes the focus ring on :focus-visible */
+        box-shadow: var(--ring);
         transition: background 160ms cubic-bezier(.2,.8,.2,1), transform 100ms ease, box-shadow 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms cubic-bezier(.2,.8,.2,1);
         z-index: -1; /* keep behind content to avoid blocking */
       }
@@ -258,21 +258,17 @@
       .btn-label { position: relative; z-index: 1; transform: translateY(0); transition: transform 100ms ease; }
       button:hover::before {
         background: var(--card-hover);
-        box-shadow: var(--shadow-hover);
+        box-shadow: var(--shadow-hover), var(--ring);
         transform: translateY(-2px);
       }
       button:hover .btn-label { transform: translateY(-2px); }
       button:active::before {
         transform: translateY(1px) scale(0.995);
-        box-shadow: var(--shadow-press);
+        box-shadow: var(--shadow-press), var(--ring);
       }
       button:active .btn-label { transform: translateY(1px); }
-      button:focus-visible {
-        outline: none;
-        box-shadow: var(--focus-ring-input);
-        border-color: var(--border-strong);
-      }
-      button:focus-visible::before { border-color: var(--border-strong); }
+      button:focus-visible { outline: none; }
+      button:focus-visible::before { --ring: var(--focus-ring-input); border-color: var(--border-strong); }
 
       /* Uniform focus for the switch */
       .mode-switch:focus-visible {
@@ -281,8 +277,8 @@
         border-color: var(--border-strong);
       }
 
-      /* Fallback for interactive ARIA roles */
-      [role="button"]:focus-visible,
+      /* Fallback for interactive ARIA roles (tiles handle their own ring on ::before) */
+      [role="button"]:not(.tile):focus-visible,
       [role="switch"]:focus-visible {
         outline: none;
         box-shadow: var(--focus-ring-input);
