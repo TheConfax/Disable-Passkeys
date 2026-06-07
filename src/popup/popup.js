@@ -40,6 +40,9 @@ let currentCfg = {
   stats: 0
 };
 
+let initialCfg = null;
+let activeTabHost = null;
+
 // Dark-mode assets
 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -495,16 +498,56 @@ if (domainInput) {
   });
 }
 
+// Block-only with no domains: the yellow warning owns the attention, so no Apply glow.
+function isWarningState() {
+  return currentCfg.mode === 'block'
+    && (currentCfg.domains || []).length === 0
+    && (currentCfg.blockGet || currentCfg.blockCreate);
+}
+
+// Same matching as the blocker (*://*.domain/* → domain + subdomains; localhost/IP exact).
+function hostMatchesDomain(host, d) {
+  if (!host || !d) return false;
+  if (d === 'localhost') return host === 'localhost';
+  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(d) || (d[0] === '[' && d.endsWith(']'))) return host === d;
+  return host === d || host.endsWith('.' + d);
+}
+
+function isOff(cfg) {
+  if (!cfg.blockGet && !cfg.blockCreate) return true;
+  if (cfg.mode === 'block') return (cfg.domains || []).length === 0;
+  return false;
+}
+
+// Is the active tab blocked under this cfg? (allow = everywhere except list; block = only list)
+function activeTabBlocked(cfg) {
+  if (!activeTabHost || isOff(cfg)) return false;
+  const inList = (cfg.domains || []).some(d => hostMatchesDomain(activeTabHost, d));
+  return cfg.mode === 'block' ? inList : !inList;
+}
+
+// Flash Apply (vs the state at open, so it persists) when reloading the active tab would
+// change it: any home toggle, or its blocked/unblocked state flipping. Never during warning.
+function updatePendingGlow() {
+  if (!apply || !initialCfg) return;
+  if (isWarningState()) { apply.classList.remove('pending'); return; }
+  const homeChanged = currentCfg.blockGet !== initialCfg.blockGet
+    || currentCfg.blockCreate !== initialCfg.blockCreate;
+  const activeBlockChanged = activeTabBlocked(currentCfg) !== activeTabBlocked(initialCfg);
+  apply.classList.toggle('pending', homeChanged || activeBlockChanged);
+}
+
 // Config Management
 async function saveCfg() {
   // Update main toggles in currentCfg before saving
   currentCfg.blockGet = isActive(tileGet);
   currentCfg.blockCreate = isActive(tileCreate);
-  
+
   // Save directly to storage (SW listens to onChanged)
   // Exclude stats from the saved object to prevent overwriting settings with stale stats
   const { stats, ...cfgToSave } = currentCfg;
   await chrome.storage.sync.set({ cfg: cfgToSave });
+  updatePendingGlow();
 }
 
 // Load initial cfg
@@ -521,6 +564,12 @@ async function loadInitial() {
       mode: cfg.mode || 'allow',
       domains: Array.isArray(cfg.domains) ? cfg.domains : [],
       stats: stats
+    };
+    initialCfg = {
+      blockGet: currentCfg.blockGet,
+      blockCreate: currentCfg.blockCreate,
+      mode: currentCfg.mode,
+      domains: currentCfg.domains.slice()
     };
 
     setActive(tileGet, !!currentCfg.blockGet);
@@ -543,7 +592,11 @@ async function loadInitial() {
 // Initialize
 (async () => {
   await loadInitial();
-  // Enable UI interactions here if needed, but for now just load.
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const u = tab && tab.url ? new URL(tab.url) : null;
+    activeTabHost = u && (u.protocol === 'http:' || u.protocol === 'https:') ? u.hostname : null;
+  } catch (_) { activeTabHost = null; }
 })();
 
 // Open the info page

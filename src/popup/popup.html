@@ -32,6 +32,7 @@
         --focus-ring: 0 0 0 2px var(--bg), 0 0 0 5px rgba(17,17,17,0.35);
         /* Lighter focus ring for text fields */
         --focus-ring-input: 0 0 0 2px rgba(17,17,17,0.22);
+        --pending-rgb: 17, 17, 17;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -52,6 +53,7 @@
           /* Dark variant: higher contrast */
           --focus-ring: 0 0 0 2px var(--bg), 0 0 0 5px rgba(242,243,245,0.55);
           --focus-ring-input: 0 0 0 2px rgba(242,243,245,0.45);
+          --pending-rgb: 242, 243, 245;
         }
       }
 
@@ -142,7 +144,16 @@
       .btn-small.warning-border::before {
         animation: pulse-warning 2s infinite;
       }
-      
+
+      @keyframes pulse-pending {
+        0%   { box-shadow: 0 0 0 0 rgba(var(--pending-rgb), 0); }
+        50%  { box-shadow: 0 0 0 3px rgba(var(--pending-rgb), 0.4); }
+        100% { box-shadow: 0 0 0 0 rgba(var(--pending-rgb), 0); }
+      }
+      #apply.pending::before {
+        animation: pulse-pending 2s infinite;
+      }
+
       .input-error {
         animation: pulse-error 1s ease-out;
       }
