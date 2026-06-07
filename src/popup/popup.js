@@ -156,7 +156,12 @@ function syncText() {
         // Block Only: Block ONLY n
         // If count is 0, it blocks nothing -> Effectively OFF but WARNING because user might think it's on
         if (count === 0) {
-          statusEl.textContent = "⚠️ " + S().status_off;
+          statusEl.textContent = "";
+          const warn = document.createElement('span');
+          warn.className = 'emoji';
+          warn.textContent = "⚠️";
+          statusEl.appendChild(warn);
+          statusEl.appendChild(document.createTextNode(" " + S().status_off));
           statusEl.classList.add('warning');
           if (btnSettings) btnSettings.classList.add('warning-border');
         } else {

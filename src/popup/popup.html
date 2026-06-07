@@ -72,18 +72,18 @@
       .header { 
         display: flex; 
         justify-content: space-between; 
-        align-items: baseline; 
+        align-items: center;
         margin-bottom: 11px; 
       }
       
       .title { 
         font-weight: 700; 
-        font-size: 15px; 
+        font-size: 16px;
         color: var(--text); 
         margin: 0;
         line-height: 1;
         display: flex;
-        align-items: center;
+        align-items: baseline;
         gap: 6px;
       }
 
@@ -92,7 +92,11 @@
         font-size: 12px;
         color: var(--muted);
         opacity: 0.8;
-        position: relative;
+      }
+      /* The emoji renders lower than text metrics; lift it 1px to sit in line. */
+      .status-badge .emoji {
+        display: inline-block;
+        transform: translateY(-1px);
       }
       
       .status-badge.warning {
@@ -216,8 +220,8 @@
 
       .bar { margin-top: 12px; display: flex; justify-content: center; position: relative; }
       .img {
-        width: 90px;
-        height: 90px;
+        width: 76.6px;
+        height: 76.6px;
         object-fit: contain;
         display: block;
         margin: 0 auto;
@@ -507,7 +511,7 @@
         <div class="input-group">
           <label id="t_domain_label" for="domainInput" class="sr-only"></label>
           <input type="text" id="domainInput" aria-labelledby="t_domain_label">
-          <button id="addDomain" class="btn-small" style="min-width: 32px;"><span class="btn-label">+</span></button>
+          <button id="addDomain" class="btn-small"><span class="btn-label">+</span></button>
         </div>
       </div>
 
