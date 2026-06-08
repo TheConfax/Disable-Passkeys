@@ -105,12 +105,10 @@
   .links    { order: 3; }
   .colophon { order: 4; }
 
-  /* Side-by-side only when two ≥440px cards + the gap fit (≈960px); below that the
-     cards would shrink under 440, so we stack instead. */
-  @media (min-width: 960px) {
+  @media (min-width: 912px) {
     .page {
       max-width: 940px;
-      grid-template-columns: minmax(440px, 1fr) minmax(440px, 1fr);
+      grid-template-columns: minmax(410px, 1fr) minmax(410px, 1fr);
       column-gap: 22px;
       align-content: start;
     }
@@ -132,7 +130,7 @@
     border: 1px solid var(--line);
     border-radius: 28px;
     box-shadow: var(--shadow);
-    padding: 34px 40px 20px;
+    padding: 34px 24px 20px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -236,7 +234,7 @@
     border: 1px solid var(--line);
     border-radius: 28px;
     box-shadow: var(--shadow);
-    padding: 28px 30px 30px;
+    padding: 28px 24px 30px;
     text-align: center;
   }
 
