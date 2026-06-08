@@ -1,3 +1,5 @@
+import { ensureInstalledAt, maybeOpenAboutCampaign } from "./campaigns.js";
+
 const CS_ID = "disable-passkeys";
 const DEFAULT_CFG = { blockGet: true, blockCreate: true, mode: 'allow', domains: [] };
 
@@ -137,6 +139,7 @@ async function syncVisuals(cfg) {
 }
 
 chrome.runtime.onInstalled.addListener(async () => {
+  await ensureInstalledAt();
   const cfg = await loadCfg();
   await applyCfg(cfg);
 });
@@ -146,6 +149,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 chrome.runtime.onStartup.addListener(async () => {
   const cfg = await loadCfg();
   await applyCfg(cfg);
+  await maybeOpenAboutCampaign();
 });
 
 // Safety net to run immediately on top-level execution to catch service worker restarts

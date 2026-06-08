@@ -32,7 +32,8 @@
     }
   ],
   "background": {
-    "service_worker": "background/sw.js"
+    "service_worker": "background/sw.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "popup/popup.html",
