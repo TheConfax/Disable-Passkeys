@@ -1,6 +1,7 @@
-/* Runs inside the embedded Ko-fi iframe — does two things Ko-fi won't do for an
-   embedder: match the page's dark/light theme, and report the panel height so the
-   parent can size the iframe. Embed-only. */
+/* Runs inside the embedded Ko-fi iframe — does three things Ko-fi won't do for an
+   embedder: match the page's dark/light theme, report the panel height so the parent
+   can size the iframe, and keep the cropped footer out of the tab order (accessibility).
+   Embed-only. */
 (function () {
   "use strict";
   // Only when embedded inside our own About page — not top-level ko-fi.com, and not
@@ -31,13 +32,29 @@
     }
   }
 
-  // No scrollbar (we crop); in dark force the body dark (Ko-fi leaves it a
-  // translucent white that shows as a hairline at the corners); flatten the panel
-  // radius so only the wrapper's clip rounds it.
+  // Accessibility: drop everything below the panel from the tab order + a11y tree.
+  function neutralizeBelowPanel() {
+    var panel = document.getElementById("payment-panel");
+    if (!panel) return;
+    var cut = panel.getBoundingClientRect().bottom - 1;
+    var els = document.querySelectorAll("a, button, input, select, textarea, [tabindex], iframe, area, [contenteditable]");
+    for (var i = 0; i < els.length; i++) {
+      if (panel.contains(els[i])) continue;
+      if (els[i].getBoundingClientRect().top >= cut) {
+        els[i].setAttribute("tabindex", "-1");
+        els[i].setAttribute("aria-hidden", "true");
+      }
+    }
+  }
+
+  function onLayout() { reportHeight(); neutralizeBelowPanel(); }
+
+  // No scrollbar; dark body hides Ko-fi's white corner hairline; flat panel radius
+  // so only the wrapper rounds it.
   function injectFrameStyle() {
     var s = document.createElement("style");
     s.textContent =
-      "html,body{overflow:hidden!important}" +
+      "html,body{overflow:clip!important}" +
       "html.dark body{background:rgb(25,32,37)!important}" +
       "#payment-panel{border-radius:0!important}";
     (document.head || document.documentElement).appendChild(s);
@@ -48,15 +65,15 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     applyTheme();        // re-apply if Ko-fi resets it on hydration
-    reportHeight();
+    onLayout();
     // Track later layout shifts.
     if (window.ResizeObserver) {
-      var ro = new ResizeObserver(reportHeight);
+      var ro = new ResizeObserver(onLayout);
       ro.observe(document.documentElement);
       if (document.body) ro.observe(document.body);
     }
-    setTimeout(reportHeight, 300);
-    setTimeout(reportHeight, 1200);
+    setTimeout(onLayout, 300);
+    setTimeout(onLayout, 1200);
   });
 
   if (mq) {
