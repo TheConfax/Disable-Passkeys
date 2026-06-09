@@ -33,6 +33,7 @@
         /* Lighter focus ring for text fields */
         --focus-ring-input: 0 0 0 2px rgba(17,17,17,0.22);
         --pending-rgb: 17, 17, 17;
+        --ease: cubic-bezier(.2,.8,.2,1);
       }
 
       @media (prefers-color-scheme: dark) {
@@ -113,8 +114,6 @@
 
       .btn-small {
         padding: 5px 10px;
-        /* keep logical size via CSS var; real text size is on ::after */
-        --btn-fz: 12px;
         line-height: 1;
         min-width: auto;
         border-radius: 8px;
@@ -190,21 +189,20 @@
         cursor: pointer;
         user-select: none;
       }
-      /* Moving visual layer (keeps hitbox stable) */
-      .tile::before {
+      /* Moving visual layer (keeps hitbox stable) — shared by tiles and buttons */
+      .tile::before, button::before {
         content: "";
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background: var(--card);
-        border: 1px solid var(--border);
         --ring: 0 0 0 0 transparent; /* becomes the focus ring on :focus-visible */
         box-shadow: var(--ring);
+        transition: background 160ms var(--ease), transform 100ms ease, box-shadow 160ms var(--ease), border-color 160ms var(--ease);
+      }
+      .tile::before {
+        background: var(--card);
+        border: 1px solid var(--border);
         transform: translateY(0);
-        transition: background 160ms cubic-bezier(.2,.8,.2,1),
-                    transform 100ms ease,
-                    box-shadow 160ms cubic-bezier(.2,.8,.2,1),
-                    border-color 160ms cubic-bezier(.2,.8,.2,1);
         will-change: transform, box-shadow;
       }
       .tile-body { position: relative; z-index: 1; transition: transform 100ms ease; }
@@ -248,21 +246,14 @@
         font-size: 13px;
         cursor: pointer;
         min-width: 120px;
-        transition: box-shadow 160ms cubic-bezier(.2,.8,.2,1);
+        transition: box-shadow 160ms var(--ease);
         display: inline-flex;
         align-items: center;
         justify-content: center;
       }
       button::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
         background: var(--card-active);
         border: 1px solid var(--border-strong);
-        --ring: 0 0 0 0 transparent; /* becomes the focus ring on :focus-visible */
-        box-shadow: var(--ring);
-        transition: background 160ms cubic-bezier(.2,.8,.2,1), transform 100ms ease, box-shadow 160ms cubic-bezier(.2,.8,.2,1), border-color 160ms cubic-bezier(.2,.8,.2,1);
         z-index: -1; /* keep behind content to avoid blocking */
       }
       /* Label wrapper moves with the foreground while hitbox stays stable */
@@ -280,21 +271,6 @@
       button:active .btn-label { transform: translateY(1px); }
       button:focus-visible { outline: none; }
       button:focus-visible::before { --ring: var(--focus-ring-input); border-color: var(--border-strong); }
-
-      /* Uniform focus for the switch */
-      .mode-switch:focus-visible {
-        outline: none;
-        box-shadow: var(--focus-ring-input);
-        border-color: var(--border-strong);
-      }
-
-      /* Fallback for interactive ARIA roles (tiles handle their own ring on ::before) */
-      [role="button"]:not(.tile):focus-visible,
-      [role="switch"]:focus-visible {
-        outline: none;
-        box-shadow: var(--focus-ring-input);
-        border-color: var(--border-strong);
-      }
 
       /* Views */
       .view { display: none; animation: fadeIn 200ms ease; }
@@ -404,7 +380,6 @@
       .empty-state.warning {
         color: #7a5200;
         border: 1px solid #e0b836;
-        border-radius: 8px;
         background: rgba(255, 210, 60, 0.12);
       }
 
@@ -451,7 +426,7 @@
         background: var(--card-active);
         border-radius: 7px;
         box-shadow: var(--shadow-press);
-        transition: left 200ms cubic-bezier(.2,.8,.2,1), right 200ms cubic-bezier(.2,.8,.2,1);
+        transition: left 200ms var(--ease), right 200ms var(--ease);
         z-index: 1;
         border: 1px solid var(--border-strong);
       }

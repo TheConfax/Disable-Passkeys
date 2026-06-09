@@ -70,7 +70,7 @@
           var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
           el.textContent = localeNum(Math.round(target * eased));
           if (p < 1) requestAnimationFrame(frame);
-          else el.textContent = localeNum(target);
+          else el.textContent = localeNum(parseInt(el.dataset.count, 10) || 0);
         })(t2);
       });
     });

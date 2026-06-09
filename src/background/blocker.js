@@ -10,6 +10,7 @@ function pickPatchFile({ blockGet, blockCreate }) {
   return null; // OFF
 }
 
+// Domain classification mirrors hostMatchesDomain in popup/popup.js — keep in sync.
 function getMatchPatterns(domains) {
   if (!Array.isArray(domains) || domains.length === 0) return [];
   return domains.map(d => {

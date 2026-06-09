@@ -25,29 +25,16 @@ chrome.storage.onChanged.addListener(async (changes, area) => {
   }
 });
 
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  (async () => {
-    if (msg?.type === "THEME_CHANGE") {
-      await setTheme(msg.mode);
-      return;
-    }
-
-    if (msg?.type === "intervention") {
-      await bumpStats();
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg?.type === "THEME_CHANGE") {
+    setTheme(msg.mode);
+    return;
+  }
+  if (msg?.type === "intervention") {
+    (async () => {
       await flashIntervention();
-      return;
-    }
-
-    if (msg?.type === "set_cfg") {
-      const cfg = {
-        blockGet: !!msg.cfg?.blockGet,
-        blockCreate: !!msg.cfg?.blockCreate,
-        mode: msg.cfg?.mode || 'allow',
-        domains: Array.isArray(msg.cfg?.domains) ? msg.cfg.domains : []
-      };
-      await chrome.storage.sync.set({ cfg });
-      sendResponse({ ok: true });
-    }
-  })();
-  return true;
+      await bumpStats().catch(() => {});
+    })();
+    return true;
+  }
 });

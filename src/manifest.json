@@ -11,12 +11,13 @@
     "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
-  "permissions": ["storage", "scripting", "activeTab"],
+  "permissions": ["storage", "scripting"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["content/counter.js"],
+      "all_frames": true,
       "run_at": "document_start"
     },
     {

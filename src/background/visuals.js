@@ -5,12 +5,10 @@ let themeSuffix = "";
 let isFlashing = false;
 let flashTimeout = null;
 
-async function refreshActionIcon() {
+function refreshActionIcon() {
   // path relative to background/ (the SW folder), so ../img to reach the root
   const iconPath = isOff ? `../img/icon32_off${themeSuffix}.png` : `../img/icon32${themeSuffix}.png`;
-  try {
-    await chrome.action.setIcon({ path: iconPath });
-  } catch (e) {}
+  chrome.action.setIcon({ path: iconPath }).catch(() => {});
 }
 
 async function updateBadgeState(cfg) {
@@ -33,9 +31,9 @@ export async function syncVisuals(cfg) {
   } catch (_) {}
 }
 
-export async function setTheme(mode) {
+export function setTheme(mode) {
   themeSuffix = mode === 'dark' ? '_dark' : '';
-  await refreshActionIcon();
+  refreshActionIcon();
 }
 
 export async function flashIntervention() {

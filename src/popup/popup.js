@@ -48,11 +48,12 @@ const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-schem
 
 // Another theme change send when you open the popup for blocked pages
 if (prefersDark) {
+  // Mirror of sendTheme in content/theme_watcher.js — keep the THEME_CHANGE message in sync.
   function sendTheme() {
     chrome.runtime.sendMessage({
       type: 'THEME_CHANGE',
       mode: prefersDark.matches ? 'dark' : 'light'
-    });
+    }).catch(() => {});
   }
   sendTheme();
   prefersDark.addEventListener('change', sendTheme);
@@ -118,7 +119,7 @@ function syncText() {
   const getOn = tileGet.classList.contains("active");
   const createOn = tileCreate.classList.contains("active");
 
-  setText("t_title", (window.GLOBAL && window.GLOBAL.title) ? window.GLOBAL.title : S().title);
+  setText("t_title", window.GLOBAL.title);
 
   setText("t_get_label", getOn ? S().get_label_off : S().get_label_on);
   setText("t_get_desc",  getOn ? S().get_desc_off  : S().get_desc_on);
@@ -175,7 +176,7 @@ function syncText() {
   }
   
   // Settings strings
-  setText("t_settings_title", (window.GLOBAL && window.GLOBAL.title) ? window.GLOBAL.title : S().title);
+  setText("t_settings_title", window.GLOBAL.title);
   setText("back", S().back);
   setText("t_mode_allow", S().mode_allow);
   setText("t_mode_block", S().mode_block);
@@ -185,7 +186,7 @@ function syncText() {
   setText("t_domain_list_label", S().domain_list_label || "Domain list");
   
   if (domainInput) {
-    domainInput.placeholder = (window.GLOBAL && window.GLOBAL.domain_placeholder) ? window.GLOBAL.domain_placeholder : "example.com";
+    domainInput.placeholder = window.GLOBAL.domain_placeholder;
     try { domainInput.setAttribute('aria-label', S().domain_label || 'Domain'); } catch (_) {}
   }
   if (addDomainBtn) {
@@ -247,15 +248,11 @@ function setMode(next) {
   if (next === 'allow') { optAllow?.focus(); } else { optBlock?.focus(); }
 }
 
-function handleRadioKey(e, which) {
-  const key = e.key;
-  const code = e.code;
-  const isSpace = key === ' ' || key === 'Spacebar' || key === 'Space' || code === 'Space';
-  const isEnter = key === 'Enter';
-  if (key === 'ArrowLeft') {
+function handleRadioKey(e) {
+  if (e.key === 'ArrowLeft') {
     e.preventDefault();
     setMode('allow');
-  } else if (key === 'ArrowRight') {
+  } else if (e.key === 'ArrowRight') {
     e.preventDefault();
     setMode('block');
   }
@@ -265,8 +262,8 @@ function handleRadioKey(e, which) {
 if (modeSwitch) {
   optAllow?.addEventListener('click', () => setMode('allow'));
   optBlock?.addEventListener('click', () => setMode('block'));
-  optAllow?.addEventListener('keydown', (e) => handleRadioKey(e, 'allow'));
-  optBlock?.addEventListener('keydown', (e) => handleRadioKey(e, 'block'));
+  optAllow?.addEventListener('keydown', (e) => handleRadioKey(e));
+  optBlock?.addEventListener('keydown', (e) => handleRadioKey(e));
   // No container click toggle; interaction happens on the two options only
   updateModeRadioAria();
 }
@@ -450,8 +447,6 @@ function addDomain() {
     }
   }
 
-  if (!val) return;
-  
   // Basic validation (could be improved)
   if (currentCfg.domains.includes(val)) {
     domainInput.value = '';
@@ -505,7 +500,7 @@ function isWarningState() {
     && (currentCfg.blockGet || currentCfg.blockCreate);
 }
 
-// Same matching as the blocker (*://*.domain/* → domain + subdomains; localhost/IP exact).
+// Classification mirrors getMatchPatterns in background/blocker.js — keep in sync.
 function hostMatchesDomain(host, d) {
   if (!host || !d) return false;
   if (d === 'localhost') return host === 'localhost';
@@ -513,15 +508,16 @@ function hostMatchesDomain(host, d) {
   return host === d || host.endsWith('.' + d);
 }
 
-function isOff(cfg) {
+// Mirror of isEffectivelyOff in background/config.js — keep in sync.
+function isEffectivelyOff(cfg) {
   if (!cfg.blockGet && !cfg.blockCreate) return true;
-  if (cfg.mode === 'block') return (cfg.domains || []).length === 0;
+  if (cfg.mode === 'block') return !Array.isArray(cfg.domains) || cfg.domains.length === 0;
   return false;
 }
 
 // Is the active tab blocked under this cfg? (allow = everywhere except list; block = only list)
 function activeTabBlocked(cfg) {
-  if (!activeTabHost || isOff(cfg)) return false;
+  if (!activeTabHost || isEffectivelyOff(cfg)) return false;
   const inList = (cfg.domains || []).some(d => hostMatchesDomain(activeTabHost, d));
   return cfg.mode === 'block' ? inList : !inList;
 }
