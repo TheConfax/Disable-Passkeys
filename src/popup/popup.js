@@ -500,7 +500,7 @@ function isWarningState() {
     && (currentCfg.blockGet || currentCfg.blockCreate);
 }
 
-// Classification mirrors getMatchPatterns in background/blocker.js — keep in sync.
+// Replicate declarativeNetRequest's domain match (domain + subdomains) for the UI's blocked guess.
 function hostMatchesDomain(host, d) {
   if (!host || !d) return false;
   if (d === 'localhost') return host === 'localhost';

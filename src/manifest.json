@@ -11,7 +11,7 @@
     "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
-  "permissions": ["storage", "scripting"],
+  "permissions": ["storage", "declarativeNetRequest"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
