@@ -296,12 +296,20 @@ if (window.ENV && window.ENV.ENABLE_DEBUG) {
       currentCfg.stats = (currentCfg.stats || 0) + 1;
       chrome.storage.sync.set({ stats: currentCfg.stats });
       syncText();
+      console.log(`Debug: stats ${currentCfg.stats}`);
     }
-    
+
     if (e.key === '-' || e.key === 'Subtract') {
       currentCfg.stats = Math.max(0, (currentCfg.stats || 0) - 1);
       chrome.storage.sync.set({ stats: currentCfg.stats });
       syncText();
+      console.log(`Debug: stats ${currentCfg.stats}`);
+    }
+
+    if (e.key.toLowerCase() === 'z') {
+      const zoom = (parseInt(document.body.style.zoom, 10) || 1) === 1 ? 2 : 1;
+      document.body.style.zoom = zoom;
+      console.log(`Debug: zoom ${zoom}x`);
     }
   });
 }
