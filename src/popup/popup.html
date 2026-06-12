@@ -235,8 +235,8 @@
 
       .bar { margin-top: 12px; display: flex; justify-content: center; position: relative; }
       .img {
-        width: 76.6px;
-        height: 76.6px;
+        width: 77px;
+        height: 77px;
         object-fit: contain;
         display: block;
         margin: 0 auto;
@@ -280,7 +280,7 @@
       button:focus-visible::before { --ring: var(--focus-ring-input); border-color: var(--border-strong); }
 
       /* Views */
-      .view { display: none; animation: fadeIn 200ms ease; }
+      .view { display: none; min-height: 189px; animation: fadeIn 200ms ease; }
       .view.active { display: block; }
 
       @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
@@ -341,7 +341,7 @@
         font-size: 12px;
         border-radius: 6px;
         box-sizing: border-box;
-        min-height: 38.2px;
+        min-height: 38px;
       }
       .domain-item > span {
         flex: 1;
@@ -389,6 +389,7 @@
         text-align: center;
         color: var(--muted);
         font-size: 12px;
+        line-height: 16px;
         font-style: italic;
         border: 1px solid transparent;
         box-sizing: border-box;
