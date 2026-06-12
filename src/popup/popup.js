@@ -202,6 +202,11 @@ function showView(viewId) {
   // Move focus to a sensible target for keyboard/AT users
   try {
     if (viewId === 'view-settings') {
+      // Pre-fill the active tab's domain, only if it normalizes to a valid domain.
+      if (domainInput && !domainInput.value && activeTabHost) {
+        const d = preferBareDomain(activeTabHost);
+        if (isValidDomain(d)) domainInput.value = d;
+      }
       const mode = modeSwitch?.getAttribute('data-mode');
       if (mode === 'block') { optBlock?.focus(); } else { optAllow?.focus(); }
     } else if (viewId === 'view-main') {
@@ -410,58 +415,43 @@ function renderDomains() {
   });
 }
 
+// A filter target: localhost, a bracketed IPv6, or a dotted domain/IPv4.
+// DOMAIN_RE pieces:
+//   (?=.{1,253}$)                                        -> total length 1-253
+//   (?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+ -> repeated "label." (label: alnum, inner hyphens ok, ≤63)
+//   [a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?        -> final label (no leading/trailing hyphen)
+const DOMAIN_RE = /^(?=.{1,253}$)(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
+function isValidDomain(host) {
+  if (!host) return false;
+  if (host === 'localhost') return true;
+  if (host.startsWith('[') && host.endsWith(']') && host.includes(':')) return true; // IPv6
+  return DOMAIN_RE.test(host);
+}
+
+// Free-form input (scheme/port/path, IDN->punycode, percent-decoding) reduced to its bare hostname
+// (trailing FQDN dot dropped), or '' if unparseable. new URL() also canonicalizes IPv4/IPv6.
+function toHostname(input) {
+  const v = input.trim().toLowerCase();
+  if (!v) return '';
+  try { return new URL(v.includes('://') ? v : `http://${v}`).hostname.replace(/\.$/, ''); }
+  catch (_) { return ''; }
+}
+
+// Drop a leading www. only if what remains is still a valid domain.
+function preferBareDomain(host) {
+  return host.startsWith('www.') && isValidDomain(host.slice(4)) ? host.slice(4) : host;
+}
+
 function addDomain() {
-  let val = domainInput.value.trim().toLowerCase();
-  if (!val) return;
+  if (!domainInput.value.trim()) return;
+  const val = toHostname(domainInput.value);
+  if (!isValidDomain(val)) { showError(); return; }
+  if (currentCfg.domains.includes(val)) { domainInput.value = ''; return; }
 
-  // 1. Parse using URL API (handles Punycode, ports, paths, schemes)
-  try {
-    // Ensure scheme exists for parsing
-    const urlStr = val.includes("://") ? val : `http://${val}`;
-    val = new URL(urlStr).hostname;
-  } catch (_) {
-    // If URL parsing fails, the input is likely garbage or not a domain.
-    // We reject it by returning null/empty, triggering the error animation below.
-    val = "";
-  }
-  
-  // 2. Validation: must look like a valid domain
-  // Special case: localhost
-  if (val === "localhost") {
-    // valid, proceed
-  } 
-  // Special case: IPv6 (contains colon and brackets)
-  else if (val.includes(":") && val.startsWith("[") && val.endsWith("]")) {
-    // Validated by URL() parser above.
-  }
-  // Standard Domain / IPv4 Validation
-  else {
-    // Regex Breakdown:
-    // ^(?=.{1,253}$)                                       -> Total length 1-253
-    // (?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+ -> Label + Dot (repeated)
-    // [a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?        -> Final Label
-    const domainRegex = /^(?=.{1,253}$)(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
-    
-    if (!domainRegex.test(val)) {
-      showError(); return;
-    }
-  }
-
-  // Basic validation (could be improved)
-  if (currentCfg.domains.includes(val)) {
-    domainInput.value = '';
-    return;
-  }
-  
   currentCfg.domains.push(val);
   domainInput.value = '';
   renderDomains();
-  
-  // Scroll to bottom
-  if (domainListEl) {
-    domainListEl.scrollTop = domainListEl.scrollHeight;
-  }
-  
+  if (domainListEl) domainListEl.scrollTop = domainListEl.scrollHeight;
   saveCfg();
 }
 
