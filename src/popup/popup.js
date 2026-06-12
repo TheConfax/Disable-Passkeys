@@ -396,7 +396,9 @@ function renderDomains() {
     
     const removeBtn = document.createElement('div');
     removeBtn.className = 'domain-remove';
-    removeBtn.innerHTML = '×';
+    const removeIcon = document.createElement('span');
+    removeIcon.className = 'x-ico';
+    removeBtn.appendChild(removeIcon);
     removeBtn.title = S().remove_domain;
     // Keyboard navigation
     removeBtn.setAttribute('tabindex', '0');

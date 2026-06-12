@@ -158,10 +158,17 @@
       }
 
       #back, #settings { min-width: 100px; }
-      #addDomain { min-width: 32px; }
-      /* About button, pinned to the right edge so Apply stays centred, and
-         vertically centred on the bar so it lines up with Apply. Vertical padding
-         is tuned so its height matches Apply's (icon 26 + 4*2 ≈ Apply height). */
+      /* Same box as #info; align-self stops the flex input-group from stretching it */
+      #addDomain { min-width: 0; padding: 4px; align-self: center; }
+      #addDomain .plus-ico {
+        display: block;
+        width: 26px;
+        height: 26px;
+        background: currentColor;
+        -webkit-mask: url("../img/plus-symbol.svg") center / 14px no-repeat;
+        mask: url("../img/plus-symbol.svg") center / 14px no-repeat;
+      }
+      /* Pinned to the right edge so Apply stays centred; padding tuned to match Apply's height */
       #info {
         position: absolute;
         right: 0;
@@ -336,7 +343,7 @@
         box-sizing: border-box;
         min-height: 38.2px;
       }
-      .domain-item span {
+      .domain-item > span {
         flex: 1;
         word-break: break-all;
         margin-right: 8px;
@@ -355,7 +362,16 @@
         background: var(--card-active);
         color: var(--text);
         transition: all 150ms;
-        font-size: 14px;
+      }
+      /* The plus glyph rotated 45° */
+      .domain-remove .x-ico {
+        display: block;
+        width: 12px;
+        height: 12px;
+        background: currentColor;
+        -webkit-mask: url("../img/plus-symbol.svg") center / contain no-repeat;
+        mask: url("../img/plus-symbol.svg") center / contain no-repeat;
+        transform: rotate(45deg);
       }
       .domain-remove:hover {
         background: var(--card-hover);
@@ -495,7 +511,7 @@
         <div class="input-group">
           <label id="t_domain_label" for="domainInput" class="sr-only"></label>
           <input type="text" id="domainInput" aria-labelledby="t_domain_label">
-          <button id="addDomain" class="btn-small"><span class="btn-label">+</span></button>
+          <button id="addDomain" class="btn-small"><span class="btn-label plus-ico"></span></button>
         </div>
       </div>
 
