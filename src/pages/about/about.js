@@ -151,23 +151,34 @@
     boot();
   }
 
-  // Size the Ko-fi iframe to the height kofi_embed.js measures inside the frame and
-  // posts here (iframe starts at height 0 in CSS, so no flash).
+  // Size the iframe to the height kofi_embed.js posts; .sized swaps the spinner for the iframe
   var kofiSized = false;
+  function kofiReveal(f) {
+    if (f.parentElement) f.parentElement.classList.add("sized");
+  }
   window.addEventListener("message", function (e) {
     if (e.origin !== "https://ko-fi.com") return;
     var d = e.data;
     if (!d || d.type !== "kofi:height" || typeof d.height !== "number") return;
     var f = document.getElementById("kofiframe");
-    if (f && d.height > 0) { f.style.height = d.height + "px"; kofiSized = true; }
+    if (f && d.height > 0) {
+      f.style.height = d.height + "px";
+      kofiSized = true;
+      kofiReveal(f);
+    }
   });
 
-  // Fallback height if the in-frame script never reports (e.g. standalone preview).
-  setTimeout(function () {
-    if (kofiSized) return;
-    var f = document.getElementById("kofiframe");
-    if (f) f.style.height = "600px";
-  }, 2500);
+  // No height report 3s after iframe load:
+  // fixed-height crop + ask the frame to restore scrolling
+  var kofiFrame = document.getElementById("kofiframe");
+  if (kofiFrame) kofiFrame.addEventListener("load", function () {
+    setTimeout(function () {
+      if (kofiSized) return;
+      kofiFrame.style.height = "623px";
+      try { kofiFrame.contentWindow.postMessage({ type: "kofi:fallback" }, "https://ko-fi.com"); } catch (e) {}
+      kofiReveal(kofiFrame);
+    }, 3000);
+  });
 
   // Debug (only with debug.js present): L cycles languages, +/- preview the count.
   if (window.ENV && window.ENV.ENABLE_DEBUG) {

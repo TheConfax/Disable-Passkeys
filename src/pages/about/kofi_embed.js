@@ -51,14 +51,23 @@
 
   // No scrollbar; dark body hides Ko-fi's white corner hairline; flat panel radius
   // so only the wrapper rounds it.
+  var frameStyle;
   function injectFrameStyle() {
-    var s = document.createElement("style");
-    s.textContent =
+    frameStyle = document.createElement("style");
+    frameStyle.textContent =
       "html,body{overflow:clip!important}" +
       "html.dark body{background:rgb(25,32,37)!important}" +
       "#payment-panel{border-radius:0!important}";
-    (document.head || document.documentElement).appendChild(s);
+    (document.head || document.documentElement).appendChild(frameStyle);
   }
+
+  // Parent fell back to a fixed-height crop: restore scrolling so the cropped part stays reachable
+  window.addEventListener("message", function (e) {
+    if (e.source !== window.parent || !e.data || e.data.type !== "kofi:fallback") return;
+    if (frameStyle) {
+      frameStyle.textContent = frameStyle.textContent.replace("html,body{overflow:clip!important}", "");
+    }
+  });
 
   applyTheme();          // documentElement exists at document_start
   injectFrameStyle();

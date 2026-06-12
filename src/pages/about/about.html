@@ -264,17 +264,41 @@
     overflow: hidden;
     background: var(--card);
     box-shadow: 0 6px 18px oklch(0.4 0.04 50 / 0.06);
+    /* 482px = panel's default height, reserved until about.js adds .sized */
+    position: relative;
+    min-height: 482px;
   }
   @media (prefers-color-scheme: dark) {
     .kofi-embed { background: rgb(25, 32, 37); }
   }
 
+  /* Spinner while the panel loads, cloned from Ko-fi's own loading.svg */
+  .kofi-embed::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 64px;
+    height: 64px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="%23ff6b6b" stroke-width="10" stroke-dasharray="226.2 56.5"/></svg>') center / contain no-repeat;
+    animation: kofi-spin 1s linear infinite;
+  }
+  @keyframes kofi-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .kofi-embed::before { animation: none; }
+  }
+
+  .kofi-embed.sized { min-height: 0; }
+  .kofi-embed.sized::before { display: none; }
+
   .kofi-embed iframe {
     display: block;
     width: 100%;
-    height: 0;   /* collapsed until about.js sets the real height (no flash) */
+    height: 0;   /* collapsed until about.js sets the real height */
     border: none;
+    opacity: 0;  /* hidden while loading, shown once sized */
   }
+  .kofi-embed.sized iframe { opacity: 1; }
 
   /* ---- Footer links ---- */
   .links {
