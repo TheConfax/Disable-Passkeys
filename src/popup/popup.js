@@ -131,6 +131,7 @@ function syncText() {
   setText("settings", S().settings);
   if (btnInfo && S().about) {
     try { btnInfo.setAttribute('aria-label', S().about); } catch (_) {}
+    btnInfo.title = S().about;
   }
   if (addDomainBtn) {
     try { addDomainBtn.setAttribute('aria-label', S().add_domain); } catch (_) {}
