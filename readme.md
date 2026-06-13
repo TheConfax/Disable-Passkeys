@@ -17,21 +17,23 @@ This project exists to give **control back to the user**.
 
 Passkeys are increasingly pushed by browsers and websites, but they can:  
 - Trigger unwanted system dialogs
-- Create conflicts with other password managers
+- Create conflicts with password managers
 - Be undesirable in shared or managed environments
 - Break automation or specific password-based workflows
 
 ## What does it do?
-This extension **rejects WebAuthn requests** and can be configured to block passkey login, creation, or both. Passkey entries in autofill will be blocked as well.
+This extension **disables WebAuthn requests** and can be configured to block passkey login, creation, or both. Passkey entries in autofill will be blocked as well.
 
 <p align="center">
-<img src="assets/main.png" alt="Main page" hspace="10"></img>
-<img src="assets/settings.png" alt="Settings page" hspace="10">
+<img src="assets/main.png" alt="Main page" width="373" hspace="10">
+<img src="assets/filters.png" alt="Filters page" width="373" hspace="10">
 </p>
+
+The new blocking engine ([v2.0.0](https://github.com/theconfax/disable-passkeys/releases/tag/v2.0.0)) turns off the browser's native WebAuthn support while letting password managers create and login with their own passkeys. This disables the native passkey autofill prompt but lets you use passkeys with your manager of choice.
 
 ### Other features:
 - Whitelist/blacklist domain filters
-- Reactive UI showing interventions and status
+- Reactive UI showing hints and status
 - 5 supported languages (🇬🇧 🇫🇷 🇩🇪 🇮🇹 🇪🇸)
 - Adaptive light/dark mode UI
 - Accessible UI with full keyboard navigation
@@ -61,14 +63,11 @@ In the advanced page of the popup you can:
 - 🏳️🏴 Choose to operate in whitelist/blacklist mode
 - ➕➖ Add and remove domains from your list
 
-Domains can be inserted in pretty much every format you like and will be parsed to something like `example.com`. You can also block IPv4s, IPv6s, and `localhost`.
+Domains can be inserted in pretty much every format you like and will be parsed into something like `example.com`. You can also block IPv4s, IPv6s, and `localhost`.
 
 ### Action icon
 The action icon will display if the extension is on with the presence/absence of a 🚫.
 
-The action icon will flash a green `!` when WebAuthn is being blocked, interventions are counted in the advanced page.
+The action icon will flash a green `!` when WebAuthn is being blocked, interventions are counted in the "About" page.
 
 The action icon will display a permanent yellow `!` when the configuration is set to blacklist no domain and some block toggle is armed, in order to warn the user of the misconfiguration.
-
-
-
