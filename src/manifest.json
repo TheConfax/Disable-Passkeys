@@ -34,7 +34,13 @@
     },
     {
       "matches": ["https://ko-fi.com/*"],
-      "js": ["pages/about/kofi_embed.js"],
+      "js": ["i18n/kofi-strings.js", "pages/about/kofi_embed.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.paypal.com/*"],
+      "js": ["pages/about/paypal_embed.js"],
       "all_frames": true,
       "run_at": "document_start"
     }

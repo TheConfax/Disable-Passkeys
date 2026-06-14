@@ -1,18 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="i18n-pending">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title data-i18n="about_page_title"></title>
 <link rel="icon" type="image/png" href="../../img/icon32.png" />
 <link rel="icon" type="image/png" href="../../img/icon32_dark.png" media="(prefers-color-scheme: dark)" />
+<!-- Preload the body font so it's ready before first paint (avoids the font-swap
+     reflow that shifts the hero heading/logo → CLS). -->
+<link rel="preload" href="../../fonts/be-vietnam-pro.woff2" as="font" type="font/woff2" crossorigin />
+<!-- Preload the body scripts so they're cached before end-of-<body> (minor load-timing
+     nicety). NOTE: this is NOT what fixes the CLS — the real fix is the static default
+     text baked into the card elements below + the .i18n-pending reveal, so the card is
+     full-height at first paint regardless of when the scripts run. -->
+<link rel="preload" as="script" href="../../debug.js" />
+<link rel="preload" as="script" href="../../i18n/strings.js" />
+<link rel="preload" as="script" href="about.js" />
 <style>
   /* Be Vietnam Pro — self-hosted variable font (SIL OFL 1.1). */
   @font-face {
     font-family: "Be Vietnam Pro";
     font-style: normal;
     font-weight: 100 900;
-    font-display: swap;
+    /* optional + preload: use the font only if it's ready ~immediately, else keep the
+       fallback for this load (no late swap-in → no reflow/CLS). */
+    font-display: optional;
     src: url("../../fonts/be-vietnam-pro.woff2") format("woff2");
   }
 
@@ -58,6 +70,19 @@
   }
 
   * { box-sizing: border-box; }
+
+  /* The static text in the HTML only reserves height (avoids CLS). It's kept invisible
+     until about.js applies the right language + real count, then reveals all at once —
+     so users never see the English defaults flash before translation. */
+  html.i18n-pending [data-i18n],
+  html.i18n-pending .stat-num,
+  html.i18n-pending .stat-label,
+  html.i18n-pending .stat-caption,
+  html.i18n-pending #colophon,
+  /* logo + link buttons sit in flex rows centered around translated text, so they slide
+     sideways when the text width changes on translate — hide them till the reveal too. */
+  html.i18n-pending .logo,
+  html.i18n-pending .link { visibility: hidden; }
 
   /* Visually hidden but read by screen readers. */
   .sr-only {
@@ -120,9 +145,11 @@
       grid-column: 1;
       grid-row: 1;
     }
-    .left .links { margin-top: 50px; }     /* fixed gap between card and footer */
+    .left .links { margin-top: 20px; }     /* fixed gap between card and footer */
     .left .colophon { margin-top: 14px; }  /* gap between links and colophon */
-    .support { grid-column: 2; grid-row: 1; align-self: start; }
+    /* At least as tall as the left hero card (hand-set, not measured via JS — JS
+       re-measure caused an intermittent shift). Update if the card height changes. */
+    .support { grid-column: 2; grid-row: 1; align-self: start; min-height: 497.45px; }
   }
 
   /* ---- Hero card ---- */
@@ -131,7 +158,7 @@
     border: 1px solid var(--line);
     border-radius: 28px;
     box-shadow: var(--shadow);
-    padding: 34px 24px 20px;
+    padding: 30px 24px 20px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -235,13 +262,15 @@
     border: 1px solid var(--line);
     border-radius: 28px;
     box-shadow: var(--shadow);
-    padding: 28px 24px 30px;
+    padding: 40px 24px 0;
     text-align: center;
+    display: flex;
+    flex-direction: column;
   }
 
   .support h2 {
     margin: 0;
-    font-size: 21px;
+    font-size: 24px;
     font-weight: 750;
     letter-spacing: -0.015em;
   }
@@ -256,21 +285,22 @@
     white-space: pre-line; /* honor the \n line break in about_support_body */
   }
 
-  /* In dark, bg must equal Ko-fi's card colour (rgb(25,32,37)) or a mismatched dark
-     shows at the rounded corners. */
+  /* bg = --card so the embed blends into the card; kofi_embed.js recolours the iframe
+     body to the same --card value, so there's no mismatch at the rounded corners. */
   .kofi-embed {
     margin: 20px auto 0;
+    width: 100%;
     max-width: 360px;
     border-radius: 14px;
     overflow: hidden;
     background: var(--card);
     box-shadow: 0 6px 18px oklch(0.4 0.04 50 / 0.06);
-    /* 482px = panel's default height, reserved until about.js adds .sized */
+    /* 297px = height of Ko-fi's first panel (amount + display name + your message
+       fields), reserved while loading until about.js measures the real height and
+       adds .sized. (The taller payment panel — PayPal + Card buttons — is the 518px
+       fallback in about.js.) */
     position: relative;
-    min-height: 482px;
-  }
-  @media (prefers-color-scheme: dark) {
-    .kofi-embed { background: rgb(25, 32, 37); }
+    min-height: 297px;
   }
 
   /* Spinner while the panel loads, cloned from Ko-fi's own loading.svg */
@@ -300,6 +330,28 @@
     opacity: 0;  /* hidden while loading, shown once sized */
   }
   .kofi-embed.sized iframe { opacity: 1; }
+
+  /* Small, light, italic Ko-fi attribution under the embed. */
+  /* scoped under .support to beat ".support p" (0,1,1) on specificity */
+  .support .kofi-credit {
+    margin: auto 0 0;          /* top:auto pins the strip to the card bottom */
+    width: 100%;
+    max-width: none;           /* override .support p's 38ch so the strip is full width */
+    height: 50px;
+    line-height: 50px;         /* single-line vertical centering within the strip */
+    text-align: center;
+    font-size: 12px;
+    font-style: italic;
+    /* same base as the colophon (visible in both themes); mute via the % below */
+    color: var(--muted);
+  }
+  .support .kofi-credit a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.15s ease;
+  }
+  .support .kofi-credit a:hover { color: var(--ink); }
 
   /* ---- Footer links ---- */
   .links {
@@ -346,6 +398,8 @@
   .colophon {
     text-align: center;
     font-size: 12.5px;
+    line-height: 1.4;
+    min-height: 1.4em;  /* reserve one line so the JS-filled version text can't grow the column (CLS) */
     color: var(--muted);
     margin-top: -4px; /* portrait: net 14px below links (offsets the 18px grid gap), matching landscape */
   }
@@ -369,29 +423,30 @@
             <source srcset="../../img/icon128_dark.png" media="(prefers-color-scheme: dark)" />
             <img src="../../img/icon128.png" alt="Disable Passkeys" />
           </picture>
-          <h1 data-i18n="about_heading"></h1>
+          <h1 data-i18n="about_heading">Thank you!</h1>
         </div>
 
-        <p class="intro" data-i18n="about_intro_opening"></p>
-        <p class="intro" data-i18n="about_intro_body"></p>
+        <p class="intro" data-i18n="about_intro_opening">Disable Passkeys has reached 1,000+ users.</p>
+        <p class="intro" data-i18n="about_intro_body">It's still quietly working in the background, keeping those passkey prompts out of your way, so you can sign in however you like.</p>
 
         <div class="stat" role="group" aria-label="Statistics">
-          <!-- Number, label, caption filled by about.js (count read from storage). -->
-          <div class="stat-num" id="passkey-count" data-count="0"></div>
-          <div class="stat-label"></div>
-          <p class="stat-caption"></p>
+          <!-- Static English defaults so the card is full-height at first paint (no CLS);
+               about.js overwrites these (count from storage, translation for other locales). -->
+          <div class="stat-num" id="passkey-count" data-count="0">0</div>
+          <div class="stat-label">passkey prompts avoided</div>
+          <p class="stat-caption">But the next time a site reaches for a passkey, you won't even notice.</p>
         </div>
       </section>
 
       <nav class="links" aria-label="Links">
         <a class="link" id="github-link" href="https://github.com/TheConfax/Disable-Passkeys/issues" target="_blank" rel="noopener noreferrer">
           <span class="gh" aria-hidden="true"></span>
-          <span data-i18n="about_link_github"></span>
+          <span data-i18n="about_link_github">Report a problem</span>
           <span class="sr-only" data-i18n="about_new_tab"></span>
         </a>
         <a class="link" id="rate-link" href="https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml/reviews" target="_blank" rel="noopener noreferrer">
           <span class="star" aria-hidden="true">★</span>
-          <span data-i18n="about_link_rate"></span>
+          <span data-i18n="about_link_rate">Rate it</span>
           <span class="sr-only" data-i18n="about_new_tab"></span>
         </a>
       </nav>
@@ -400,11 +455,13 @@
     </div>
 
     <section class="support">
-      <h2 data-i18n="about_support_heading"></h2>
-      <p data-i18n="about_support_body"></p>
+      <h2 data-i18n="about_support_heading">Enjoying the quiet?</h2>
+      <p data-i18n="about_support_body">Disable Passkeys is free and always will be.
+If it's spared you a headache, consider donating.</p>
       <div class="kofi-embed">
         <iframe id="kofiframe" src="https://ko-fi.com/theconfax/?hidefeed=true&widget=true&embed=true&preview=true" title="theconfax on Ko-fi" loading="lazy"></iframe>
       </div>
+      <p class="kofi-credit">Powered by <a href="https://ko-fi.com/theconfax" target="_blank" rel="noopener noreferrer">Ko-fi</a></p>
     </section>
   </main>
 

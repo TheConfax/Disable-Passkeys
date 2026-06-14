@@ -100,11 +100,17 @@
     }
   }
 
+  // Show the text (hidden by .i18n-pending until now) once it's translated + counted.
+  function reveal() {
+    document.documentElement.classList.remove("i18n-pending");
+  }
+
   function render() {
     applyStrings();
     applyColophon();
     applyCountCopy(getCount());
     animateCount();
+    reveal();
   }
 
   // Public hook so the extension can re-render after injecting the real count.
@@ -127,11 +133,20 @@
     // Translate immediately (no flash), then animate once the real count is in.
     applyStrings();
     applyColophon();
+    // Fill the stat with the placeholder count (0) synchronously so its full height is
+    // reserved at first paint. The async storage read below only swaps values, instead
+    // of growing the card after paint (which caused the layout shift / CLS).
+    applyCountCopy(getCount());
+    var c0 = document.getElementById("passkey-count");
+    if (c0) c0.textContent = localeNum(getCount());
     chrome.storage.sync.get("stats", function (data) {
       setRealCount(data, document.getElementById("passkey-count"));
       applyCountCopy(getCount());
       animateCount();
+      reveal();   // reveal with the real count, so the count-tier copy doesn't swap in view
     });
+    // Safety net: never leave the text hidden if the storage read stalls/fails.
+    setTimeout(reveal, 400);
 
     // Live update if the count changes while the page is open
     chrome.storage.onChanged.addListener(function (changes, area) {
@@ -145,11 +160,10 @@
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
+  // Run now, not on DOMContentLoaded: this script is at the end of <body>, so every
+  // element it touches is already parsed. Deferring to DOMContentLoaded fires boot()
+  // AFTER first paint, so the stat fills late and the card grows → layout shift (CLS).
+  boot();
 
   // Size the iframe to the height kofi_embed.js posts; .sized swaps the spinner for the iframe
   var kofiSized = false;
@@ -163,18 +177,22 @@
     var f = document.getElementById("kofiframe");
     if (f && d.height > 0) {
       f.style.height = d.height + "px";
+      // Pull the iframe up by the reported top offset; .kofi-embed has overflow:hidden,
+      // so this crops the empty cover strip above the post-donation thank-you card.
+      f.style.marginTop = d.top ? ("-" + d.top + "px") : "0";
       kofiSized = true;
       kofiReveal(f);
     }
   });
 
-  // No height report 3s after iframe load:
-  // fixed-height crop + ask the frame to restore scrolling
+  // No height report 3s after iframe load: fixed-height crop + ask the frame to restore
+  // scrolling. 518px = the payment panel (PayPal + Credit/Debit Card buttons), the
+  // taller state Ko-fi lands on, so the crop doesn't hide the pay buttons.
   var kofiFrame = document.getElementById("kofiframe");
   if (kofiFrame) kofiFrame.addEventListener("load", function () {
     setTimeout(function () {
       if (kofiSized) return;
-      kofiFrame.style.height = "623px";
+      kofiFrame.style.height = "518px";
       try { kofiFrame.contentWindow.postMessage({ type: "kofi:fallback" }, "https://ko-fi.com"); } catch (e) {}
       kofiReveal(kofiFrame);
     }, 3000);
@@ -191,6 +209,13 @@
         docLang = next;
         S = window.LOCALES[next] || {};
         render();
+        // Ko-fi widget strings live in a separate frame/context, so reload the iframe
+        // with a ?dpklang override to switch its language too (debug only).
+        var kf = document.getElementById("kofiframe");
+        if (kf) {
+          var base = kf.src.replace(/[?&]dpklang=[^&]*/, "");
+          kf.src = base + (base.indexOf("?") > -1 ? "&" : "?") + "dpklang=" + next;
+        }
         console.log("Debug: switched to " + next);
       } else if ((e.key === "+" || e.key === "Add") && el) {
         el.dataset.count = (parseInt(el.dataset.count, 10) || 0) + 1;
