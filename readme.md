@@ -8,6 +8,8 @@ A small Chrome extension to block passkey (WebAuthn) prompts and their autofill.
 [![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 
+[![Support](https://img.shields.io/badge/ko--fi-support-FF6433?logo=kofi&logoColor=white)](https://ko-fi.com/theconfax)  
+
 </div>
 
 ## Why this?
@@ -47,6 +49,8 @@ The new blocking engine ([v2.0.0](https://github.com/theconfax/disable-passkeys/
 [![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+
+[![Support](https://img.shields.io/badge/ko--fi-support-FF6433?logo=kofi&logoColor=white)](https://ko-fi.com/theconfax)  
 
 </div>
 
