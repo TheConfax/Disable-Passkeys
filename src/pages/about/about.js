@@ -173,6 +173,12 @@
   window.addEventListener("message", function (e) {
     if (e.origin !== "https://ko-fi.com") return;
     var d = e.data;
+    // kofi_embed.js saw the thank-you card → the user actually donated. Remember it
+    // (no UI yet; useful later, e.g. to exclude donors from future donation campaigns).
+    if (d && d.type === "kofi:donated") {
+      try { chrome.storage.sync.set({ donated: true }); } catch (_) {}
+      return;
+    }
     if (!d || d.type !== "kofi:height" || typeof d.height !== "number") return;
     var f = document.getElementById("kofiframe");
     if (f && d.height > 0) {

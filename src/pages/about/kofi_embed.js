@@ -60,7 +60,24 @@
     }
   }
 
-  function onLayout() { reportHeight(); neutralizeBelowPanel(); }
+  // Fire once when the post-donation thank-you card appears, so the parent can remember
+  // the user has actually donated (stored as a `donated` flag — no UI for it yet).
+  // Guarded so plain navigation can't set it: the success state is specifically
+  // "#payment-panel gone (errors keep it) AND #thanksModal actually visible" — not just
+  // a hidden Vue template sitting in the DOM.
+  var donatedFired = false;
+  function reportDonated() {
+    if (donatedFired) return;
+    if (document.getElementById("payment-panel")) return;     // still on the form / error state
+    var modal = document.getElementById("thanksModal");
+    if (!modal) return;
+    var r = modal.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return;                  // hidden/empty template, not a real thank-you
+    donatedFired = true;
+    try { window.parent.postMessage({ type: "kofi:donated" }, "*"); } catch (e) {}
+  }
+
+  function onLayout() { reportHeight(); neutralizeBelowPanel(); reportDonated(); }
 
   // No scrollbar; dark body matches the page's --card (#171a21) so the widget blends
   // into the card and hides Ko-fi's white corner hairline; flat panel radius so only
