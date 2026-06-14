@@ -70,14 +70,15 @@
     border: 0;
   }
 
-  html, body { height: 100%; }
+  /* min-height, not height: a definite height clips the bg to the viewport. */
+  html { min-height: 100%; }
 
   body {
     margin: 0;
     font-family: var(--font);
     color: var(--ink);
     background:
-      radial-gradient(120% 80% at 50% -10%, var(--bg-2), transparent 60%),
+      radial-gradient(120% 80vh at 50% -10vh, var(--bg-2), transparent 60%),
       var(--bg);
     min-height: 100dvh;
     display: flex;
