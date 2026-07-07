@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": "TheConfax",
   "default_locale": "en",
   "icons": {
@@ -11,16 +11,9 @@
     "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
-  "permissions": ["storage", "declarativeNetRequest"],
+  "permissions": ["storage", "scripting", "declarativeNetRequest"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content/block_observer.js"],
-      "all_frames": true,
-      "run_at": "document_start",
-      "world": "MAIN"
-    },
     {
       "matches": ["<all_urls>"],
       "js": ["content/block_counter.js"],

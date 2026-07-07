@@ -31,7 +31,9 @@ This extension **disables WebAuthn requests** and can be configured to block pas
 <img src="assets/filters.png" alt="Filters page" width="373" hspace="10">
 </p>
 
-The new blocking engine ([v2.0.0](https://github.com/theconfax/disable-passkeys/releases/tag/v2.0.0)) turns off the browser's native WebAuthn support while letting password managers create and login with their own passkeys. This disables the native passkey autofill prompt but lets you use passkeys with your manager of choice.
+The new [v2.x](https://github.com/theconfax/disable-passkeys/releases/tag/v2.0.0) blocking engine turns off the browser's native WebAuthn support while letting password managers create and log in with their own passkeys.
+
+This disables the native passkey autofill prompt but lets you use passkeys with your manager of choice, [except with conflicting ad-blockers](https://github.com/theconfax/disable-passkeys/releases/tag/v2.1.0).
 
 ### Other features:
 - Whitelist/blacklist domain filters

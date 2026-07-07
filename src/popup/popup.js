@@ -501,7 +501,7 @@ function isWarningState() {
     && (currentCfg.blockGet || currentCfg.blockCreate);
 }
 
-// Replicate declarativeNetRequest's domain match (domain + subdomains) for the UI's blocked guess.
+// Replicate the engine's domain match (domain + subdomains) for the UI's blocked guess.
 function hostMatchesDomain(host, d) {
   if (!host || !d) return false;
   if (d === 'localhost') return host === 'localhost';
