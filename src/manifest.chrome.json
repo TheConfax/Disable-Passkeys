@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "TheConfax",
   "default_locale": "en",
   "icons": {
@@ -11,7 +11,7 @@
     "48": "img/icon48.png",
     "128": "img/icon128.png"
   },
-  "permissions": ["storage", "scripting", "declarativeNetRequest"],
+  "permissions": ["storage", "scripting", "declarativeNetRequestWithHostAccess"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
