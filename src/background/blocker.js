@@ -71,19 +71,22 @@ export async function applyCfg(cfg) {
     condition.excludedRequestDomains = domains;
   }
 
-  await chrome.declarativeNetRequest.updateDynamicRules({
-    addRules: [{
-      id: RULE_ID,
-      priority: 1,
-      action: {
-        type: "modifyHeaders",
-        responseHeaders: [
-          { header: "Permissions-Policy", operation: "set", value }
-        ]
-      },
-      condition
-    }]
-  });
+  // If DNR fails the engine must still register: without a healthy header it hard-blocks on its own.
+  try {
+    await chrome.declarativeNetRequest.updateDynamicRules({
+      addRules: [{
+        id: RULE_ID,
+        priority: 1,
+        action: {
+          type: "modifyHeaders",
+          responseHeaders: [
+            { header: "Permissions-Policy", operation: "set", value }
+          ]
+        },
+        condition
+      }]
+    });
+  } catch (_) {}
 
   // Engine: API-level block if DNR is overwritten by another extension, else just counts the denial
   const patterns = getMatchPatterns(domains);
