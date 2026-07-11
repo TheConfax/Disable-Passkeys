@@ -1,19 +1,23 @@
 # Disable Passkeys
-A small Chrome extension to block passkey (WebAuthn) prompts and their autofill.
+A small Chrome and Firefox extension to block passkey (WebAuthn) prompts and their autofill.
 
 <div align="center">
 
-[![Available in the Chrome Web Store](assets/chrome-webstore.png)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
-[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
-[![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
-[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+<a href="https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml"><img src="assets/CWS.png" alt="Available in the Chrome Web Store" height="58"></a>
+<a href="https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/"><img src="assets/AMO.svg" alt="Get the Add-on for Firefox" height="58"></a>  
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version&logo=googlechrome&logoColor=white&color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+[![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
+[![Mozilla Add-on Version](https://img.shields.io/amo/v/disable-passkeys@theconfax?label=version&logo=firefox&logoColor=white&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
+[![Mozilla Add-on Rating](https://img.shields.io/amo/stars/disable-passkeys@theconfax?label=rating&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
+[![Mozilla Add-on Users](https://img.shields.io/amo/users/disable-passkeys@theconfax?color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
 
-[![Support](https://img.shields.io/badge/ko--fi-support-FF6433?logo=kofi&logoColor=white)](https://ko-fi.com/theconfax)  
+<a href="https://ko-fi.com/theconfax"><img src="assets/ko-fi.png" alt="Support me on Ko-fi" height="34"></a>
 
 </div>
 
 ## Why this?
-As of 2026, this is the **only way** to truly and completely disable passkey prompts and passkey autofill in Chrome.
+As of 2026, this is the **only way** to truly and completely disable passkey prompts and passkey autofill in Chrome, and the only way to have granular per-site control in Firefox.
 
 This project exists to give **control back to the user**.
 
@@ -33,7 +37,9 @@ This extension **disables WebAuthn requests** and can be configured to block pas
 
 The new [v2.x](https://github.com/theconfax/disable-passkeys/releases/tag/v2.0.0) blocking engine turns off the browser's native WebAuthn support while letting password managers create and log in with their own passkeys.
 
-This disables the native passkey autofill prompt but lets you use passkeys with your manager of choice, [except with conflicting ad-blockers](https://github.com/theconfax/disable-passkeys/releases/tag/v2.1.0).
+This disables the native passkey autofill prompt but lets you use passkeys with your manager of choice, resulting in a cleaner experience.
+
+Unfortunately, on Chrome with [conflicting ad-blockers](https://github.com/theconfax/disable-passkeys/releases/tag/v2.1.0) or on [Firefox](https://github.com/theconfax/disable-passkeys/releases/tag/v2.1.1), we must block 3rd-party password managers' ability to use passkeys too, so you will need to whitelist the specific domains you'd want to use your password manager passkeys on.
 
 ### Other features:
 - Whitelist/blacklist domain filters
@@ -44,15 +50,19 @@ This disables the native passkey autofill prompt but lets you use passkeys with 
 - Settings synced cross-device
 
 ## Installation
-**Install from the Chrome Web Store**  
+**Install from the Chrome Web Store or from Firefox Add-ons**  
 <div align="center">
 
-[![Available in the Chrome Web Store](assets/chrome-webstore.png)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
-[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
-[![Chrome Web Store Stars](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
-[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=blue)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+<a href="https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml"><img src="assets/CWS.png" alt="Available in the Chrome Web Store" height="58"></a>
+<a href="https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/"><img src="assets/AMO.svg" alt="Get the Add-on for Firefox" height="58"></a>  
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version&logo=googlechrome&logoColor=white&color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+[![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
+[![Mozilla Add-on Version](https://img.shields.io/amo/v/disable-passkeys@theconfax?label=version&logo=firefox&logoColor=white&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
+[![Mozilla Add-on Rating](https://img.shields.io/amo/stars/disable-passkeys@theconfax?label=rating&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
+[![Mozilla Add-on Users](https://img.shields.io/amo/users/disable-passkeys@theconfax?color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
 
-[![Support](https://img.shields.io/badge/ko--fi-support-FF6433?logo=kofi&logoColor=white)](https://ko-fi.com/theconfax)  
+<a href="https://ko-fi.com/theconfax"><img src="assets/ko-fi.png" alt="Support me on Ko-fi" height="34"></a>
 
 </div>
 
