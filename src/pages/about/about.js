@@ -49,6 +49,13 @@
     el.textContent = [nameVer, G.copyright].filter(Boolean).join(" · ");
   }
 
+  // Chrome: CWS, Firefox: AMO
+  function applyStoreLink() {
+    if (location.protocol !== "moz-extension:") return;
+    var el = document.getElementById("rate-link");
+    if (el) el.href = "https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/";
+  }
+
   function animateCount() {
     var el = document.getElementById("passkey-count");
     if (!el) return;
@@ -133,6 +140,7 @@
     // Translate immediately (no flash), then animate once the real count is in.
     applyStrings();
     applyColophon();
+    applyStoreLink();
     // Fill the stat with the placeholder count (0) synchronously so its full height is
     // reserved at first paint. The async storage read below only swaps values, instead
     // of growing the card after paint (which caused the layout shift / CLS).
