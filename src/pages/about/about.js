@@ -56,6 +56,7 @@
   }
 
   function fetchUserCount() {
+    if (window.ENV && window.ENV.ENABLE_DEBUG) return; // DEBUG: skip fetch → preview fallback copy (L cycles langs)
     fetch(SHIELDS_USERS_URL)
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
@@ -63,6 +64,23 @@
         if (n) { usersCount = n; renderIntro(); }
       })
       .catch(function () {});
+  }
+
+  // Ko-fi min-height tracks the hero in desktop 2-col.
+  function syncSupportHeight() {
+    var card = document.querySelector(".card");
+    var support = document.querySelector(".support");
+    if (!card || !support) return;
+    var desktop = window.matchMedia("(min-width: 912px)").matches;
+    support.style.minHeight = desktop ? Math.max(card.offsetHeight, 497.45) + "px" : "";
+  }
+
+  function setupSupportHeight() {
+    var card = document.querySelector(".card");
+    if (!card) return;
+    if (window.ResizeObserver) new ResizeObserver(syncSupportHeight).observe(card);
+    try { window.matchMedia("(min-width: 912px)").addEventListener("change", syncSupportHeight); } catch (e) {}
+    syncSupportHeight();
   }
 
   function getVersion() {
@@ -170,6 +188,8 @@
     var inExt = false;
     try { inExt = !!(typeof chrome !== "undefined" && chrome.storage && chrome.storage.sync); }
     catch (e) { inExt = false; }
+
+    setupSupportHeight();
 
     if (!inExt) { render(); fetchUserCount(); return; } // standalone preview (no storage)
 
