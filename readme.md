@@ -4,13 +4,13 @@ A small Chrome and Firefox extension to block passkey (WebAuthn) prompts and the
 <div align="center">
 
 <a href="https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml"><img src="assets/CWS.png" alt="Available in the Chrome Web Store" height="58"></a>
-<a href="https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/"><img src="assets/AMO.svg" alt="Get the Add-on for Firefox" height="58"></a>  
+<a href="https://addons.mozilla.org/firefox/addon/disable-passkeys/"><img src="assets/AMO.svg" alt="Get the Add-on for Firefox" height="58"></a>  
 [![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version&logo=googlechrome&logoColor=white&color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
-[![Mozilla Add-on Version](https://img.shields.io/amo/v/disable-passkeys@theconfax?label=version&logo=firefox&logoColor=white&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
-[![Mozilla Add-on Rating](https://img.shields.io/amo/stars/disable-passkeys@theconfax?label=rating&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
-[![Mozilla Add-on Users](https://img.shields.io/amo/users/disable-passkeys@theconfax?color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
+[![Mozilla Add-on Version](https://img.shields.io/amo/v/disable-passkeys?label=version&logo=firefox&logoColor=white&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys/)
+[![Mozilla Add-on Rating](https://img.shields.io/amo/stars/disable-passkeys?label=rating&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys/)
+[![Mozilla Add-on Users](https://img.shields.io/amo/users/disable-passkeys?color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys/)
 
 <a href="https://ko-fi.com/theconfax"><img src="assets/ko-fi.png" alt="Support me on Ko-fi" height="34"></a>
 
@@ -54,13 +54,13 @@ Unfortunately, on Chrome with [conflicting ad-blockers](https://github.com/theco
 <div align="center">
 
 <a href="https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml"><img src="assets/CWS.png" alt="Available in the Chrome Web Store" height="58"></a>
-<a href="https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/"><img src="assets/AMO.svg" alt="Get the Add-on for Firefox" height="58"></a>  
+<a href="https://addons.mozilla.org/firefox/addon/disable-passkeys/"><img src="assets/AMO.svg" alt="Get the Add-on for Firefox" height="58"></a>  
 [![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/oapdndjfcfdeimbeemphceonhagcnlml?label=version&logo=googlechrome&logoColor=white&color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml?color=4C8BF5)](https://chrome.google.com/webstore/detail/oapdndjfcfdeimbeemphceonhagcnlml)  
-[![Mozilla Add-on Version](https://img.shields.io/amo/v/disable-passkeys@theconfax?label=version&logo=firefox&logoColor=white&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
-[![Mozilla Add-on Rating](https://img.shields.io/amo/stars/disable-passkeys@theconfax?label=rating&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
-[![Mozilla Add-on Users](https://img.shields.io/amo/users/disable-passkeys@theconfax?color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/)
+[![Mozilla Add-on Version](https://img.shields.io/amo/v/disable-passkeys?label=version&logo=firefox&logoColor=white&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys/)
+[![Mozilla Add-on Rating](https://img.shields.io/amo/stars/disable-passkeys?label=rating&color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys/)
+[![Mozilla Add-on Users](https://img.shields.io/amo/users/disable-passkeys?color=E66000)](https://addons.mozilla.org/firefox/addon/disable-passkeys/)
 
 <a href="https://ko-fi.com/theconfax"><img src="assets/ko-fi.png" alt="Support me on Ko-fi" height="34"></a>
 

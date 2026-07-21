@@ -106,7 +106,7 @@
   function applyStoreLink() {
     if (location.protocol !== "moz-extension:") return;
     var el = document.getElementById("rate-link");
-    if (el) el.href = "https://addons.mozilla.org/firefox/addon/disable-passkeys@theconfax/";
+    if (el) el.href = "https://addons.mozilla.org/firefox/addon/disable-passkeys/";
   }
 
   function animateCount() {
