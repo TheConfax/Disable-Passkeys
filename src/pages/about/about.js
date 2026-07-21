@@ -7,12 +7,17 @@
   var S = (window.LOCALES && (window.LOCALES[lang] || window.LOCALES.en)) || {};
   var docLang = (window.LOCALES && window.LOCALES[lang]) ? lang : "en";
 
+  var SHIELDS_USERS_URL =
+    "https://img.shields.io/chrome-web-store/users/oapdndjfcfdeimbeemphceonhagcnlml.json";
+  var usersCount = null;
+
   function applyStrings() {
     document.documentElement.lang = docLang;
 
     var nodes = document.querySelectorAll("[data-i18n]");
     for (var i = 0; i < nodes.length; i++) {
       var key = nodes[i].getAttribute("data-i18n");
+      if (key === "about_intro_opening") continue;
       var txt = S[key];
       if (txt == null) continue; // missing key → leave the element empty
       if (nodes[i].tagName === "TITLE") document.title = txt;
@@ -26,8 +31,38 @@
   }
 
   function localeNum(n) {
-    try { return Number(n).toLocaleString(document.documentElement.lang || undefined); }
+    try { return Number(n).toLocaleString(document.documentElement.lang || undefined, { useGrouping: "always" }); }
     catch (e) { return String(n); }
+  }
+
+  function parseShields(v) {
+    if (v == null) return null;
+    var s = String(v).trim().replaceAll(",", "");
+    var m = s.match(/^([\d.]+)\s*([kMGTPEZY]?)/i);
+    if (!m) return null;
+    var n = parseFloat(m[1]);
+    if (isNaN(n)) return null;
+    var i = m[2] ? "kmgtpezy".indexOf(m[2].toLowerCase()) : -1;
+    return Math.round(n * Math.pow(1000, i + 1));
+  }
+
+  function renderIntro() {
+    var el = document.querySelector('.intro[data-i18n="about_intro_opening"]');
+    if (!el) return;
+    var txt = usersCount == null
+      ? S.about_intro_opening_fallback
+      : (S.about_intro_opening || "").replace("{count}", localeNum(usersCount));
+    if (txt) el.textContent = txt;
+  }
+
+  function fetchUserCount() {
+    fetch(SHIELDS_USERS_URL)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var n = data && parseShields(data.value);
+        if (n) { usersCount = n; renderIntro(); }
+      })
+      .catch(function () {});
   }
 
   function getVersion() {
@@ -114,6 +149,7 @@
 
   function render() {
     applyStrings();
+    renderIntro();
     applyColophon();
     applyCountCopy(getCount());
     animateCount();
@@ -135,12 +171,14 @@
     try { inExt = !!(typeof chrome !== "undefined" && chrome.storage && chrome.storage.sync); }
     catch (e) { inExt = false; }
 
-    if (!inExt) { render(); return; } // standalone preview (no storage)
+    if (!inExt) { render(); fetchUserCount(); return; } // standalone preview (no storage)
 
     // Translate immediately (no flash), then animate once the real count is in.
     applyStrings();
+    renderIntro();
     applyColophon();
     applyStoreLink();
+    fetchUserCount();
     // Fill the stat with the placeholder count (0) synchronously so its full height is
     // reserved at first paint. The async storage read below only swaps values, instead
     // of growing the card after paint (which caused the layout shift / CLS).

@@ -32,7 +32,8 @@ window.LOCALES = {
 
     about_page_title: "Thank you!",
     about_heading: "Thank you!",
-    about_intro_opening: "Disable Passkeys has reached 1,500+ users.",
+    about_intro_opening: "Disable Passkeys has reached {count}+ users.",
+    about_intro_opening_fallback: "Disable Passkeys has reached a lot of users.",
     about_intro_body: "It's still quietly working in the background, keeping those passkey prompts out of your way, so you can sign in however you like.",
     about_stat_label: "passkey prompts avoided",
     about_stat_label_1: "passkey prompt avoided",
@@ -82,7 +83,8 @@ window.LOCALES = {
 
     about_page_title: "Grazie!",
     about_heading: "Grazie!",
-    about_intro_opening: "Disable Passkeys ha raggiunto 1.500+ utenti.",
+    about_intro_opening: "Disable Passkeys ha raggiunto {count}+ utenti.",
+    about_intro_opening_fallback: "Disable Passkeys ha raggiunto un sacco di utenti.",
     about_intro_body: "Sta lavorando col favore delle tenebre, tenendo lontani i prompt delle passkey, così che tu possa accedere come preferisci.",
     about_stat_label: "passkey prompt evitati",
     about_stat_label_1: "passkey prompt evitato",
@@ -132,7 +134,8 @@ window.LOCALES = {
 
     about_page_title: "Merci !",
     about_heading: "Merci !",
-    about_intro_opening: "Disable Passkeys a atteint 1 500+ usagers.",
+    about_intro_opening: "Disable Passkeys a atteint {count}+ usagers.",
+    about_intro_opening_fallback: "Disable Passkeys a atteint beaucoup d'usagers.",
     about_intro_body: "Il continue de travailler dans l'ombre, en tenant les avis de passkey à l'écart, pour vous connecter comme vous voulez.",
     about_stat_label: "avis de passkey évités",
     about_stat_label_1: "avis de passkey évité",
@@ -182,7 +185,8 @@ window.LOCALES = {
 
     about_page_title: "¡Gracias!",
     about_heading: "¡Gracias!",
-    about_intro_opening: "Disable Passkeys alcanzó 1.500+ usuarios.",
+    about_intro_opening: "Disable Passkeys alcanzó {count}+ usuarios.",
+    about_intro_opening_fallback: "Disable Passkeys alcanzó un montón de usuarios.",
     about_intro_body: "Sigue trabajando en la sombra, manteniendo lejos los avisos de passkey, para que inicies tu sesión como prefieras.",
     about_stat_label: "avisos de passkey evitados",
     about_stat_label_1: "aviso de passkey evitado",
@@ -232,7 +236,8 @@ window.LOCALES = {
 
     about_page_title: "Danke!",
     about_heading: "Danke!",
-    about_intro_opening: "Disable Passkeys hat 1.500+ Nutzer erreicht.",
+    about_intro_opening: "Disable Passkeys hat {count}+ Nutzer erreicht.",
+    about_intro_opening_fallback: "Disable Passkeys hat eine Menge Nutzer erreicht.",
     about_intro_body: "Es arbeitet weiter im Verborgenen und hält dir die Passkey-Hinweise vom Hals, damit du dich anmeldest, wie du möchtest.",
     about_stat_label: "vermiedene Passkey-Hinweise",
     about_stat_label_1: "vermiedener Passkey-Hinweis",
