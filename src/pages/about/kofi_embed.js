@@ -101,6 +101,9 @@
       // divider above it — they open extra modals that fight the embed. #thanksModal then
       // shrinks, so reportHeight crops to the clean thank-you (message + privacy note) on its own.
       "div:has(> .small-share-panel),.coffeeshop-cta-buttons,.thanks-box hr{display:none!important}" +
+      // Ko-fi flips the Donate label with the theme, so on the same solid brand button it
+      // turns dark in dark mode; pin it white.
+      "#donateButton,#donateButton *{color:#fff!important}" +
       // Ko-fi's Donate button carries a coloured box-shadow that reads as a glow on the
       // blended dark card — drop it in dark.
       "html.dark #payment-panel button,html.dark .ds-support-panel-wrapper button{box-shadow:none!important}" +
