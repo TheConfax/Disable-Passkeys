@@ -2,8 +2,13 @@ window.LOCALES = {
   en: {
     get_label_on: "Login enabled",
     get_label_off: "Login disabled",
-    get_desc_on: "Login prompts and autofill suggestions are allowed.",
-    get_desc_off: "No more login prompts and autofill suggestions.",
+    get_desc_on: "Passkey login prompts are allowed.",
+    get_desc_off: "No more passkey login prompts.",
+
+    autofill_label_on: "Autofill enabled",
+    autofill_label_off: "Autofill disabled",
+    autofill_desc_on: "Passkey autofill suggestions are allowed.",
+    autofill_desc_off: "No more passkey autofill suggestions.",
 
     create_label_on: "Creation enabled",
     create_label_off: "Creation disabled",
@@ -53,8 +58,13 @@ window.LOCALES = {
   it: {
     get_label_on: "Login abilitato",
     get_label_off: "Login disabilitato",
-    get_desc_on: "Consenti prompt di accesso ed autofill.",
-    get_desc_off: "Niente più prompt di accesso né autofill.",
+    get_desc_on: "Consenti prompt di accesso passkey.",
+    get_desc_off: "Niente più prompt di accesso passkey.",
+
+    autofill_label_on: "Autofill abilitato",
+    autofill_label_off: "Autofill disabilitato",
+    autofill_desc_on: "Consenti suggerimenti di autofill passkey.",
+    autofill_desc_off: "Niente più suggerimenti di autofill passkey.",
 
     create_label_on: "Creazione abilitata",
     create_label_off: "Creazione disabilitata",
@@ -104,8 +114,13 @@ window.LOCALES = {
   fr: {
     get_label_on: "Login activé",
     get_label_off: "Login désactivé",
-    get_desc_on: "Autorise avis de connexion et autoremplissage.",
-    get_desc_off: "Plus d'avis de connexion ni d'autoremplissage.",
+    get_desc_on: "Autorise les avis de connexion passkey.",
+    get_desc_off: "Plus d'avis de connexion passkey.",
+
+    autofill_label_on: "Autoremplissage activé",
+    autofill_label_off: "Autoremplissage désactivé",
+    autofill_desc_on: "Autorise l'autoremplissage des passkeys.",
+    autofill_desc_off: "Plus d'autoremplissage des passkeys.",
 
     create_label_on: "Création activée",
     create_label_off: "Création désactivée",
@@ -155,8 +170,13 @@ window.LOCALES = {
   es: {
     get_label_on: "Login activado",
     get_label_off: "Login desactivado",
-    get_desc_on: "Permite avisos de acceso y autocompletado.",
-    get_desc_off: "No más avisos de acceso ni autocompletado.",
+    get_desc_on: "Permite avisos de acceso con passkey.",
+    get_desc_off: "No más avisos de acceso con passkey.",
+
+    autofill_label_on: "Autocompletado activado",
+    autofill_label_off: "Autocompletado desactivado",
+    autofill_desc_on: "Permite el autocompletado de passkeys.",
+    autofill_desc_off: "No más autocompletado de passkeys.",
 
     create_label_on: "Creación activada",
     create_label_off: "Creación desactivada",
@@ -206,8 +226,13 @@ window.LOCALES = {
   de: {
     get_label_on: "Login aktiviert",
     get_label_off: "Login deaktiviert",
-    get_desc_on: "Login-Hinweise und Autofill erlaubt.",
-    get_desc_off: "Keine Login-Hinweise oder Autofill.",
+    get_desc_on: "Passkey-Login-Hinweise erlaubt.",
+    get_desc_off: "Keine Passkey-Login-Hinweise.",
+
+    autofill_label_on: "Autofill aktiviert",
+    autofill_label_off: "Autofill deaktiviert",
+    autofill_desc_on: "Passkey-Autofill-Vorschläge erlaubt.",
+    autofill_desc_off: "Keine Passkey-Autofill-Vorschläge.",
 
     create_label_on: "Erstellung aktiviert",
     create_label_off: "Erstellung deaktiviert",

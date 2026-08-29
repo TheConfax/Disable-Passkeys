@@ -11,11 +11,16 @@ function S() { return window.STRINGS || {}; }
 })();
 
 const tileGet = document.getElementById("tileGet");
+const tileAutofill = document.getElementById("tileAutofill");
 const tileCreate = document.getElementById("tileCreate");
 const apply = document.getElementById("apply");
 const btnInfo = document.getElementById("info");
 const imgGet = document.getElementById("img_get");
+const imgAutofill = document.getElementById("img_autofill");
 const imgCreate = document.getElementById("img_create");
+const stateGet = document.getElementById("state_get");
+const stateAutofill = document.getElementById("state_autofill");
+const stateCreate = document.getElementById("state_create");
 
 // Navigation elements
 const viewMain = document.getElementById("view-main");
@@ -76,15 +81,24 @@ function setIcon(imgEl, basePath) {
 }
 
 function syncImages() {
-  const getBase = tileGet.classList.contains("active") ? "../img/get_off.png" : "../img/get_on.png";
-  const createBase = tileCreate.classList.contains("active") ? "../img/create_off.png" : "../img/create_on.png";
-  setIcon(imgGet, getBase);
-  setIcon(imgCreate, createBase);
+  // active means blocked
+  const stateSrc = (tile) => tile.classList.contains("active") ? "🚫" : "✅";
+  // object glyphs never change with state, only with theme
+  setIcon(imgGet, "../img/login.png");
+  setIcon(imgAutofill, "../img/autofill.png");
+  setIcon(imgCreate, "../img/creation.png");
+
+  stateGet.textContent = stateSrc(tileGet);
+  stateAutofill.textContent = stateSrc(tileAutofill);
+  stateCreate.textContent = stateSrc(tileCreate);
 }
 
 function updateTilesAria() {
   if (tileGet) {
     tileGet.setAttribute('aria-pressed', tileGet.classList.contains('active') ? 'true' : 'false');
+  }
+  if (tileAutofill) {
+    tileAutofill.setAttribute('aria-pressed', tileAutofill.classList.contains('active') ? 'true' : 'false');
   }
   if (tileCreate) {
     tileCreate.setAttribute('aria-pressed', tileCreate.classList.contains('active') ? 'true' : 'false');
@@ -117,12 +131,16 @@ const setText = (id, text) => {
 // Apply strings
 function syncText() {
   const getOn = tileGet.classList.contains("active");
+  const autofillOn = tileAutofill.classList.contains("active");
   const createOn = tileCreate.classList.contains("active");
 
   setText("t_title", window.GLOBAL.title);
 
   setText("t_get_label", getOn ? S().get_label_off : S().get_label_on);
   setText("t_get_desc",  getOn ? S().get_desc_off  : S().get_desc_on);
+
+  setText("t_autofill_label", autofillOn ? S().autofill_label_off : S().autofill_label_on);
+  setText("t_autofill_desc",  autofillOn ? S().autofill_desc_off  : S().autofill_desc_on);
 
   setText("t_create_label", createOn ? S().create_label_off : S().create_label_on);
   setText("t_create_desc",  createOn ? S().create_desc_off  : S().create_desc_on);
@@ -358,6 +376,7 @@ function bindTile(el) {
 }
 
 bindTile(tileGet);
+bindTile(tileAutofill);
 bindTile(tileCreate);
 
 // Domain List Logic

@@ -168,14 +168,14 @@
         -webkit-mask: url("../img/plus-symbol.svg") center / 14px no-repeat;
         mask: url("../img/plus-symbol.svg") center / 14px no-repeat;
       }
-      /* Pinned to the right edge so Apply stays centred; padding tuned to match Apply's height */
+      /* Pinned to the right edge so Apply stays centred; top/bottom 0 makes it exactly as tall as Apply */
       #info {
         position: absolute;
         right: 0;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 0;
+        bottom: 0;
         min-width: 0;
-        padding: 4px;
+        padding: 0 4px;
       }
       /* Masked SVG glyph, recoloured via currentColor for light/dark. */
       #info .info-ico {
@@ -187,12 +187,15 @@
         mask: url("../img/info.svg") center / contain no-repeat;
       }
 
-      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+      /* Fixed row height: 1fr would split the leftover space into fractions and make the gaps look uneven */
+      .grid { display: grid; grid-template-rows: repeat(3, 46px); gap: 9px; }
 
       .tile {
         position: relative;
         border-radius: 13px;
-        padding: 11px;
+        display: flex;
+        align-items: center;
+        padding: 4px 11px;
         cursor: pointer;
         user-select: none;
       }
@@ -212,7 +215,7 @@
         transform: translateY(0);
         will-change: transform, box-shadow;
       }
-      .tile-body { position: relative; z-index: 1; transition: transform 100ms ease; }
+      .tile-body { position: relative; z-index: 1; transition: transform 100ms ease; display: flex; align-items: center; gap: 10px; flex: 1; }
 
       .tile:hover::before { background: var(--card-hover); box-shadow: var(--shadow-hover), var(--ring); transform: translateY(-2px); }
       .tile:hover .tile-body { transform: translateY(-2px); }
@@ -229,17 +232,18 @@
       .tile:focus-visible { outline: none; }
       .tile:focus-visible::before { --ring: var(--focus-ring-input); border-color: var(--border-strong); }
 
-      .cap { margin-top: 7px; display: grid; gap: 2px; }
+      .cap { display: grid; gap: 2px; flex: 1; }
+      .state { width: 30px; font-size: 18px; line-height: 30px; text-align: center; flex: 0 0 auto; }
       .cap b { font-size: 13px; }
       .cap small { color: var(--muted); }
 
-      .bar { margin-top: 12px; display: flex; justify-content: center; position: relative; }
+      .bar { margin-top: 11px; display: flex; justify-content: center; position: relative; }
       .img {
-        width: 77px;
-        height: 77px;
+        width: 30px;
+        height: 30px;
         object-fit: contain;
         display: block;
-        margin: 0 auto;
+        flex: 0 0 auto;
       }
       button {
         position: relative;
@@ -280,8 +284,9 @@
       button:focus-visible::before { --ring: var(--focus-ring-input); border-color: var(--border-strong); }
 
       /* Views */
-      .view { display: none; min-height: 189px; animation: fadeIn 200ms ease; }
+      .view { display: none; min-height: 190px; animation: fadeIn 200ms ease; }
       .view.active { display: block; }
+      #view-main.view.active { display: flex; flex-direction: column; }
 
       @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -469,21 +474,34 @@
       <div class="grid">
         <div id="tileGet" class="tile" role="button" tabindex="0" aria-pressed="false" aria-labelledby="t_get_label" aria-describedby="t_get_desc">
           <div class="tile-body">
-            <img class="img" id="img_get" src="../img/get_off.png" alt="" aria-hidden="true">
+            <img class="img" id="img_get" src="../img/login.png" alt="" aria-hidden="true">
             <div class="cap">
               <b id="t_get_label"></b>
               <small id="t_get_desc"></small>
             </div>
+            <span class="state" id="state_get" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div id="tileAutofill" class="tile" role="button" tabindex="0" aria-pressed="false" aria-labelledby="t_autofill_label" aria-describedby="t_autofill_desc">
+          <div class="tile-body">
+            <img class="img" id="img_autofill" src="../img/autofill.png" alt="" aria-hidden="true">
+            <div class="cap">
+              <b id="t_autofill_label"></b>
+              <small id="t_autofill_desc"></small>
+            </div>
+            <span class="state" id="state_autofill" aria-hidden="true"></span>
           </div>
         </div>
 
         <div id="tileCreate" class="tile" role="button" tabindex="0" aria-pressed="false" aria-labelledby="t_create_label" aria-describedby="t_create_desc">
           <div class="tile-body">
-            <img class="img" id="img_create" src="../img/create_off.png" alt="" aria-hidden="true">
+            <img class="img" id="img_create" src="../img/creation.png" alt="" aria-hidden="true">
             <div class="cap">
               <b id="t_create_label"></b>
               <small id="t_create_desc"></small>
             </div>
+            <span class="state" id="state_create" aria-hidden="true"></span>
           </div>
         </div>
       </div>
