@@ -56,7 +56,6 @@
   }
 
   function fetchUserCount() {
-    if (window.ENV && window.ENV.ENABLE_DEBUG) return; // DEBUG: skip fetch → preview fallback copy (L cycles langs)
     fetch(SHIELDS_USERS_URL)
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
