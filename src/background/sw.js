@@ -1,4 +1,4 @@
-import { loadCfg } from "./config.js";
+import { loadCfg } from "../shared/config.js";
 import { applyCfg } from "./blocker.js";
 import { syncVisuals, setTheme, flashIntervention } from "./visuals.js";
 import { bumpStats } from "./stats.js";

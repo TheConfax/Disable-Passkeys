@@ -1,4 +1,4 @@
-import { isEffectivelyOff, loadCfg } from "./config.js";
+import { isEffectivelyOff, loadCfg } from "../shared/config.js";
 
 let isOff = false;
 let themeSuffix = "";

@@ -1,4 +1,5 @@
-import { isEffectivelyOff } from "./config.js";
+import { isEffectivelyOff } from "../shared/config.js";
+import { getMatchPatterns } from "../shared/domains.js";
 import { syncVisuals } from "./visuals.js";
 
 const CS_ID = "disable-passkeys";
@@ -8,18 +9,6 @@ function pickPatchFile({ blockGet, blockCreate }) {
   if (blockGet) return "engine/patch_get.js";
   if (blockCreate) return "engine/patch_create.js";
   return null; // OFF
-}
-
-// Domain classification mirrors hostMatchesDomain in popup/popup.js — keep in sync.
-function getMatchPatterns(domains) {
-  if (!Array.isArray(domains) || domains.length === 0) return [];
-  return domains.map(d => {
-    if (!d) return null;
-    if (d === "localhost") return "*://localhost/*";
-    if (d.includes(":") && d.startsWith("[") && d.endsWith("]")) return `*://${d}/*`;
-    if (/^\d{1,3}(\.\d{1,3}){3}$/.test(d)) return `*://${d}/*`;
-    return `*://*.${d}/*`;
-  }).filter(Boolean);
 }
 
 let _debugPresent;

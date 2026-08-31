@@ -1,3 +1,6 @@
+import { DEFAULT_CFG, loadCfg, saveCfg as storeCfg, isEffectivelyOff } from "../shared/config.js";
+import { hostMatchesDomain } from "../shared/domains.js";
+
 function S() { return window.STRINGS || {}; }
 
 // Initialize locale based on browser language
@@ -37,13 +40,7 @@ const addDomainBtn = document.getElementById("addDomain");
 const domainListEl = document.getElementById("domainList");
 
 // State
-let currentCfg = {
-  blockGet: true,
-  blockCreate: true,
-  mode: 'allow',
-  domains: [],
-  stats: 0
-};
+let currentCfg = { ...DEFAULT_CFG, domains: [], stats: 0 };
 
 let initialCfg = null;
 let activeTabHost = null;
@@ -520,21 +517,6 @@ function isWarningState() {
     && (currentCfg.blockGet || currentCfg.blockCreate);
 }
 
-// Replicate the engine's domain match (domain + subdomains) for the UI's blocked guess.
-function hostMatchesDomain(host, d) {
-  if (!host || !d) return false;
-  if (d === 'localhost') return host === 'localhost';
-  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(d) || (d[0] === '[' && d.endsWith(']'))) return host === d;
-  return host === d || host.endsWith('.' + d);
-}
-
-// Mirror of isEffectivelyOff in background/config.js — keep in sync.
-function isEffectivelyOff(cfg) {
-  if (!cfg.blockGet && !cfg.blockCreate) return true;
-  if (cfg.mode === 'block') return !Array.isArray(cfg.domains) || cfg.domains.length === 0;
-  return false;
-}
-
 // Is the active tab blocked under this cfg? (allow = everywhere except list; block = only list)
 function activeTabBlocked(cfg) {
   if (!activeTabHost || isEffectivelyOff(cfg)) return false;
@@ -560,27 +542,17 @@ async function saveCfg() {
   currentCfg.blockCreate = isActive(tileCreate);
 
   // Save directly to storage (SW listens to onChanged)
-  // Exclude stats from the saved object to prevent overwriting settings with stale stats
-  const { stats, ...cfgToSave } = currentCfg;
-  await chrome.storage.sync.set({ cfg: cfgToSave });
+  await storeCfg(currentCfg);
   updatePendingGlow();
 }
 
 // Load initial cfg
 async function loadInitial() {
   try {
-    const data = await chrome.storage.sync.get(["cfg", "stats"]);
-    const cfg = data.cfg || { blockGet: true, blockCreate: true, mode: 'allow', domains: [] };
-    const stats = typeof data.stats === 'number' ? data.stats : 0;
-    
-    // Merge with defaults to be safe
-    currentCfg = {
-      blockGet: cfg.blockGet !== false, // default true
-      blockCreate: cfg.blockCreate !== false, // default true
-      mode: cfg.mode || 'allow',
-      domains: Array.isArray(cfg.domains) ? cfg.domains : [],
-      stats: stats
-    };
+    const cfg = await loadCfg();
+    const { stats } = await chrome.storage.sync.get("stats");
+
+    currentCfg = { ...cfg, stats: typeof stats === 'number' ? stats : 0 };
     initialCfg = {
       blockGet: currentCfg.blockGet,
       blockCreate: currentCfg.blockCreate,
