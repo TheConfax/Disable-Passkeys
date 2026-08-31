@@ -1,16 +1,7 @@
 import { isEffectivelyOff } from "./config.js";
 import { syncVisuals } from "./visuals.js";
 
-const RULE_ID = 1;
 const CS_ID = "disable-passkeys";
-
-// "()" is an empty allowlist — it disables the directive for every origin (browser-enforced).
-function buildPolicyValue({ blockGet, blockCreate }) {
-  const directives = [];
-  if (blockGet) directives.push("publickey-credentials-get=()");
-  if (blockCreate) directives.push("publickey-credentials-create=()");
-  return directives.join(", ");
-}
 
 function pickPatchFile({ blockGet, blockCreate }) {
   if (blockGet && blockCreate) return "engine/patch_both.js";
@@ -42,53 +33,16 @@ async function debugFilePresent() {
 
 export async function applyCfg(cfg) {
   try {
-    await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds: [RULE_ID] });
-  } catch (_) {}
-  try {
     await chrome.scripting.unregisterContentScripts({ ids: [CS_ID] });
   } catch (_) {}
 
-  if (isEffectivelyOff(cfg)) {
-    await syncVisuals(cfg);
-    return;
-  }
-
-  const value = buildPolicyValue(cfg);
-  const file = pickPatchFile(cfg);
-  if (!value || !file) {
+  const file = isEffectivelyOff(cfg) ? null : pickPatchFile(cfg);
+  if (!file) {
     await syncVisuals(cfg);
     return;
   }
 
   const domains = Array.isArray(cfg.domains) ? cfg.domains.filter(Boolean) : [];
-
-  // DNR block, leaves password-manager passkeys working
-  // requestDomains/excludedRequestDomains match the domain and its subdomains.
-  const condition = { resourceTypes: ["main_frame", "sub_frame"] };
-  if (cfg.mode === 'block') {
-    condition.requestDomains = domains;
-  } else if (domains.length > 0) {
-    condition.excludedRequestDomains = domains;
-  }
-
-  // If DNR fails the engine must still register: without a healthy header it hard-blocks on its own.
-  try {
-    await chrome.declarativeNetRequest.updateDynamicRules({
-      addRules: [{
-        id: RULE_ID,
-        priority: 1,
-        action: {
-          type: "modifyHeaders",
-          responseHeaders: [
-            { header: "Permissions-Policy", operation: "set", value }
-          ]
-        },
-        condition
-      }]
-    });
-  } catch (_) {}
-
-  // Engine: API-level block if DNR is overwritten by another extension, else just counts the denial
   const patterns = getMatchPatterns(domains);
   let matches = ["<all_urls>"];
   let excludeMatches = [];
