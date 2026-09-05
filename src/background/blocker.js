@@ -5,8 +5,8 @@ import { syncVisuals } from "./visuals.js";
 const CS_ID = "disable-passkeys";
 
 function pickPatchFile({ blockGet, blockCreate }) {
-  if (blockGet && blockCreate) return "engine/patch_both.js";
-  if (blockGet) return "engine/patch_get.js";
+  if (blockGet && blockCreate) return "engine/patch_modal_conditional_create.js";
+  if (blockGet) return "engine/patch_modal_conditional.js";
   if (blockCreate) return "engine/patch_create.js";
   return null; // OFF
 }

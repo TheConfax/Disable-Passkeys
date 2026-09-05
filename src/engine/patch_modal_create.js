@@ -1,5 +1,5 @@
 (() => {
-  const TARGET_MODAL = false;
+  const TARGET_MODAL = true;
   const TARGET_CONDITIONAL = false;
   const TARGET_CREATE = true;
 

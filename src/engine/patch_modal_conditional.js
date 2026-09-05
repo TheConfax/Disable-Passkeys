@@ -1,13 +1,18 @@
 (() => {
-  const TARGET_GET = true;
+  const TARGET_MODAL = true;
+  const TARGET_CONDITIONAL = true;
   const TARGET_CREATE = false;
+
+  const TARGET_GET = TARGET_MODAL || TARGET_CONDITIONAL;
 
   const report = () => window.dispatchEvent(new CustomEvent("disable-passkeys-intervention"));
   const DEBUG = window.ENV && window.ENV.ENABLE_DEBUG;
   const log = (method) => { if (DEBUG) console.log(`Debug: passkey ${method} disabled`); };
 
-  const guard = (call, name) => function (options) {
-    if (options?.publicKey) { report(); log(name); return Promise.reject(new DOMException("WebAuthn disabled", "NotAllowedError")); }
+  const hitsGet = (options) => options.mediation === "conditional" ? TARGET_CONDITIONAL : TARGET_MODAL;
+
+  const guard = (call, name, hits) => function (options) {
+    if (options?.publicKey && hits(options)) { report(); log(name); return Promise.reject(new DOMException("WebAuthn disabled", "NotAllowedError")); }
     return call.call(this, options);
   };
 
@@ -28,8 +33,8 @@
       const set = (name, value, locked) =>
         Object.defineProperty(proxy, name, { value, configurable: !locked, writable: !locked, enumerable: false });
 
-      set("get", TARGET_GET ? guard((o) => container.get(o), "get") : container.get.bind(container), TARGET_GET);
-      set("create", TARGET_CREATE ? guard((o) => container.create(o), "create") : container.create.bind(container), TARGET_CREATE);
+      set("get", TARGET_GET ? guard((o) => container.get(o), "get", hitsGet) : container.get.bind(container), TARGET_GET);
+      set("create", TARGET_CREATE ? guard((o) => container.create(o), "create", () => true) : container.create.bind(container), TARGET_CREATE);
       for (const method of ["store", "preventSilentAccess"]) {
         if (typeof container[method] === "function") set(method, container[method].bind(container), false);
       }
