@@ -14,7 +14,7 @@ function refreshActionIcon() {
 async function updateBadgeState(cfg) {
   if (isFlashing) return; // don't overwrite the green "!" flash
   const domains = Array.isArray(cfg.domains) ? cfg.domains : [];
-  const isWarningState = (cfg.mode === 'block' && domains.length === 0 && (cfg.blockGet || cfg.blockCreate));
+  const isWarningState = (cfg.mode === 'block' && domains.length === 0 && (cfg.blockModal || cfg.blockConditional || cfg.blockCreate));
   if (isWarningState) {
     await chrome.action.setBadgeText({ text: "!" });
     await chrome.action.setBadgeBackgroundColor({ color: "#FFCC00" });

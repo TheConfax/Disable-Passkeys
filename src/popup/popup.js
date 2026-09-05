@@ -514,7 +514,7 @@ if (domainInput) {
 function isWarningState() {
   return currentCfg.mode === 'block'
     && (currentCfg.domains || []).length === 0
-    && (currentCfg.blockGet || currentCfg.blockCreate);
+    && (currentCfg.blockModal || currentCfg.blockConditional || currentCfg.blockCreate);
 }
 
 // Is the active tab blocked under this cfg? (allow = everywhere except list; block = only list)
@@ -529,7 +529,8 @@ function activeTabBlocked(cfg) {
 function updatePendingGlow() {
   if (!apply || !initialCfg) return;
   if (isWarningState()) { apply.classList.remove('pending'); return; }
-  const homeChanged = currentCfg.blockGet !== initialCfg.blockGet
+  const homeChanged = currentCfg.blockModal !== initialCfg.blockModal
+    || currentCfg.blockConditional !== initialCfg.blockConditional
     || currentCfg.blockCreate !== initialCfg.blockCreate;
   const activeBlockChanged = activeTabBlocked(currentCfg) !== activeTabBlocked(initialCfg);
   apply.classList.toggle('pending', homeChanged || activeBlockChanged);
@@ -538,7 +539,8 @@ function updatePendingGlow() {
 // Config Management
 async function saveCfg() {
   // Update main toggles in currentCfg before saving
-  currentCfg.blockGet = isActive(tileGet);
+  currentCfg.blockModal = isActive(tileGet);
+  currentCfg.blockConditional = isActive(tileAutofill);
   currentCfg.blockCreate = isActive(tileCreate);
 
   // Save directly to storage (SW listens to onChanged)
@@ -554,13 +556,15 @@ async function loadInitial() {
 
     currentCfg = { ...cfg, stats: typeof stats === 'number' ? stats : 0 };
     initialCfg = {
-      blockGet: currentCfg.blockGet,
+      blockModal: currentCfg.blockModal,
+      blockConditional: currentCfg.blockConditional,
       blockCreate: currentCfg.blockCreate,
       mode: currentCfg.mode,
       domains: currentCfg.domains.slice()
     };
 
-    setActive(tileGet, !!currentCfg.blockGet);
+    setActive(tileGet, !!currentCfg.blockModal);
+    setActive(tileAutofill, !!currentCfg.blockConditional);
     setActive(tileCreate, !!currentCfg.blockCreate);
     updateTilesAria();
     

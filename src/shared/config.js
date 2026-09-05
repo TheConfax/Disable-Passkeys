@@ -1,9 +1,10 @@
-export const DEFAULT_CFG = { blockGet: true, blockCreate: true, mode: 'allow', domains: [] };
+export const DEFAULT_CFG = { blockModal: true, blockConditional: true, blockCreate: true, mode: 'allow', domains: [] };
 
 export async function loadCfg() {
   const { cfg } = await chrome.storage.sync.get({ cfg: DEFAULT_CFG });
   return {
-    blockGet: cfg?.blockGet !== false,
+    blockModal: cfg?.blockModal !== false,
+    blockConditional: cfg?.blockConditional !== false,
     blockCreate: cfg?.blockCreate !== false,
     mode: cfg?.mode === 'block' ? 'block' : 'allow',
     domains: Array.isArray(cfg?.domains) ? [...cfg.domains] : []
@@ -13,7 +14,8 @@ export async function loadCfg() {
 export async function saveCfg(cfg) {
   await chrome.storage.sync.set({
     cfg: {
-      blockGet: !!cfg.blockGet,
+      blockModal: !!cfg.blockModal,
+      blockConditional: !!cfg.blockConditional,
       blockCreate: !!cfg.blockCreate,
       mode: cfg.mode === 'block' ? 'block' : 'allow',
       domains: Array.isArray(cfg.domains) ? cfg.domains : []
@@ -22,7 +24,7 @@ export async function saveCfg(cfg) {
 }
 
 export function isEffectivelyOff(cfg) {
-  if (!cfg.blockGet && !cfg.blockCreate) return true;
+  if (!cfg.blockModal && !cfg.blockConditional && !cfg.blockCreate) return true;
   if (cfg.mode === 'block') return !Array.isArray(cfg.domains) || cfg.domains.length === 0;
   return false;
 }
