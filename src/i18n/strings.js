@@ -116,8 +116,8 @@ window.LOCALES = {
   fr: {
     get_label_on: "Login activé",
     get_label_off: "Login désactivé",
-    get_desc_on: "Autorise les avis de connexion passkey.",
-    get_desc_off: "Plus d'avis de connexion passkey.",
+    get_desc_on: "Autorise les invites de connexion passkey.",
+    get_desc_off: "Plus d'invites de connexion passkey.",
 
     autofill_label_on: "Autoremplissage activé",
     autofill_label_off: "Autoremplissage désactivé",
@@ -126,8 +126,8 @@ window.LOCALES = {
 
     create_label_on: "Création activée",
     create_label_off: "Création désactivée",
-    create_desc_on: "Autorise les avis de création de passkey.",
-    create_desc_off: "Plus d’avis de création de passkey.",
+    create_desc_on: "Autorise les invites de création de passkey.",
+    create_desc_off: "Plus d’invites de création de passkey.",
 
     apply: "Appliquer",
     settings: "Filtres",
@@ -154,9 +154,9 @@ window.LOCALES = {
     about_heading: "Merci !",
     about_intro_opening: "Disable Passkeys a atteint {count}+ usagers.",
     about_intro_opening_fallback: "Disable Passkeys a atteint beaucoup d'usagers.",
-    about_intro_body: "Il continue de travailler dans l'ombre, en tenant les avis de passkey à l'écart, pour vous connecter comme vous voulez.",
-    about_stat_label: "avis de passkey évités",
-    about_stat_label_1: "avis de passkey évité",
+    about_intro_body: "Il continue de travailler dans l'ombre, en tenant les invites de passkey à l'écart, pour vous connecter comme vous voulez.",
+    about_stat_label: "invites de passkey évitées",
+    about_stat_label_1: "invite de passkey évitée",
     about_stat_caption_0: "Mais quand un site demandera une passkey, vous ne le remarquerez même pas.",
     about_stat_caption_1: "Votre première interruption a été évitée, et ce ne sera pas la dernière.",
     about_stat_caption_few: "Vos premières interruptions ont été évitées, et ce ne seront pas les dernières.",
@@ -230,8 +230,8 @@ window.LOCALES = {
   de: {
     get_label_on: "Login aktiviert",
     get_label_off: "Login deaktiviert",
-    get_desc_on: "Passkey-Login-Hinweise erlaubt.",
-    get_desc_off: "Keine Passkey-Login-Hinweise.",
+    get_desc_on: "Passkey-Login-Abfragen erlaubt.",
+    get_desc_off: "Keine Passkey-Login-Abfragen.",
 
     autofill_label_on: "Autofill aktiviert",
     autofill_label_off: "Autofill deaktiviert",
@@ -240,8 +240,8 @@ window.LOCALES = {
 
     create_label_on: "Erstellung aktiviert",
     create_label_off: "Erstellung deaktiviert",
-    create_desc_on: "Passkey-Erstellungs-Hinweise erlaubt.",
-    create_desc_off: "Keine Passkey-Erstellungs-Hinweise.",
+    create_desc_on: "Passkey-Erstellungs-Abfragen erlaubt.",
+    create_desc_off: "Keine Passkey-Erstellungs-Abfragen.",
 
     apply: "Anwenden",
     settings: "Filter",
@@ -268,9 +268,9 @@ window.LOCALES = {
     about_heading: "Danke!",
     about_intro_opening: "Disable Passkeys hat {count}+ Nutzer erreicht.",
     about_intro_opening_fallback: "Disable Passkeys hat eine Menge Nutzer erreicht.",
-    about_intro_body: "Es arbeitet weiter im Verborgenen und hält dir die Passkey-Hinweise vom Hals, damit du dich anmeldest, wie du möchtest.",
-    about_stat_label: "vermiedene Passkey-Hinweise",
-    about_stat_label_1: "vermiedener Passkey-Hinweis",
+    about_intro_body: "Es arbeitet weiter im Verborgenen und hält dir die Passkey-Abfragen vom Hals, damit du dich anmeldest, wie du möchtest.",
+    about_stat_label: "vermiedene Passkey-Abfragen",
+    about_stat_label_1: "vermiedene Passkey-Abfrage",
     about_stat_caption_0: "Aber wenn die nächste Seite nach einem Passkey greift, merkst du nichts davon.",
     about_stat_caption_1: "Deine erste Unterbrechung wurde vermieden, weitere folgen.",
     about_stat_caption_few: "Deine ersten Unterbrechungen wurden vermieden, weitere folgen.",
