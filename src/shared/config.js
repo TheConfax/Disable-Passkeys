@@ -1,7 +1,11 @@
-export const DEFAULT_CFG = { blockModal: true, blockConditional: true, blockCreate: true, mode: 'allow', domains: [] };
+export const SCHEME = 1;
+export const DEFAULT_CFG = { blockModal: true, blockConditional: true, blockCreate: true, mode: 'allow', domains: [], scheme: SCHEME };
 
-export async function loadCfg() {
-  const { cfg } = await chrome.storage.sync.get({ cfg: DEFAULT_CFG });
+function schemeOf(cfg) {
+  return typeof cfg?.scheme === 'number' ? cfg.scheme : 0;
+}
+
+function normalize(cfg) {
   return {
     blockModal: cfg?.blockModal !== false,
     blockConditional: cfg?.blockConditional !== false,
@@ -11,16 +15,47 @@ export async function loadCfg() {
   };
 }
 
+export async function loadCfg() {
+  const { cfg } = await chrome.storage.sync.get({ cfg: DEFAULT_CFG });
+  // A newer build owns the synced cfg: our own edits live in local until we catch up.
+  if (schemeOf(cfg) > SCHEME) {
+    const { cfg: local } = await chrome.storage.local.get('cfg');
+    if (local) return normalize(local);
+  }
+  return normalize(cfg);
+}
+
 export async function saveCfg(cfg) {
-  await chrome.storage.sync.set({
+  const next = { ...normalize(cfg), scheme: SCHEME };
+  const { cfg: cur } = await chrome.storage.sync.get('cfg');
+  if (schemeOf(cur) > SCHEME) await chrome.storage.local.set({ cfg: next });
+  else await chrome.storage.sync.set({ cfg: next });
+}
+
+export async function migrateCfg() {
+  const { cfg, stats } = await chrome.storage.sync.get(['cfg', 'stats']);
+  if (schemeOf(cfg) >= SCHEME) {
+    const { cfg: local } = await chrome.storage.local.get('cfg');
+    if (local) await chrome.storage.local.remove('cfg');
+    return;
+  }
+
+  const get = cfg?.blockGet !== false;
+  const patch = {
     cfg: {
-      blockModal: !!cfg.blockModal,
-      blockConditional: !!cfg.blockConditional,
-      blockCreate: !!cfg.blockCreate,
-      mode: cfg.mode === 'block' ? 'block' : 'allow',
-      domains: Array.isArray(cfg.domains) ? cfg.domains : []
+      blockModal: get,
+      blockConditional: get,
+      blockCreate: cfg?.blockCreate !== false,
+      mode: cfg?.mode === 'block' ? 'block' : 'allow',
+      domains: Array.isArray(cfg?.domains) ? [...cfg.domains] : [],
+      scheme: SCHEME
     }
-  });
+  };
+
+  const legacy = typeof cfg?.stats === 'number' ? cfg.stats : 0;
+  if (legacy > (typeof stats === 'number' ? stats : 0)) patch.stats = legacy;
+
+  await chrome.storage.sync.set(patch);
 }
 
 export function isEffectivelyOff(cfg) {

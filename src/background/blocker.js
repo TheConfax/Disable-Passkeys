@@ -24,7 +24,14 @@ async function debugFilePresent() {
   return _debugPresent;
 }
 
-export async function applyCfg(cfg) {
+// Two concurrent runs would both unregister, then both register the same id.
+let chain = Promise.resolve();
+export function applyCfg(cfg) {
+  chain = chain.catch(() => {}).then(() => applyNow(cfg));
+  return chain;
+}
+
+async function applyNow(cfg) {
   try {
     await chrome.scripting.unregisterContentScripts({ ids: [CS_ID] });
   } catch (_) {}

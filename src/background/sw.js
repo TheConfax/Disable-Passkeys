@@ -1,4 +1,4 @@
-import { loadCfg } from "../shared/config.js";
+import { loadCfg, migrateCfg } from "../shared/config.js";
 import { applyCfg } from "./blocker.js";
 import { syncVisuals, setTheme, flashIntervention } from "./visuals.js";
 import { bumpStats } from "./stats.js";
@@ -6,10 +6,12 @@ import { ensureInstalledAt, maybeOpenAboutCampaign } from "./campaigns.js";
 
 chrome.runtime.onInstalled.addListener(async () => {
   await ensureInstalledAt();
+  await migrateCfg();
   await applyCfg(await loadCfg());
 });
 
 chrome.runtime.onStartup.addListener(async () => {
+  await migrateCfg();
   await applyCfg(await loadCfg());
   await maybeOpenAboutCampaign();
 });
@@ -20,7 +22,7 @@ chrome.runtime.onStartup.addListener(async () => {
 })();
 
 chrome.storage.onChanged.addListener(async (changes, area) => {
-  if (area === 'sync' && changes.cfg) {
+  if ((area === 'sync' || area === 'local') && changes.cfg) {
     await applyCfg(await loadCfg());
   }
 });
