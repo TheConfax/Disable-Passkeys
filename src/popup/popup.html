@@ -90,18 +90,15 @@
         gap: 6px;
       }
 
+      /* baseline alignment is for the status badge, the icon needs centering instead */
+      .brand { width: 18px; height: 18px; flex: 0 0 auto; align-self: center; margin-left: 2px; }
+
       .status-badge {
         font-weight: 400;
         font-size: 12px;
         color: var(--muted);
         opacity: 0.8;
       }
-      /* The emoji renders lower than text metrics; lift it 1px to sit in line. */
-      .status-badge .emoji {
-        display: inline-block;
-        transform: translateY(-1px);
-      }
-      
       .status-badge.warning {
         color: #7a5200;
         opacity: 1;
@@ -465,6 +462,7 @@
     <div id="view-main" class="view active">
       <div class="header">
         <div class="title" role="heading" aria-level="1">
+          <img class="brand" id="img_brand" src="../img/icon32.png" alt="" aria-hidden="true">
           <span id="t_title"></span>
           <span id="t_status" class="status-badge" aria-live="polite"></span>
         </div>

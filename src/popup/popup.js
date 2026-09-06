@@ -18,6 +18,7 @@ const tileAutofill = document.getElementById("tileAutofill");
 const tileCreate = document.getElementById("tileCreate");
 const apply = document.getElementById("apply");
 const btnInfo = document.getElementById("info");
+const imgBrand = document.getElementById("img_brand");
 const imgGet = document.getElementById("img_get");
 const imgAutofill = document.getElementById("img_autofill");
 const imgCreate = document.getElementById("img_create");
@@ -81,6 +82,15 @@ function syncImages() {
   // active means blocked
   const stateSrc = (tile) => tile.classList.contains("active") ? "🚫" : "✅";
   // object glyphs never change with state, only with theme
+  // same rule as the action icon: no slash when nothing would actually be blocked
+  const off = isEffectivelyOff({
+    blockModal: tileGet.classList.contains("active"),
+    blockConditional: tileAutofill.classList.contains("active"),
+    blockCreate: tileCreate.classList.contains("active"),
+    mode: currentCfg.mode,
+    domains: currentCfg.domains
+  });
+  setIcon(imgBrand, off ? "../img/icon32_off.png" : "../img/icon32.png");
   setIcon(imgGet, "../img/login.png");
   setIcon(imgAutofill, "../img/autofill.png");
   setIcon(imgCreate, "../img/creation.png");
@@ -161,8 +171,8 @@ function syncText() {
   if (statusEl) {
     statusEl.className = 'status-badge'; // Reset classes
     
-    // If both are NOT blocking (i.e. both are Green/Enabled), then it's OFF.
-    if (!getOn && !createOn) {
+    // If none of them is blocking (i.e. all Green/Enabled), then it's OFF.
+    if (!getOn && !autofillOn && !createOn) {
       statusEl.textContent = S().status_off;
     } else {
       // At least one is Red (Armed)
@@ -176,12 +186,7 @@ function syncText() {
         // Block Only: Block ONLY n
         // If count is 0, it blocks nothing -> Effectively OFF but WARNING because user might think it's on
         if (count === 0) {
-          statusEl.textContent = "";
-          const warn = document.createElement('span');
-          warn.className = 'emoji';
-          warn.textContent = "⚠️";
-          statusEl.appendChild(warn);
-          statusEl.appendChild(document.createTextNode(" " + S().status_off));
+          statusEl.textContent = S().status_off_warning;
           statusEl.classList.add('warning');
           if (btnSettings) btnSettings.classList.add('warning-border');
         } else {
@@ -208,6 +213,8 @@ function syncText() {
   if (addDomainBtn) {
     addDomainBtn.title = S().add_domain;
   }
+
+  syncImages(); // the brand icon also depends on mode and domains, not just on the tiles
 }
 
 // Navigation Logic

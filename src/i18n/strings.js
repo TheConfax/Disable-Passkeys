@@ -32,6 +32,7 @@ window.LOCALES = {
     mode_label: "Mode",
     
     status_off: "(Off)",
+    status_off_warning: "(Off!)",
     status_except: "(Except %n%)",
     status_only: "(Only %n%)",
 
@@ -88,6 +89,7 @@ window.LOCALES = {
     mode_label: "Modalità",
 
     status_off: "(Spento)",
+    status_off_warning: "(Spento!)",
     status_except: "(Eccetto %n%)",
     status_only: "(Solo %n%)",
 
@@ -144,8 +146,9 @@ window.LOCALES = {
     mode_label: "Mode",
 
     status_off: "(Désactivé)",
+    status_off_warning: "(Désactivé !)",
     status_except: "(Sauf %n%)",
-    status_only: "(Seulement %n%)",
+    status_only: "(Uniq. %n%)",
 
     about_page_title: "Merci !",
     about_heading: "Merci !",
@@ -200,6 +203,7 @@ window.LOCALES = {
     mode_label: "Modo",
 
     status_off: "(Apagado)",
+    status_off_warning: "(¡Apagado!)",
     status_except: "(Excepto %n%)",
     status_only: "(Solo %n%)",
 
@@ -256,6 +260,7 @@ window.LOCALES = {
     mode_label: "Modus",
 
     status_off: "(Aus)",
+    status_off_warning: "(Aus!)",
     status_except: "(Außer %n%)",
     status_only: "(Nur %n%)",
 
