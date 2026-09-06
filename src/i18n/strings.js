@@ -53,7 +53,14 @@ window.LOCALES = {
     about_link_rate: "Rate it",
     about_links_label: "Links",
     about_new_tab: "opens in a new tab",
-    about_stat_group: "Statistics"
+    about_stat_group: "Statistics",
+
+    whatsnew_page_title: "What's new?",
+    whatsnew_heading: "What's new?",
+    whatsnew_intro_1: "Version 3.0 splits the block into three independent switches.",
+    whatsnew_intro_2: "<strong>Login</strong>, <strong>Autofill</strong> and <strong>Creation</strong> can now be turned off one by one, so you can drop the prompt that gets in your way while still logging in from the passkey dropdown.",
+    whatsnew_intro_3: "Or vice versa.",
+    whatsnew_intro_4: "I don't know, I like to block all passkeys equally."
   },
 
   it: {
@@ -110,7 +117,14 @@ window.LOCALES = {
     about_link_rate: "Valuta",
     about_links_label: "Collegamenti",
     about_new_tab: "si apre in una nuova scheda",
-    about_stat_group: "Statistiche"
+    about_stat_group: "Statistiche",
+
+    whatsnew_page_title: "Novità?",
+    whatsnew_heading: "Novità?",
+    whatsnew_intro_1: "La versione 3.0 divide il blocco in tre interruttori indipendenti.",
+    whatsnew_intro_2: "<strong>Login</strong>, <strong>Autofill</strong> e <strong>Creazione</strong> ora si spengono uno ad uno, così puoi togliere di mezzo il prompt che ti dà fastidio e continuare ad accedere dalla tendina delle passkey.",
+    whatsnew_intro_3: "O viceversa.",
+    whatsnew_intro_4: "Non saprei, a me piace bloccarle tutte allo stesso modo."
   },
 
   fr: {
@@ -167,7 +181,14 @@ window.LOCALES = {
     about_link_rate: "Noter",
     about_links_label: "Liens",
     about_new_tab: "s'ouvre dans un nouvel onglet",
-    about_stat_group: "Statistiques"
+    about_stat_group: "Statistiques",
+
+    whatsnew_page_title: "Quoi de neuf ?",
+    whatsnew_heading: "Quoi de neuf ?",
+    whatsnew_intro_1: "La version 3.0 divise le blocage en trois interrupteurs indépendants.",
+    whatsnew_intro_2: "<strong>Login</strong>, <strong>Autoremplissage</strong> et <strong>Création</strong> se désactivent maintenant un par un, pour écarter l'invite qui vous gêne tout en continuant à vous connecter depuis le menu déroulant des passkeys.",
+    whatsnew_intro_3: "Ou l'inverse.",
+    whatsnew_intro_4: "Je ne sais pas, moi je préfère les bloquer toutes pareil."
   },
 
   es: {
@@ -224,7 +245,14 @@ window.LOCALES = {
     about_link_rate: "Valora",
     about_links_label: "Enlaces",
     about_new_tab: "se abre en una pestaña nueva",
-    about_stat_group: "Estadísticas"
+    about_stat_group: "Estadísticas",
+
+    whatsnew_page_title: "¿Novedades?",
+    whatsnew_heading: "¿Novedades?",
+    whatsnew_intro_1: "La versión 3.0 divide el bloqueo en tres interruptores independientes.",
+    whatsnew_intro_2: "<strong>Login</strong>, <strong>Autocompletado</strong> y <strong>Creación</strong> ahora se desactivan uno a uno, así puedes quitar de en medio el aviso que te molesta y seguir accediendo desde el menú desplegable de passkeys.",
+    whatsnew_intro_3: "O al revés.",
+    whatsnew_intro_4: "No sé, a mí me gusta bloquearlas todas por igual."
   },
 
   de: {
@@ -281,7 +309,14 @@ window.LOCALES = {
     about_link_rate: "Bewerten",
     about_links_label: "Links",
     about_new_tab: "öffnet in einem neuen Tab",
-    about_stat_group: "Statistik"
+    about_stat_group: "Statistik",
+
+    whatsnew_page_title: "Was ist neu?",
+    whatsnew_heading: "Was ist neu?",
+    whatsnew_intro_1: "Version 3.0 teilt die Blockierung in drei unabhängige Schalter auf.",
+    whatsnew_intro_2: "<strong>Login</strong>, <strong>Autofill</strong> und <strong>Erstellung</strong> lassen sich jetzt einzeln abschalten, damit du die Abfrage loswirst, die dich stört, und dich trotzdem über die Passkey-Auswahlliste anmelden kannst.",
+    whatsnew_intro_3: "Oder umgekehrt.",
+    whatsnew_intro_4: "Keine Ahnung, ich blockiere sie am liebsten alle gleich."
   }
 };
 

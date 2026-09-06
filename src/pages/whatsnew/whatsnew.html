@@ -3,21 +3,17 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title data-i18n="about_page_title"></title>
+<title data-i18n="whatsnew_page_title">What's new?</title>
 <link rel="icon" type="image/png" href="../../img/icon32.png" />
 <link rel="icon" type="image/png" href="../../img/icon32_dark.png" media="(prefers-color-scheme: dark)" />
 <!-- Preload the body font so it's ready before first paint (avoids the font-swap
      reflow that shifts the hero heading/logo → CLS). -->
 <link rel="preload" href="../../fonts/be-vietnam-pro.woff2" as="font" type="font/woff2" crossorigin />
-<!-- Preload the body scripts so they're cached before end-of-<body> (minor load-timing
-     nicety). NOTE: this is NOT what fixes the CLS — the real fix is the static default
-     text baked into the card elements below + the .i18n-pending reveal, so the card is
-     full-height at first paint regardless of when the scripts run. -->
 <link rel="preload" as="style" href="../styles.css" />
 <link rel="preload" as="script" href="../../debug.js" />
 <link rel="preload" as="script" href="../../i18n/strings.js" />
 <link rel="preload" as="script" href="../shared.js" />
-<link rel="preload" as="script" href="about.js" />
+<link rel="preload" as="script" href="whatsnew.js" />
 <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
@@ -30,19 +26,13 @@
             <source srcset="../../img/icon128_dark.png" media="(prefers-color-scheme: dark)" />
             <img src="../../img/icon128.png" alt="Disable Passkeys" />
           </picture>
-          <h1 data-i18n="about_heading">Thank you!</h1>
+          <h1 data-i18n="whatsnew_heading">What's new?</h1>
         </div>
 
-        <p class="intro" data-i18n="about_intro_opening">Disable Passkeys has reached a lot of users.</p>
-        <p class="intro" data-i18n="about_intro_body">It's still quietly working in the background, keeping those passkey prompts out of your way, so you can sign in however you like.</p>
-
-        <div class="stat" role="group" aria-label="Statistics">
-          <!-- Static English defaults so the card is full-height at first paint (no CLS);
-               about.js overwrites these (count from storage, translation for other locales). -->
-          <div class="stat-num" id="passkey-count" data-count="0">0</div>
-          <div class="stat-label">passkey prompts avoided</div>
-          <p class="stat-caption">But the next time a site reaches for a passkey, you won't even notice.</p>
-        </div>
+        <p class="intro" data-i18n="whatsnew_intro_1">Version 3.0 splits the block into three independent switches.</p>
+        <p class="intro" data-i18n="whatsnew_intro_2"><strong>Login</strong>, <strong>Autofill</strong> and <strong>Creation</strong> can now be turned off one by one, so you can drop the prompt that gets in your way while still logging in from the passkey dropdown.</p>
+        <p class="intro" data-i18n="whatsnew_intro_3">Or vice versa.</p>
+        <p class="intro" data-i18n="whatsnew_intro_4">I don't know, I like to block all passkeys equally.</p>
       </section>
 
       <nav class="links" aria-label="Links">
@@ -75,6 +65,6 @@ If it's spared you a headache, consider donating.</p>
   <script src="../../debug.js"></script>
   <script src="../../i18n/strings.js"></script>
   <script src="../shared.js"></script>
-  <script src="about.js"></script>
+  <script src="whatsnew.js"></script>
 </body>
 </html>
