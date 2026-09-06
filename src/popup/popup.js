@@ -19,6 +19,7 @@ const tileCreate = document.getElementById("tileCreate");
 const apply = document.getElementById("apply");
 const btnInfo = document.getElementById("info");
 const imgBrand = document.getElementById("img_brand");
+const imgBrandSettings = document.getElementById("img_brand_settings");
 const imgGet = document.getElementById("img_get");
 const imgAutofill = document.getElementById("img_autofill");
 const imgCreate = document.getElementById("img_create");
@@ -90,7 +91,9 @@ function syncImages() {
     mode: currentCfg.mode,
     domains: currentCfg.domains
   });
-  setIcon(imgBrand, off ? "../img/icon32_off.png" : "../img/icon32.png");
+  const brandSrc = off ? "../img/icon32_off.png" : "../img/icon32.png";
+  setIcon(imgBrand, brandSrc);
+  setIcon(imgBrandSettings, brandSrc);
   setIcon(imgGet, "../img/login.png");
   setIcon(imgAutofill, "../img/autofill.png");
   setIcon(imgCreate, "../img/creation.png");
@@ -163,38 +166,39 @@ function syncText() {
   }
 
   // Status Badge Logic
-  const statusEl = document.getElementById("t_status");
-  
-  // Reset warning on settings button
-  if (btnSettings) btnSettings.classList.remove('warning-border');
+  let statusText = "";
+  let statusWarning = false;
 
-  if (statusEl) {
-    statusEl.className = 'status-badge'; // Reset classes
-    
-    // If none of them is blocking (i.e. all Green/Enabled), then it's OFF.
-    if (!getOn && !autofillOn && !createOn) {
-      statusEl.textContent = S().status_off;
+  // If none of them is blocking (i.e. all Green/Enabled), then it's OFF.
+  if (!getOn && !autofillOn && !createOn) {
+    statusText = S().status_off;
+  } else {
+    // At least one is Red (Armed)
+    const count = currentCfg.domains.length;
+
+    if (currentCfg.mode === 'allow') {
+      // Allow Only: Block everywhere EXCEPT n
+      // If count is 0, it blocks everywhere (Standard behavior) -> Show nothing
+      statusText = count === 0 ? "" : S().status_except.replace('%n%', count);
     } else {
-      // At least one is Red (Armed)
-      const count = currentCfg.domains.length;
-      
-      if (currentCfg.mode === 'allow') {
-        // Allow Only: Block everywhere EXCEPT n
-        // If count is 0, it blocks everywhere (Standard behavior) -> Show nothing
-        statusEl.textContent = count === 0 ? "" : S().status_except.replace('%n%', count);
+      // Block Only: Block ONLY n
+      // If count is 0, it blocks nothing -> Effectively OFF but WARNING because user might think it's on
+      if (count === 0) {
+        statusText = S().status_off_warning;
+        statusWarning = true;
       } else {
-        // Block Only: Block ONLY n
-        // If count is 0, it blocks nothing -> Effectively OFF but WARNING because user might think it's on
-        if (count === 0) {
-          statusEl.textContent = S().status_off_warning;
-          statusEl.classList.add('warning');
-          if (btnSettings) btnSettings.classList.add('warning-border');
-        } else {
-          statusEl.textContent = S().status_only.replace('%n%', count);
-        }
+        statusText = S().status_only.replace('%n%', count);
       }
     }
   }
+
+  // Both headers carry the same badge; only the settings button reacts to the warning
+  for (const el of [document.getElementById("t_status"), document.getElementById("t_status_settings")]) {
+    if (!el) continue;
+    el.className = statusWarning ? 'status-badge warning' : 'status-badge';
+    el.textContent = statusText;
+  }
+  if (btnSettings) btnSettings.classList.toggle('warning-border', statusWarning);
   
   // Settings strings
   setText("t_settings_title", window.GLOBAL.title);
@@ -271,6 +275,7 @@ function setMode(next) {
   modeSwitch.setAttribute('data-mode', next);
   currentCfg.mode = next;
   renderDomains();
+  syncText();
   saveCfg();
   updateModeRadioAria();
   if (next === 'allow') { optAllow?.focus(); } else { optBlock?.focus(); }
@@ -485,6 +490,7 @@ function addDomain() {
   currentCfg.domains.push(val);
   domainInput.value = '';
   renderDomains();
+  syncText();
   if (domainListEl) domainListEl.scrollTop = domainListEl.scrollHeight;
   saveCfg();
 }
@@ -505,6 +511,7 @@ function showError() {
 function removeDomain(domain) {
   currentCfg.domains = currentCfg.domains.filter(d => d !== domain);
   renderDomains();
+  syncText();
   saveCfg();
 }
 
