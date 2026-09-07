@@ -26,6 +26,8 @@
     --brand-tint: oklch(0.96 0.03 32);
     --brand-tint-2: oklch(0.93 0.05 32);
     --stat-ring: oklch(0.6 0.205 24 / 0.4);
+    --gold: oklch(0.62 0.13 85);
+    --gold-glow: oklch(0.62 0.13 85 / 0.35);
     --shadow: 0 1px 2px oklch(0.4 0.04 50 / 0.04), 0 12px 32px oklch(0.4 0.04 50 / 0.07), 0 40px 80px oklch(0.4 0.04 50 / 0.05);
     --font: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
@@ -46,6 +48,9 @@
       --brand-tint: oklch(0.31 0.06 28);
       --brand-tint-2: oklch(0.36 0.08 28);
       --stat-ring: oklch(0.7 0.19 25 / 0.4);
+      /* metallic gold (#d4af37): light enough on the dark ground without washing out */
+      --gold: #d4af37;
+      --gold-glow: rgba(212, 175, 55, 0.45);
       --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.5), 0 40px 80px rgba(0, 0, 0, 0.45);
     }
   }
@@ -254,6 +259,56 @@
     font-size: 24px;
     font-weight: 750;
     letter-spacing: -0.015em;
+  }
+
+  /* Set by shared.js when the `donated` flag is on. */
+  .support.donated h2 {
+    color: var(--gold);
+    text-shadow: 0 0 18px var(--gold-glow);
+  }
+  /* :not() keeps the "Powered by Ko-fi" strip out: it is a <p> in here too. */
+  .support.donated p:not(.kofi-credit) {
+    color: var(--gold);
+  }
+
+  /* The crown is its own element (see shared.js) so it can drop in on its own; the
+     wrapper glues it to the last word, which an inline-block alone does not guarantee. */
+  .support.donated .crown-wrap { white-space: nowrap; }
+  .support.donated .crown { display: inline-block; transform-origin: 50% 90%; }
+
+  /* Everything below plays only when the donation happens with the page open. */
+  @keyframes thanks-in {
+    0%   { opacity: 0; transform: translateY(-14px) scale(0.86); }
+    45%  { opacity: 1; transform: translateY(0) scale(1.12); text-shadow: 0 0 46px var(--gold-glow); }
+    70%  { transform: scale(0.97); }
+    100% { opacity: 1; transform: none; }
+  }
+  /* Falls from above, overshoots, then settles with a couple of swings. */
+  @keyframes crown-drop {
+    0%   { opacity: 0; transform: translateY(-160px) rotate(-40deg) scale(1.8); }
+    45%  { opacity: 1; }
+    55%  { transform: translateY(8px) rotate(12deg) scale(1); }
+    70%  { transform: translateY(-6px) rotate(-8deg); }
+    85%  { transform: translateY(3px) rotate(4deg); }
+    100% { transform: none; }
+  }
+  /* One gold pulse around the whole column. */
+  @keyframes gold-flash {
+    0%   { box-shadow: var(--shadow); }
+    35%  { box-shadow: var(--shadow), 0 0 0 2px var(--gold-glow), 0 0 70px 12px var(--gold-glow); }
+    100% { box-shadow: var(--shadow); }
+  }
+
+  .support.just-donated { animation: gold-flash 1500ms ease-out; }
+  .support.just-donated h2 { animation: thanks-in 800ms cubic-bezier(.2, .8, .2, 1) both; }
+  .support.just-donated .crown { animation: crown-drop 1100ms 260ms cubic-bezier(.3, .9, .3, 1) both; }
+  .support.just-donated p:not(.kofi-credit) { animation: thanks-in 800ms 200ms cubic-bezier(.2, .8, .2, 1) both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .support.just-donated,
+    .support.just-donated h2,
+    .support.just-donated .crown,
+    .support.just-donated p:not(.kofi-credit) { animation: none; }
   }
 
   .support p {

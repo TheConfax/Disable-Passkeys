@@ -84,6 +84,78 @@ window.DPPage = (function () {
     if (el) el.href = "https://addons.mozilla.org/firefox/addon/disable-passkeys/";
   }
 
+  // Turn the support column into a thank-you. Swapping the data-i18n keys (instead of
+  // just the text) keeps the debug language switch working on the new copy.
+  // `animate` only when it happens live, or the effect would replay on every visit.
+  function applyDonated(donated, animate) {
+    if (!donated) return;
+    var sec = document.querySelector(".support");
+    if (!sec) return;
+    sec.classList.add("donated");
+    if (animate) sec.classList.add("just-donated");
+    var pairs = [[sec.querySelector("h2"), "support_donated_heading"],
+                 [sec.querySelector("p"), "support_donated_body"]];
+    for (var i = 0; i < pairs.length; i++) {
+      var el = pairs[i][0], key = pairs[i][1];
+      if (!el || !S[key]) continue;
+      el.setAttribute("data-i18n", key);
+      el.textContent = S[key];
+      // The crown gets its own element so it can be animated apart from the words, and
+      // both go inside a nowrap wrapper so the line can never break between them.
+      var txt = el.textContent;
+      var at = txt.indexOf(CROWN);
+      if (at > -1) {
+        var head = txt.slice(0, at);
+        var cut = head.replace(/\s+$/, "").lastIndexOf(" ");
+        el.textContent = cut > -1 ? head.slice(0, cut + 1) : "";
+        var wrap = document.createElement("span");
+        wrap.className = "crown-wrap";
+        wrap.textContent = cut > -1 ? head.slice(cut + 1) : head;
+        var crown = document.createElement("span");
+        crown.className = "crown";
+        crown.textContent = txt.slice(at);
+        wrap.appendChild(crown);
+        el.appendChild(wrap);
+      }
+    }
+  }
+
+  var SUPPORT_KEYS = ["about_support_heading", "about_support_body"];
+  var CROWN = "👑";
+
+  function clearDonated() {
+    var sec = document.querySelector(".support");
+    if (!sec) return;
+    sec.classList.remove("donated", "just-donated");
+    var els = [sec.querySelector("h2"), sec.querySelector("p")];
+    for (var i = 0; i < els.length; i++) {
+      if (!els[i]) continue;
+      els[i].setAttribute("data-i18n", SUPPORT_KEYS[i]);
+      if (S[SUPPORT_KEYS[i]]) els[i].textContent = S[SUPPORT_KEYS[i]];
+    }
+  }
+
+  // Debug (only with debug.js present): D toggles the donated state, flag included.
+  function initDonatedDebug() {
+    if (!(window.ENV && window.ENV.ENABLE_DEBUG)) return;
+    document.addEventListener("keydown", function (e) {
+      if (e.key.toLowerCase() !== "d") return;
+      var sec = document.querySelector(".support");
+      if (!sec) return;
+      var on = sec.classList.contains("donated");
+      if (on) {
+        clearDonated();
+        try { chrome.storage.sync.remove("donated"); } catch (_) {}
+      } else {
+        sec.classList.remove("just-donated");
+        void sec.offsetWidth; // restart the animation instead of reusing the finished one
+        applyDonated(true, true);
+        try { chrome.storage.sync.set({ donated: true }); } catch (_) {}
+      }
+      console.log("Debug: donated " + (on ? "off" : "on"));
+    });
+  }
+
   // Show the text (hidden by .i18n-pending until now).
   function reveal() {
     document.documentElement.classList.remove("i18n-pending");
@@ -102,6 +174,7 @@ window.DPPage = (function () {
       // (no UI yet; useful later, e.g. to exclude donors from future donation campaigns).
       if (d && d.type === "kofi:donated") {
         try { chrome.storage.sync.set({ donated: true }); } catch (_) {}
+        applyDonated(true, true); // thank them right away, on the page they are looking at
         return;
       }
       if (!d || d.type !== "kofi:height" || typeof d.height !== "number") return;
@@ -159,6 +232,8 @@ window.DPPage = (function () {
     setupSupportHeight: setupSupportHeight,
     applyColophon: applyColophon,
     applyStoreLink: applyStoreLink,
+    applyDonated: applyDonated,
+    initDonatedDebug: initDonatedDebug,
     reveal: reveal,
     initKofi: initKofi,
     initLangDebug: initLangDebug

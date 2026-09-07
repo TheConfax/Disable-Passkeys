@@ -135,8 +135,9 @@
     applyCountCopy(getCount());
     var c0 = document.getElementById("passkey-count");
     if (c0) c0.textContent = P.localeNum(getCount());
-    chrome.storage.sync.get("stats", function (data) {
+    chrome.storage.sync.get(["stats", "donated"], function (data) {
       setRealCount(data, document.getElementById("passkey-count"));
+      P.applyDonated(data && data.donated);
       applyCountCopy(getCount());
       animateCount();
       P.reveal();   // reveal with the real count, so the count-tier copy doesn't swap in view
@@ -163,6 +164,7 @@
 
   P.initKofi();
   P.initLangDebug(render);
+  P.initDonatedDebug();
 
   // Debug (only with debug.js present): +/- preview the count.
   if (window.ENV && window.ENV.ENABLE_DEBUG) {

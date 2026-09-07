@@ -54,6 +54,8 @@ window.LOCALES = {
     about_links_label: "Links",
     about_new_tab: "opens in a new tab",
     about_stat_group: "Statistics",
+    support_donated_heading: "You dropped this, king. 👑",
+    support_donated_body: "Thanks for being a supporter of Disable Passkeys.",
 
     whatsnew_page_title: "What's new?",
     whatsnew_heading: "What's new?",
@@ -118,6 +120,8 @@ window.LOCALES = {
     about_links_label: "Collegamenti",
     about_new_tab: "si apre in una nuova scheda",
     about_stat_group: "Statistiche",
+    support_donated_heading: "Ti è caduta questa, re. 👑",
+    support_donated_body: "Grazie per essere un sostenitore di Disable Passkeys.",
 
     whatsnew_page_title: "Novità?",
     whatsnew_heading: "Novità?",
@@ -182,6 +186,8 @@ window.LOCALES = {
     about_links_label: "Liens",
     about_new_tab: "s'ouvre dans un nouvel onglet",
     about_stat_group: "Statistiques",
+    support_donated_heading: "Vous avez fait tomber ça, roi. 👑",
+    support_donated_body: "Merci de soutenir Disable Passkeys.",
 
     whatsnew_page_title: "Quoi de neuf ?",
     whatsnew_heading: "Quoi de neuf ?",
@@ -246,6 +252,8 @@ window.LOCALES = {
     about_links_label: "Enlaces",
     about_new_tab: "se abre en una pestaña nueva",
     about_stat_group: "Estadísticas",
+    support_donated_heading: "Se te cayó esto, rey. 👑",
+    support_donated_body: "Gracias por apoyar Disable Passkeys.",
 
     whatsnew_page_title: "¿Novedades?",
     whatsnew_heading: "¿Novedades?",
@@ -310,6 +318,8 @@ window.LOCALES = {
     about_links_label: "Links",
     about_new_tab: "öffnet in einem neuen Tab",
     about_stat_group: "Statistik",
+    support_donated_heading: "Das hast du fallen lassen, König. 👑",
+    support_donated_body: "Danke, dass du Disable Passkeys unterstützt.",
 
     whatsnew_page_title: "Was ist neu?",
     whatsnew_heading: "Was ist neu?",
