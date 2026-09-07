@@ -3,6 +3,6 @@
     "message": "Disable Passkeys"
   },
   "extDescription": {
-    "message": "Bloque les avis de passkeys (WebAuthn) et leur autoremplissage."
+    "message": "Bloque les invites de passkey (WebAuthn) et leur autoremplissage."
   }
 }

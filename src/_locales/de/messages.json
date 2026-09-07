@@ -3,6 +3,6 @@
     "message": "Disable Passkeys"
   },
   "extDescription": {
-    "message": "Blockiert Passkey-Hinweise (WebAuthn) und deren Autofill."
+    "message": "Blockiert Passkey-Abfragen (WebAuthn) und deren Autofill."
   }
 }
