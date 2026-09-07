@@ -1,0 +1,60 @@
+name: "🚫 Bug report"
+description: Something does not work as expected
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      description: If "Other", specify it below
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - ChromeOS
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: If "Other", specify it below
+      options:
+        - Chrome
+        - Firefox
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: ext-version
+    attributes:
+      label: Extension version
+      description: Click the extension logo > "i" button > find it at the bottom of the page
+      placeholder: "3.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: login-manager
+    attributes:
+      label: Other credential manager extensions installed
+      description: Leave it empty if you do not use any
+      placeholder: "Bitwarden, 1Password, Proton Pass, ..."
+
+  - type: input
+    id: website
+    attributes:
+      label: Website where the problem happens
+      description: Leave it empty if it happens on every website
+      placeholder: "https://example.com/login"
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Describe the problem
+    validations:
+      required: true

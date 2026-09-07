@@ -1,0 +1,10 @@
+name: "💡 Feature request"
+description: Suggest an idea or an improvement
+labels: ["request"]
+body:
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like the extension to do?
+    validations:
+      required: true
