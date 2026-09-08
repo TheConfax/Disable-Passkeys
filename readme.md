@@ -17,7 +17,7 @@ A small Chrome and Firefox extension to block passkey (WebAuthn) prompts and the
 </div>
 
 ## Why this?
-As of 2026, this is the **only way** to truly and completely disable passkey prompts and passkey autofill in Chrome, and the only way to have granular per-site control in Firefox.
+As of 2026, this is the **only way** to truly and completely disable passkey prompts and passkey autofill in Chrome, and to have granular control over which ones you still see, by type and by site.
 
 This project exists to give **control back to the user**.
 
@@ -28,18 +28,12 @@ Passkeys are increasingly pushed by browsers and websites, but they can:
 - Break automation or specific password-based workflows
 
 ## What does it do?
-This extension **disables WebAuthn requests** and can be configured to block passkey login, creation, or both. Passkey entries in autofill will be blocked as well.
+This extension **blocks WebAuthn requests** and can be configured to block passkey login prompts, passkey creation prompts, and passkey autofill suggestions, independently.
 
 <p align="center">
 <img src="assets/main.png" alt="Main page" width="373" hspace="10">
 <img src="assets/filters.png" alt="Filters page" width="373" hspace="10">
 </p>
-
-The new [v2.x](https://github.com/theconfax/disable-passkeys/releases/tag/v2.0.0) blocking engine turns off the browser's native WebAuthn support while letting password managers create and log in with their own passkeys.
-
-This disables the native passkey autofill prompt but lets you use passkeys with your manager of choice, resulting in a cleaner experience.
-
-Unfortunately, on Chrome with [conflicting ad-blockers](https://github.com/theconfax/disable-passkeys/releases/tag/v2.1.0) or on [Firefox](https://github.com/theconfax/disable-passkeys/releases/tag/v2.1.1), we must block 3rd-party password managers' ability to use passkeys too, so you will need to whitelist the specific domains you'd want to use your password manager passkeys on.
 
 ### Other features:
 - Whitelist/blacklist domain filters
@@ -69,8 +63,9 @@ Unfortunately, on Chrome with [conflicting ad-blockers](https://github.com/theco
 ## Usage
 ### Main page
 In the main page of the popup you can choose to selectively block/allow:
-- ✅❌ Passkey Login/Autofill (Blocking WebAuthn `get()`)
-- ✅❌ Passkey Creation (Blocking WebAuthn `create()`)
+- ✅🚫 Passkey Login (WebAuthn `get()`, modal)
+- ✅🚫 Passkey Autofill (WebAuthn `get()`, conditional mediation)
+- ✅🚫 Passkey Creation (WebAuthn `create()`)
 
 This page will also inform you if you have some filters active or if the extension is set to off.
 
@@ -82,7 +77,7 @@ In the advanced page of the popup you can:
 Domains can be inserted in pretty much every format you like and will be parsed into something like `example.com`. You can also block IPv4s, IPv6s, and `localhost`.
 
 ### Action icon
-The action icon will display if the extension is on with the presence/absence of a 🚫.
+The action icon shows a 🚫 when the extension is set to block something, and drops it when it isn't.
 
 The action icon will flash a green `!` when WebAuthn is being blocked, interventions are counted in the "About" page.
 
