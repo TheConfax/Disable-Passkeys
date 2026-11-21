@@ -11,8 +11,19 @@
 
   const hitsGet = (options) => options.mediation === "conditional" ? TARGET_CONDITIONAL : TARGET_MODAL;
 
+  // Native conditional get stays pending until aborted; rejecting at once makes retry-on-error sites spin forever.
+  const pending = (signal) => new Promise((_, reject) => {
+    const abort = () => reject(signal.reason);
+    if (signal?.aborted) abort(); else signal?.addEventListener("abort", abort, { once: true });
+  });
+
   const guard = (call, name, hits) => function (options) {
-    if (options?.publicKey && hits(options)) { report(); log(name); return Promise.reject(new DOMException("WebAuthn disabled", "NotAllowedError")); }
+    if (options?.publicKey && hits(options)) {
+      report(); log(name);
+      return name === "get" && options.mediation === "conditional"
+        ? pending(options.signal)
+        : Promise.reject(new DOMException("WebAuthn disabled", "NotAllowedError"));
+    }
     return call.call(this, options);
   };
 
