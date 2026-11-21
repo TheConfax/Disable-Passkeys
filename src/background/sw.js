@@ -38,6 +38,5 @@ chrome.runtime.onMessage.addListener((msg) => {
       await flashIntervention();
       await bumpStats().catch(() => {});
     })();
-    return true;
   }
 });
